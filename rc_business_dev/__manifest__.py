@@ -15,15 +15,11 @@
     'category': 'Uncategorized',
     'version': '0.1.1',
 
-    'depends': ['base'],
+    'depends': ['base', 'sale_management'],
 
     'data': [
+        'security/user_groups.xml',
         # 'security/ir.model.access.csv',
-        'views/views.xml',
-        'views/templates.xml',
-    ],
-
-    'demo': [
-        # 'demo/demo.xml',
+        'views/sale_view.xml',
     ],
 }
