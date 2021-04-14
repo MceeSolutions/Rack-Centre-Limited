@@ -12,7 +12,6 @@ class SaleOrder(models.Model):
     def check_if_above_limit(self):
         possibilities = True, False
         val = random.choice(possibilities)
-        print("Val", val)
         self.discount_above_limit = val
 
     def submit(self):
