@@ -12,6 +12,7 @@
           <field name="department_id"/>
           <field name="job_title"/>
           <field name="request_date"/>
+          <field name="state"/>
         </tree>
       </field>
     </record>
@@ -28,31 +29,32 @@
                     <button name="button_approve" states="submit" string="Approve" type="object" class="btn btn-primary" groups="hr.group_hr_user"/>
                     <button name="button_reject" states="submit" string="Reject" type="object" class="btn btn-danger" groups="hr.group_hr_user"/>
                     <button name="button_reset" states="reject" string="Set to Draft" type="object" /> 
+                    <button name="create_job_position" string="Create Job Position" type="object" attrs="{'invisible': [('existing_job_position', '=', 'yes'), ('state', '=', 'approve')]}"/>/> 
                     <field name="state" widget="statusbar" statusbar_visible="draft,submit,approve" readonly="1"/>
                 </header>
                 <sheet>
                     <div class="oe_title">
                         <label for="name" class="oe_edit_only"/>
-                        <h1><field name="name" placeholder="Eg. Request for New Sales Rep."/></h1>
+                        <h1><field name="name" placeholder="Eg. Request for New Sales Rep." attrs="{'readonly': [('state', '=', 'approve')]}"/></h1>
                     </div>
                     <group string='Department' col="4">
-                        <field name="department_id"/>
-                        <field name="request_date"/>
-                        <field name="employee_id"/>
+                        <field name="department_id" attrs="{'readonly': [('state', '=', 'approve')]}"/>
+                        <field name="request_date" attrs="{'readonly': [('state', '=', 'approve')]}"/>
+                        <field name="employee_id" attrs="{'readonly': [('state', '=', 'approve')]}"/>
                     </group>
                         
-                    <group string='Position' col="4">
-                        <field name="type" widget='radio' options="{'horizontal': true}"/>
-                        <field name="reason_for_hire" widget='radio' options="{'horizontal': true}"/>
-                        <field name="category" widget='radio' options="{'horizontal': true}"/>
-                        <field name="replacing_employee_id" attrs="{'required': [('reason_for_hire', '=', 'replacement')], 'invisible': [('reason_for_hire', '!=', 'replacement')]}"/>
-                        <field name="existing_job_position" widget='radio' options="{'horizontal': true}"/>
-                        <field name="job_id" attrs="{'required': [('existing_job_position', '=', 'yes')], 'invisible': [('existing_job_position', '!=', 'yes')]}"/>
-                        <field name="job_title" attrs="{'required': [('existing_job_position', '=', 'no')], 'invisible': [('existing_job_position', '!=', 'no')]}"/>
-                        <field name="reason"/>
-                        <field name="position_description"/>
-                        <field name="grade_position"/>
-                        <field name="preferred_start_date"/>
+                    <group string='Position' col="4" readonly="1">
+                        <field name="type" widget='radio' options="{'horizontal': true}" attrs="{'readonly': [('state', '=', 'approve')]}"/>
+                        <field name="reason_for_hire" widget='radio' options="{'horizontal': true}" attrs="{'readonly': [('state', '=', 'approve')]}"/>
+                        <field name="category" widget='radio' options="{'horizontal': true}" attrs="{'readonly': [('state', '=', 'approve')]}"/>
+                        <field name="replacing_employee_id" attrs="{'required': [('reason_for_hire', '=', 'replacement')], 'invisible': [('reason_for_hire', '!=', 'replacement')], 'readonly': [('state', '=', 'approve')]}"/>
+                        <field name="existing_job_position" widget='radio' options="{'horizontal': true}" attrs="{'readonly': [('state', '=', 'approve')]}"/>
+                        <field name="job_id" attrs="{'required': [('existing_job_position', '=', 'yes')], 'invisible': [('existing_job_position', '!=', 'yes')], 'readonly': [('state', '=', 'approve')]}"/>
+                        <field name="job_title" attrs="{'required': [('existing_job_position', '=', 'no')], 'invisible': [('existing_job_position', '!=', 'no')], 'readonly': [('state', '=', 'approve')]}"/>
+                        <field name="reason" attrs="{'readonly': [('state', '=', 'approve')]}"/>
+                        <field name="position_description" attrs="{'readonly': [('state', '=', 'approve')]}"/>
+                        <field name="grade_position" attrs="{'readonly': [('state', '=', 'approve')]}"/>
+                        <field name="preferred_start_date" attrs="{'readonly': [('state', '=', 'approve')]}"/>
                     </group>
 
                     <group string='Approval' col="4">

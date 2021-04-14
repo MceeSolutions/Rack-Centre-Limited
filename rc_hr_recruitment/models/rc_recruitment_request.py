@@ -54,6 +54,7 @@ class RecruitmentRequest(models.Model):
     finance_director_approval = fields.Many2one(comodel_name='res.users', string='Finance Director', readonly=True, tracking=True, copy=False)
     finance_director_approval_date = fields.Date(string='Finance Director Approval Date', readonly=True, tracking=True, copy=False)
 
+    #onchange actions
     @api.onchange('job_id')
     def job_id_change(self):
         if self.job_id:
@@ -70,6 +71,11 @@ class RecruitmentRequest(models.Model):
         if self.existing_job_position == 'no':
             self.job_id = False
 
+    @api.onchange('employee_id')
+    def employee_id_change(self):
+        if self.employee_id:
+            self.department_id = self.employee_id.department_id
+
     #submit to line manager
     def button_submit(self):
         self.write({'state': 'submit'})
@@ -80,7 +86,7 @@ class RecruitmentRequest(models.Model):
         subject = "Recruitment Request '{}', from {} needs approval".format(self.name, self.employee_id.name)
         self.message_post(subject=subject,body=subject,partner_ids=partner_ids)
     
-    #to be lnked to the appropriate group
+    #approvals to be lnked to the appropriate group
     def button_approve(self):
         self.write({'state': 'approve'})
         group_id = self.env['ir.model.data'].xmlid_to_object('hr.group_hr_user')
@@ -101,3 +107,14 @@ class RecruitmentRequest(models.Model):
     
     def button_reset(self):
         self.write({'state': 'new'})
+
+    #option to create new job positions
+    def create_job_position(self):        
+        if self.existing_job_position == 'no':            
+            vals={                
+            'name': self.job_title,
+            'department_id': self.department_id.id,                        
+            }            
+        job_obj = self.env['hr.job']
+        self.job_id = job_obj.create(vals)
+        self.existing_job_position = 'yes'
