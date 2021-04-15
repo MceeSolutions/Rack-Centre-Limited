@@ -75,7 +75,7 @@ class RecruitmentRequest(models.Model):
     def employee_id_change(self):
         if self.employee_id:
             self.department_id = self.employee_id.department_id
-
+            
     #submit to line manager
     def button_submit(self):
         self.write({'state': 'submit'})
@@ -85,7 +85,7 @@ class RecruitmentRequest(models.Model):
         self.message_subscribe(partner_ids=partner_ids)
         subject = "Recruitment Request '{}', from {} needs approval".format(self.name, self.employee_id.name)
         self.message_post(subject=subject,body=subject,partner_ids=partner_ids)
-    
+
     #approvals to be lnked to the appropriate group
     def button_approve(self):
         self.write({'state': 'approve'})

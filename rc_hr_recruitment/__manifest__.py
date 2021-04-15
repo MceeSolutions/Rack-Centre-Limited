@@ -6,7 +6,7 @@
         Extension to track your recruitment pipeline """,
 
     'description': """
-        
+
     """,
 
     'author': "Mcee Business Solution",

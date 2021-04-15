@@ -89,8 +89,6 @@
         </field>
     </record>
 
-   
-
     <!-- Top menu item -->
     <menuitem
         name="Requests"
