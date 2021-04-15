@@ -6,7 +6,7 @@
         Extension to track your recruitment pipeline """,
 
     'description': """
-        Long description of module's purpose
+
     """,
 
     'author': "Mcee Business Solution",
@@ -22,6 +22,7 @@
         # 'views/templates.xml',
         #'views/views.xml',
         'views/rc_recruitment_request.xml',
+        'security/rc_hr_recruitment_security.xml',
         'security/ir.model.access.csv',
     ],
 
