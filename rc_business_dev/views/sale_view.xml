@@ -8,19 +8,19 @@
             <field name="inherit_id" ref="sale.view_order_form" />
             <field name="arch" type="xml">
                 <xpath expr="//header/field[@name='state']" position="attributes">
-                    <attribute name="statusbar_visible">draft,sent,submit,elt_approve,sale</attribute>
+                    <attribute name="statusbar_visible">draft,sent,submit,approve,sale</attribute>
                 </xpath>
                 <xpath expr="//header//button[@name='action_confirm'][1]" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </xpath>
                 <xpath expr="//header//button[@name='action_confirm'][last()]" position="attributes">
-                    <attribute name="attrs">{'invisible': [('state', 'not in', ['elt_approve'])]}</attribute>
-                    <attribute name="groups">rc_business_dev.group_senior_sales_manager</attribute>
+                    <attribute name="invisible">1</attribute>
                 </xpath>
                 <xpath expr="//header" position="inside">
                     <button name="submit" string="Submit" type="object" states="draft"/>
                     <button name="submit" string="Submit" type="object" attrs="{'invisible': [('state', 'not in', ['sent'])]}" />
-                    <button name="elt_approve" string="ELT Approve" type="object" class="oe_highlight" states="submit" groups="rc_business_dev.group_elt"/>
+                    <button name="senior_manager_approve" string="Approve" type="object" class="oe_highlight" states="submit" groups="rc_business_dev.group_senior_sales_manager"/>
+                    <button name="elt_approve" string="Approve" type="object" class="oe_highlight" states="approve" groups="rc_business_dev.group_elt"/>
                 </xpath>
             </field>
         </record>
