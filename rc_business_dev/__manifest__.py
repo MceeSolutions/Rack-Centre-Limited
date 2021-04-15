@@ -15,11 +15,12 @@
     'category': 'Uncategorized',
     'version': '0.1.1',
 
-    'depends': ['base', 'sale_management'],
+    'depends': ['base', 'sale_management', 'sale'],
 
     'data': [
         'security/user_groups.xml',
         # 'security/ir.model.access.csv',
         'views/sale_view.xml',
+        'views/res_config_settings_view.xml',
     ],
 }
