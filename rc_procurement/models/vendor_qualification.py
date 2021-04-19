@@ -4,6 +4,7 @@ from odoo import models, fields
 
 class VendorQualification(models.Model):
     _name = 'vendor.qualification'
+    _description = 'Vendor Qualification'
 
     name = fields.Char(string="Potential Vendor Name")
     email = fields.Char(string="Email")
@@ -37,18 +38,13 @@ class VendorQualification(models.Model):
         self.vendor_count = len(self.partner_id)
 
     def action_view_vendor(self):
-        action = self.env.ref('account.action_move_out_invoice_type')
+        action = self.env.ref('account.res_partner_action_supplier')
         result = action.read()[0]
-        result['context'] = {'type': 'out_invoice'}
-        related_invoices = self.env['account.move'].search([('treatment_id', '=', self.id)])
-        if self.invoice_count != 1:
-            result['domain'] = "[('id', 'in', " + str(related_invoices.ids) + "), ('move_type', '=', 'out_invoice')]"
-        elif self.invoice_count == 1:
-            res = self.env.ref('account.view_move_form', False)
-            result['views'] = [(res and res.id or False, 'form')]
-            result['res_id'] = related_invoices.id
+        result['context'] = {'search_default_supplier': 1,'res_partner_search_mode': 'supplier', 'default_is_company': True, 'default_supplier_rank': 1}
+        res = self.env.ref('base.view_partner_form', False)
+        result['views'] = [(res and res.id or False, 'form')]
+        result['res_id'] = self.partner_id.id
         return result
-        pass 
 
     def submit(self):
         self.submitted_by = self.env.uid
