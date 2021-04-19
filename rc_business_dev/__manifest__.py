@@ -19,7 +19,6 @@
 
     'data': [
         'security/user_groups.xml',
-        # 'security/ir.model.access.csv',
         'views/sale_view.xml',
         'views/res_config_settings_view.xml',
     ],
