@@ -7,7 +7,8 @@ class StockPicking(models.Model):
 
     def button_validate(self):
         res = super(StockPicking, self).button_validate()
-        if picking_type_id == '':
+        internal_type = self.env.ref('stock.picking_type_internal')
+        if self.picking_type_id in internal_type:
             self.notify_project_manager()
         return res
 
