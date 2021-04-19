@@ -60,6 +60,7 @@ class VendorQualification(models.Model):
             'name': self.name,
             'supplier_rank': 1,
             'email': self.email,
+            'phone': self.phone,
             'website': self.website,
             'street': self.street,
             'city': self.city,
