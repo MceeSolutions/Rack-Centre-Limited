@@ -59,6 +59,15 @@ class VendorQualification(models.Model):
         vendor = self.env['res.partner'].create({
             'name': self.name,
             'supplier_rank': 1,
+            'email': self.email,
+            'website': self.website,
+            'street': self.street,
+            'city': self.city,
+            'child_ids': [(0, 0, {
+                'name': self.contact_name,
+                'phone': self.contact_phone,
+                'email': self.contact_email,
+            })],
         })
         self.approved_by = self.env.uid
         self.date_approved = date.today()
