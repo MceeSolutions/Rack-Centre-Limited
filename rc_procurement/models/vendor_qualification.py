@@ -4,6 +4,7 @@ from odoo import models, fields
 
 class VendorQualification(models.Model):
     _name = 'vendor.qualification'
+    _description = 'Vendor Qualification'
 
     name = fields.Char(string="Potential Vendor Name")
     email = fields.Char(string="Email")
