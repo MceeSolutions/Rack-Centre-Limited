@@ -15,11 +15,15 @@
     'category': 'Uncategorized',
     'version': '0.1.1',
 
-    'depends': ['purchase'],
+    'depends': [
+        'purchase', 
+        'purchase_requisition',
+        'project',
+    ],
 
     'data': [
         # 'security/user_groups.xml',
-        # 'security/ir.model.access.csv',
-        # 'views/purchase_view.xml',
+        'security/ir.model.access.csv',
+        'views/vendor_qualification_view.xml',
     ],
 }

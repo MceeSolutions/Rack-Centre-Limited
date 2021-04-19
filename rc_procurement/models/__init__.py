@@ -1,2 +1,2 @@
 # -*- coding: utf-8 -*-
-from . import sale
+from . import vendor_qualification
