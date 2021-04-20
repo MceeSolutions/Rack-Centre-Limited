@@ -69,5 +69,5 @@ class SaleOrder(models.Model):
         if not (message and partner_ids):
             return
         self.message_subscribe(partner_ids=partner_ids)
-        self.message_post(subject=subject, body=message, partner_ids=partner_ids)
+        self.message_post(subject=message, body=message, partner_ids=partner_ids)
         return True
