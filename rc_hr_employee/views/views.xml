@@ -1,0 +1,16 @@
+<odoo>
+  <data>
+    
+    <record id="rc_hr_employee_form" model="ir.ui.view">
+        <field name="name">rc.hr.employee.form</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="terminate_employee" string="Terminate" type="object" class="oe_highlight" groups="hr.group_hr_user" confirm="Are you sure you wish to terminate this employee?" attrs="{'invisible': [('active', '!=', True)]}"/>
+            </xpath>
+        </field>
+    </record>
+
+  </data>
+</odoo>
