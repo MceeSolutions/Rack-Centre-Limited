@@ -19,7 +19,7 @@
 
     'data': [
         'security/ir.model.access.csv',
-        'data/user_groups.xml',
+        'security/user_groups.xml',
         'data/sequence.xml',
         'views/advance_view.xml',
     ],
