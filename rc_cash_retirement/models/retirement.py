@@ -73,7 +73,7 @@ class CashRetirement(models.Model):
             result['res_id'] = self.move_ids.id
         return result
 
-    @api.multi
+    
     def unlink(self):
         if any(self.filtered(lambda advance: advance.state not in ['draft'])):
             raise UserError("You can't delete a retirement that is not in draft state")
@@ -101,7 +101,7 @@ class CashRetirement(models.Model):
                 }
             } 
     
-    @api.multi
+    
     def submit(self):
         if not self.line_ids:
             return UserError("Please add lines!")
@@ -138,7 +138,7 @@ class CashRetirement(models.Model):
             partner_ids.append(partner.id)
         self.message_post(subject=subject,body=subject,partner_ids=partner_ids)
 
-    @api.multi
+    
     def button_reject(self):
         self.write({'state':'reject'})
         subject = "Cash advance Request '{}', for {} has been rejected".format(self.name, self.employee_id.name)
@@ -147,7 +147,7 @@ class CashRetirement(models.Model):
             partner_ids.append(partner.id)
         self.message_post(subject=subject,body=subject,partner_ids=partner_ids)
 
-    @api.multi
+    
     def set_to_draft(self):
         self.write({'state':'draft'})
     
@@ -258,7 +258,7 @@ class CashRetirementLine(models.Model):
     amount = fields.Float(string='Amount', required=True, compute="compute_amount")
     state = fields.Selection(string="State", related="retirement_id.state")
 
-    @api.multi
+    
     def compute_amount(self):
         for line in self:
             line.amount = line.price_unit * line.quantity

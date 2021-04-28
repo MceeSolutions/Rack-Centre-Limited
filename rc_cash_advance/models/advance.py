@@ -56,7 +56,6 @@ class CashAdvance(models.Model):
     def _get_employee_manager(self):
         self.manager_id = self.employee_id.parent_id and self.employee_id.parent_id.id or self.department_id.manager_id and self.department_id.manager_id.id or False
     
-    @api.multi
     def submit(self):
         if not self.line_ids:
             raise UserError("No advance lines found!")
@@ -84,7 +83,6 @@ class CashAdvance(models.Model):
         self.message_post(subject=subject,body=subject,partner_ids=partner_ids)
         self.state = "mgr_approve"
 
-    @api.multi
     def unlink(self):
         for advance in self:
             if self.filtered(lambda advance: advance.state not in ('draft')):
@@ -107,7 +105,6 @@ class CashAdvance(models.Model):
                 total_amount += line.amount
             advance.total_amount = total_amount
     
-    @api.multi
     def button_reject(self):
         self.write({'state':'reject'})
         subject = "Cash advance Request '{}', for {} has been rejected".format(self.name, self.employee_id.name)
@@ -115,8 +112,7 @@ class CashAdvance(models.Model):
         for partner in self.message_partner_ids:
             partner_ids.append(partner.id)
         self.message_post(subject=subject,body=subject,partner_ids=partner_ids)
-
-    @api.multi
+    
     def set_to_draft(self):
         self.write({'state':'draft'})
         
@@ -166,7 +162,6 @@ class CashAdvanceLine(models.Model):
     amount = fields.Float(string='Amount', required=True, compute="compute_amount")
     state = fields.Selection(string="State", related="advance_id.state")
 
-    @api.multi
     def compute_amount(self):
         for line in self:
             line.amount = line.price_unit * line.quantity
