@@ -1,0 +1,106 @@
+<odoo>
+  <data>
+
+    <record model="ir.ui.view" id="cash_advance_tree_view">
+      <field name="name">cash.advance.tree</field>
+      <field name="model">cash.advance</field>
+      <field name="type">tree</field>
+      <field name="arch" type="xml">
+        <field name="name"/>
+        <field name="note"/>
+        <field name="employee_id"/>
+        <field name="department_id"/>
+        <field name="state"/>
+      </field>
+    </record>
+
+    <record id="cash_advance_form_view" model="ir.ui.view">
+      <field name="name">cash.advance.form</field>
+      <field name="model">cash.advance</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+        <form string="Cash Advance">
+          <header>
+            <button name="submit" string="Submit" class="oe_highlight" type="object" states="draft" />
+            <button name="mgr_approve" string="Approve" class="oe_highlight" type="object" groups="rc_cash_advance.group_cash_advance_user" states="submit" />
+            <button name="finance_approve" string="Approve" class="oe_highlight" type="object" states="mgr_approve" groups="account.group_account_user" />
+            <button name="post_entries" string="Post Journal Entries" class="oe_highlight" type="object" states="approve" groups="account.group_account_user"/>
+            <button name="button_reject" string="Reject" class="btn-danger" type="object" states="submit" groups="rc_cash_advance.group_cash_advance_user"/>
+            <button name="button_reject" string="Reject" class="btn-danger" type="object" states="mgr_approve" groups="account.group_account_user"/>
+            <button name="set_to_draft" string="Set to Draft" class="btn-danger" type="object" states="cancel" />
+            <field name="state" widget="statusbar" readonly="1" statusbar_visible="draft,submit,mgr_approve,approve" />
+          </header>
+          <sheet>
+            <group>
+              <group>
+                <field name="name"/>
+                <field name="note"/>
+                <field name="employee_id"/>
+                <field name="manager_id"/>
+                <field name="company_id" />
+              </group>
+              <group>
+                <field name="department_id"/>
+                <field name="user_id"/>
+                <field name="date"/>
+                <field name="currency_id"/>
+              </group>
+            </group>
+            <notebook>
+              <page string="Advance Lines">
+                <field name="line_ids" context="{'advance_id': 'active_id'}">
+                  <tree editable="1">
+                    <field name="product_id" />
+                    <field name="name" />
+                    <field name="account_id" />
+                    <field name="analytic_account_id" />
+                    <field name="quantity" />
+                    <field name="price_unit" />
+                    <field name="amount" />
+                    <field name="state" invisible="1" />
+                    <field name="advance_id" invisible="1" />
+                  </tree>
+                </field>
+                <group class="oe_subtotal_footer oe_right" colspan="2" name="advance_total">
+                  <div class="oe_inline o_td_label">
+                      <label for="total_amount"/>
+                  </div>
+                  <field name="total_amount" nolabel="1" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                </group>
+                <div class="oe_clear"/>
+              </page>
+              <page string="Accounting Details">
+                <group>
+                  <field name="journal_id" />
+                </group>
+                <group>
+                  <field name="move_id" />
+                </group>
+              </page>
+            </notebook>
+          </sheet>
+          <div class="oe_chatter">
+            <field name="message_follower_ids" widget="mail_followers"/>
+            <field name="activity_ids" widget="mail_activity"/>
+            <field name="message_ids" widget="mail_thread"/>
+          </div>
+        </form>
+      </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_cash_advance">
+      <field name="name">Cash Advance</field>
+      <field name="res_model">cash.advance</field>
+      <field name="context">{}</field>
+      <field name="domain">[]</field>
+      <field name="view_mode">tree,form</field>
+      <field name="help" type="html">
+        <p class="oe_no_content_create">Click here to create new cash advance request</p>
+      </field>
+    </record>
+
+    <menuitem name="Cash Advances" id="cash_advance_menu" parent="hr_expense.menu_hr_expense_root"/>
+    <menuitem name="Advance Requests" id="cash_advance_menu_request" parent="cash_advance_menu" action="action_cash_advance"/>
+
+  </data>
+</odoo>

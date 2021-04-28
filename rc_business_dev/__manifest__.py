@@ -15,7 +15,7 @@
     'category': 'Uncategorized',
     'version': '0.1.1',
 
-    'depends': ['base', 'sale_management', 'sale'],
+    'depends': ['base', 'sale_management', 'sale', 'rc_base'],
 
     'data': [
         'security/user_groups.xml',

@@ -17,6 +17,7 @@
 
     'depends': [
         'stock',
+        'rc_base',
     ],
 
     'data': [], 
