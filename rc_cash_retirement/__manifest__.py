@@ -20,7 +20,7 @@
     'data': [
         'security/ir.model.access.csv',
         'data/sequence.xml',
-        'data/user_groups.xml',
+        'security/user_groups.xml',
         'views/retirement_view.xml',
     ],
 }
