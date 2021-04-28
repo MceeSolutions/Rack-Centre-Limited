@@ -19,6 +19,7 @@
         'purchase', 
         'purchase_requisition',
         'project',
+        'rc_base',
     ],
 
     'data': [

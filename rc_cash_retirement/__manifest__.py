@@ -15,7 +15,7 @@
     'category': 'Account',
     'version': '0.1',
 
-    'depends': ['account', 'sunray_cash_advance'],
+    'depends': ['account', 'rc_cash_advance', 'rc_base'],
 
     'data': [
         'security/ir.model.access.csv',

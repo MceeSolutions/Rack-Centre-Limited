@@ -15,7 +15,7 @@
     'category': 'Account',
     'version': '0.1',
 
-    'depends': ['account'],
+    'depends': ['account', 'rc_base'],
 
     'data': [
         'security/ir.model.access.csv',
