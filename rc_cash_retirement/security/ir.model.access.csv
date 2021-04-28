@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_cash_retirement_emp,access_cash_retirement_emp,model_cash_retirement,base.group_user,1,1,1,1
+access_cash_retirement_line_emp,access_cash_retirement_line_emp,model_cash_retirement_line,base.group_user,1,1,1,1
