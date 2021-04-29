@@ -33,10 +33,10 @@ class CashRetirement(models.Model):
         ('approve', 'Finance Approved'),
         ('close', 'Retired'),
         ('reject', 'Reject'),
-        ], string='Status', readonly=False, index=True, copy=False, default='draft', track_visibility='onchange')
+        ], string='Status', readonly=False, index=True, copy=False, default='draft', tracking='1')
 
-    date = fields.Date(string='Date', required=True, track_visibility='onchange', default=date.today(), readonly=True, states={'draft': [('readonly', False)]})
-    employee_id = fields.Many2one(comodel_name='hr.employee', required=True, string='Employee', track_visibility='onchange', default=_default_employee, readonly=True, states={'draft': [('readonly', False)]})
+    date = fields.Date(string='Date', required=True, tracking='1', default=date.today(), readonly=True, states={'draft': [('readonly', False)]})
+    employee_id = fields.Many2one(comodel_name='hr.employee', required=True, string='Employee', tracking='1', default=_default_employee, readonly=True, states={'draft': [('readonly', False)]})
     manager_id = fields.Many2one(comodel_name="hr.employee", string="Employee Manager", compute="_get_employee_manager")
     department_id = fields.Many2one(comodel_name='hr.department', string='Department', related='employee_id.department_id')
     currency_id = fields.Many2one(comodel_name='res.currency', required=True, string='Currency', default=_default_currency, readonly=True, states={'draft': [('readonly', False)]})
@@ -47,7 +47,7 @@ class CashRetirement(models.Model):
     journal_id = fields.Many2one(comodel_name="account.journal", string="Journal")
     advance_id = fields.Many2one(comodel_name="cash.advance", string="Cash Advance", readonly=True, 
     states={'draft': [('readonly', False)]}, domain="[('user_id', '=', user_id), ('state', 'in', ['approve'])]")
-    amount_advance = fields.Monetary(string="Advance Amount", related="advance_id.move_id.amount")
+    amount_advance = fields.Monetary(string="Advance Amount", related="advance_id.move_id.amount_total")
     invoices_count = fields.Integer(string="Invoices", compute="count_invoices")
     user_id = fields.Many2one(comodel_name='res.users', required=True, string='User', default=_get_user, readonly= True, states={'draft': [('readonly', False)]})
 
@@ -167,7 +167,7 @@ class CashRetirement(models.Model):
             'ref': self.name,
             'date': date.today(),
             'journal_id': self.journal_id.id,
-            'amount': self.total_amount,
+            'amount_total': self.total_amount,
             'line_ids': [(0,0, { # Debit the expense account
                 'name': self.name,
                 'debit': line.amount,
@@ -194,7 +194,7 @@ class CashRetirement(models.Model):
                     'ref': self.name,
                     'date': date.today(),
                     'journal_id': self.journal_id.id,
-                    'amount': abs(self.total_amount - self.amount_advance),
+                    'amount_total': abs(self.total_amount - self.amount_advance),
                     'line_ids': [(0,0, { # Debit
                         'name': self.name,
                         'debit': abs(self.total_amount - self.amount_advance),
@@ -218,7 +218,7 @@ class CashRetirement(models.Model):
                     'ref': self.name,
                     'date': date.today(),
                     'journal_id': self.journal_id.id,
-                    'amount': abs(self.total_amount - self.amount_advance),
+                    'amount_total': abs(self.total_amount - self.amount_advance),
                     'line_ids': [(0,0, { # Debit
                         'name': self.name,
                         'debit': abs(self.total_amount - self.amount_advance), # Debit employee receivable,
