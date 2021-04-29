@@ -32,6 +32,8 @@
     'depends': ['account', 'account_accountant'],
 
     'data': [
+        'views/account_move_view.xml',
+        'views/account_payment_view.xml',
         'views/views.xml',
     ],
 }
