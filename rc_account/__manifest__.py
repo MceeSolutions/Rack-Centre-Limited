@@ -29,11 +29,11 @@
     'category': 'Uncategorized',
     'version': '0.1',
 
-    'depends': ['account', 'account_accountant'],
+    'depends': ['account', 'account_accountant', 'account_asset'],
 
     'data': [
         'views/account_move_view.xml',
         'views/account_payment_view.xml',
-        'views/views.xml',
+        'views/account_asset_view.xml',
     ],
 }
