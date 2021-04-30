@@ -47,6 +47,7 @@ class CashAdvance(models.Model):
     paid = fields.Boolean(string="Paid")
     move_id = fields.Many2one(comodel_name="account.move", string="Accounting Entry", readonly=True)
     journal_id = fields.Many2one(comodel_name="account.journal", string="Journal")
+    payment_account_id = fields.Many2one('account.account', string="Account")
 
     def _get_company(self):
         return self.env.user.company_id
@@ -136,7 +137,7 @@ class CashAdvance(models.Model):
                 'name': self.name,
                 'credit': self.total_amount > 0 and self.total_amount,
                 'debit': 0.0,
-                'account_id': self.journal_id.default_credit_account_id.id,
+                'account_id': self.journal_id.payment_account_id.id,
                 'date_maturity': date.today(),
                 'partner_id': requesting_partner.id,
                 })

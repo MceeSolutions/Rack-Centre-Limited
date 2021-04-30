@@ -80,6 +80,7 @@
               </page>
               <page string="Accounting Details">
                 <group>
+                  <field name="payment_account_id" />
                   <field name="journal_id" />
                 </group>
                 <group>
