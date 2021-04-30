@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_cash_advance_emp,access_cash_advance_emp,model_cash_advance,base.group_user,1,1,1,1
+access_cash_advance_line_emp,access_cash_advance_line_emp,model_cash_advance_line,base.group_user,1,1,1,1
