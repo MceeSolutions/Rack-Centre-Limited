@@ -208,7 +208,7 @@ class CashRetirement(models.Model):
                                 'name': self.name,
                                 'credit': abs(self.total_amount - self.amount_advance),
                                 'debit': 0.0,
-                                'account_id': self.journal_id.payment_account_id.id, # Debit employee receivable
+                                'account_id': self.payment_account_id.id, # Debit employee receivable
                                 'date_maturity': date.today(),
                                 'partner_id': self.employee_id.user_id.partner_id.id,
                             })
@@ -224,7 +224,7 @@ class CashRetirement(models.Model):
                         'name': self.name,
                         'debit': abs(self.total_amount - self.amount_advance), # Debit employee receivable,
                         'credit': 0.0,
-                        'account_id': self.journal_id.payment_account_id.id, # Debit employee receivable
+                        'account_id': self.payment_account_id.id, # Debit employee receivable
                         'date_maturity': date.today(),
                         'partner_id': self.employee_id.user_id.partner_id.id,
                         }), (0,0, {

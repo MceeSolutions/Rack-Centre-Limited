@@ -137,7 +137,7 @@ class CashAdvance(models.Model):
                 'name': self.name,
                 'credit': self.total_amount > 0 and self.total_amount,
                 'debit': 0.0,
-                'account_id': self.journal_id.payment_account_id.id,
+                'account_id': self.payment_account_id.id,
                 'date_maturity': date.today(),
                 'partner_id': requesting_partner.id,
                 })
