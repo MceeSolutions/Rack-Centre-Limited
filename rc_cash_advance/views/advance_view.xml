@@ -64,7 +64,7 @@
                 </field>
                 <group class="oe_subtotal_footer oe_right" colspan="2" name="advance_total">
                   <div class="oe_inline o_td_label">
-                      <label for="total_amount"/>
+                    <label for="total_amount"/>
                   </div>
                   <field name="total_amount" nolabel="1" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                 </group>
@@ -72,6 +72,7 @@
               </page>
               <page string="Accounting Details">
                 <group>
+                  <field name="payment_account_id" />
                   <field name="journal_id" />
                 </group>
                 <group>

@@ -50,6 +50,7 @@ class CashRetirement(models.Model):
     amount_advance = fields.Monetary(string="Advance Amount", related="advance_id.move_id.amount_total")
     invoices_count = fields.Integer(string="Invoices", compute="count_invoices")
     user_id = fields.Many2one(comodel_name='res.users', required=True, string='User', default=_get_user, readonly= True, states={'draft': [('readonly', False)]})
+    payment_account_id = fields.Many2one('account.account', string="Account")
 
     def _get_company(self):
         return self.env.user.company_id
@@ -207,7 +208,7 @@ class CashRetirement(models.Model):
                                 'name': self.name,
                                 'credit': abs(self.total_amount - self.amount_advance),
                                 'debit': 0.0,
-                                'account_id': self.journal_id.default_debit_account_id.id, # Debit employee receivable
+                                'account_id': self.journal_id.payment_account_id.id, # Debit employee receivable
                                 'date_maturity': date.today(),
                                 'partner_id': self.employee_id.user_id.partner_id.id,
                             })
@@ -223,7 +224,7 @@ class CashRetirement(models.Model):
                         'name': self.name,
                         'debit': abs(self.total_amount - self.amount_advance), # Debit employee receivable,
                         'credit': 0.0,
-                        'account_id': self.journal_id.default_debit_account_id.id, # Debit employee receivable
+                        'account_id': self.journal_id.payment_account_id.id, # Debit employee receivable
                         'date_maturity': date.today(),
                         'partner_id': self.employee_id.user_id.partner_id.id,
                         }), (0,0, {
