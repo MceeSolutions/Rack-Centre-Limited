@@ -107,12 +107,12 @@ class CashRetirement(models.Model):
         if not self.line_ids:
             return UserError("Please add lines!")
         self.write({'state': 'submit'})
-        partner_ids = [self.manager_id.user_id.partner_id.id]
-        if self.employee_id.parent_id.user_id:
-            partner_ids.append(self.employee_id.parent_id.user_id.partner_id.id)
-        self.message_subscribe(partner_ids=partner_ids)
-        subject = "Cash retirement Request '{}', for {} needs approval".format(self.name, self.employee_id.name)
-        self.message_post(subject=subject,body=subject,partner_ids=partner_ids)
+        # partner_ids = [self.manager_id.user_id.partner_id.id]
+        # if self.employee_id.parent_id.user_id:
+        #     partner_ids.append(self.employee_id.parent_id.user_id.partner_id.id)
+        # self.message_subscribe(partner_ids=partner_ids)
+        # subject = "Cash retirement Request '{}', for {} needs approval".format(self.name, self.employee_id.name)
+        # self.message_post(subject=subject,body=subject,partner_ids=partner_ids)
         return False
 
     def mgr_approve(self):
