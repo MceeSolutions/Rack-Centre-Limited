@@ -239,7 +239,6 @@ class CashRetirement(models.Model):
                 })
             account_moves += account_move
         self.move_ids += account_moves
-        self.paid = True
         self.advance_id.state = "close"
         self.state = "close"
         return True
