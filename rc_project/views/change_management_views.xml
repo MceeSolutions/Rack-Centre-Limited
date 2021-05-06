@@ -1,0 +1,93 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+
+    <record model="ir.ui.view" id="rc_change_management_list">
+      <field name="name">Change Management</field>
+      <field name="model">change.management</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="project_id"/>
+          <field name="national_center"/>
+          <field name="project_manager_id"/>
+          <field name="state" widget="badge"/>
+          <field name="priority"/>
+          <field name="description"/>
+          <field name="user_id" optional="show" widget="many2one_avatar_user"/>
+          <field name="expected_resolution_date"/>
+          <field name="escalation_required"/>
+          <field name="action_steps"/>
+          <field name="impact_summary"/>
+          <field name="change_request_type"/>
+          <field name="date_identified"/>
+          <field name="resolution_date"/>
+          <field name="resolution_rationale"/>
+        </tree>
+      </field>
+    </record>
+
+    <!-- explicit form view definition -->
+    <record model="ir.ui.view" id="rc_change_management_view">
+        <field name="name">change.management.view</field>
+        <field name="model">change.management</field>
+        <field name="priority" eval="2"/>
+        <field name="arch" type="xml">
+            <form string="Change Management">
+                <header>
+                    <button name="button_submit_change" states="open" string="Submit Change Request" type="object"/>
+                    <field name="state" widget="statusbar" statusbar_visible="open,wip,closed" clickable="1"/>
+                </header>
+                <sheet>
+                    <!-- <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name"/></h1>
+                    </div> -->
+                    <group col="4">
+                        <field name="project_id"/>
+                        <field name="national_center"/>
+                        <field name="project_manager_id"/>
+                        <field name="project_description"/>
+                    </group>
+                        
+                    <group col="4">
+                        <field name="description"/>
+                        <field name="priority" widget="priority"/>
+                        <field name="user_id"/>
+                        <field name="expected_resolution_date"/>
+                        <field name="escalation_required"/>
+                        <field name="action_steps"/>
+                        <field name="impact_summary"/>
+                        <field name="change_request_type"/>
+                        <field name="date_identified"/>
+                        <field name="resolution_date"/>
+                        <field name="resolution_rationale"/>
+                    </group>
+
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- actions opening views on models -->
+
+    <record model="ir.actions.act_window" id="rc_change_management_action_window">
+      <field name="name">Change Management</field>
+      <field name="res_model">change.management</field>
+      <field name="view_mode">tree,form</field>
+      <field name="domain">[]</field>
+      <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                let's create a new Change Management.
+            </p>
+        </field>
+    </record>
+
+
+  </data>
+</odoo>

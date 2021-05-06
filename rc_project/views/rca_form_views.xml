@@ -1,0 +1,83 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+
+    <record model="ir.ui.view" id="rc_rca_form_list">
+      <field name="name">RCA Form</field>
+      <field name="model">rca.form</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="project_id"/>
+          <field name="date_time"/>
+          <field name="incident"/>
+          <field name="issue_id"/>
+        </tree>
+      </field>
+    </record>
+
+    <!-- explicit form view definition -->
+    <record model="ir.ui.view" id="rc_rca_form_view">
+        <field name="name">rca.form.view</field>
+        <field name="model">rca.form</field>
+        <field name="priority" eval="2"/>
+        <field name="arch" type="xml">
+            <form string="RCA Form">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name"/></h1>
+                    </div>
+
+                    <group col="4">
+                        <field name="project_id"/>
+                        <field name="date_time"/>
+                        <field name="incident"/>
+                        <field name="reference"/>
+                    </group>
+                        
+                    <group col="2">
+                        <field name="description"/>
+                        <field name="findings"/>
+                        <field name="action_taken"/>
+                        <field name="resolution"/>
+                        <field name="root_cause_analysis"/>
+                        <field name="responder"/>
+                        <field name="investigative_team"/>
+                    </group>
+
+                    <group col="4">
+                        <field name="project_manager_id"/>
+                        <field name="project_approval_date"/>
+                        <field name="partner_id"/>
+                        <field name="partner_id_date"/>
+                    </group>
+
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- actions opening views on models -->
+
+    <record model="ir.actions.act_window" id="rc_rca_form_action_window">
+      <field name="name">RCA Form</field>
+      <field name="res_model">rca.form</field>
+      <field name="view_mode">tree,form</field>
+      <field name="domain">[]</field>
+      <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                let's create a new RCA.
+            </p>
+        </field>
+    </record>
+
+
+  </data>
+</odoo>

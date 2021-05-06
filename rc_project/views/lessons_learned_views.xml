@@ -1,0 +1,92 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+
+    <record model="ir.ui.view" id="rc_lessons_learned_list">
+      <field name="name">Lessons Learned</field>
+      <field name="model">lessons.learned</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="project_id"/>
+          <field name="national_center"/>
+          <field name="project_manager_id" optional="show" string="Project Manager" widget="many2one_avatar_user"/>
+          <field name="date_identified"/>
+          <field name="entered_by"/>
+          <field name="name"/>
+          <field name="situation"/>
+          <field name="recommendations_comments"/>
+          <field name="follow_up_needed"/>
+        </tree>
+      </field>
+    </record>
+
+    <!-- explicit form view definition -->
+    <record model="ir.ui.view" id="rc_lessons_learned_view">
+        <field name="name">lessons.learned.view</field>
+        <field name="model">lessons.learned</field>
+        <field name="priority" eval="2"/>
+        <field name="arch" type="xml">
+            <form string="Lessons Learned">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group col="4">
+                        <field name="project_id"/>
+                        <field name="national_center"/>
+                        <field name="project_manager_id"/>
+                        <field name="project_description"/>
+                    </group>
+                        
+                    <group col="4">
+                        <field name="date_identified" />
+                        <field name="entered_by" />
+                        <field name="situation" />
+                        <field name="recommendations_comments" />
+                        <field name="follow_up_needed" />
+                    </group>
+
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- actions opening views on models -->
+
+    <record model="ir.actions.act_window" id="rc_lessons_learned_action_window">
+      <field name="name">Lessons Learned</field>
+      <field name="res_model">lessons.learned</field>
+      <field name="view_mode">tree,form</field>
+      <field name="domain">[]</field>
+      <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                let's create a new Lesson Learned.
+            </p>
+        </field>
+    </record>
+
+    <record id="rc_open_create_lessons_learned" model="ir.actions.act_window">
+        <field name="name">Create Lesson Learned</field>
+        <field name="res_model">lessons.learned</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="rc_lessons_learned_view"/>
+        <!-- <field name="target">new</field> -->
+    </record>
+
+
+    <!-- Top menu item -->
+
+    <menuitem
+        name="Business Case"
+        parent="project.menu_main_pm"
+        id="menu_rc_business_case" action="rc_business_case_action_window" sequence="1"/>
+
+  </data>
+</odoo>
