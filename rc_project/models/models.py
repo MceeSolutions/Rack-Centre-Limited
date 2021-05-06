@@ -8,6 +8,12 @@ class Project(models.Model):
     _inherit = ['project.project', 'mail.thread', 'mail.activity.mixin', 'rating.mixin']
     _description = "Project"
 
+    state = fields.Selection([
+        ('draft', 'New'),
+        ('submit', 'Submitted'),
+        ('approved', 'Approved'),
+        ], string='Status', readonly=False, index=True, copy=False, tracking=True)
+    
     project_team_ids = fields.Many2many(comodel_name='hr.employee', string="Team Members")
 
     lessons_learned_count = fields.Integer(compute="lessons_count",string="Lessons Learned")

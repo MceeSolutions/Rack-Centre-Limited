@@ -39,7 +39,7 @@
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
-                        <button class="oe_stat_button" type="object" name="action_view_projects" icon="fa-exclamation-circle">
+                        <button class="oe_stat_button" type="object" name="action_view_projects" icon="fa-puzzle-piece">
                             <div class="o_stat_info">
                                 <field name="projects_count" class="o_stat_value"/>
                                 <span class="o_stat_text">Project</span>
