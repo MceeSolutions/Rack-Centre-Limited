@@ -10,5 +10,5 @@ class SocialPost(models.Model):
         base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
         contactus_url = base_url + '/contactus'
         return contactus_url
-
+        
     message = fields.Text("Message", required=True, default=_get_website_contactus)

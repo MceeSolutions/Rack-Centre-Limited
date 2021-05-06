@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_rc_business_case,business.case,model_business_case,base.group_user,1,1,1,1
+access_rc_lessons_learned,lessons.learned,model_lessons_learned,base.group_user,1,1,1,1
+access_rc_change_management,change.management,model_change_management,base.group_user,1,1,1,1
+access_rc_risk_identification,risk.identification,model_risk_identification,base.group_user,1,1,1,1
+access_rc_issue_form,issue.form,model_issue_form,base.group_user,1,1,1,1
+access_rc_rca_form,rca.form,model_rca_form,base.group_user,1,1,1,1
+access_rc_project_schedule,project.schedule,model_project_schedule,base.group_user,1,1,1,1
+access_rc_project_schedule_line,project.schedule.line,model_project_schedule_line,base.group_user,1,1,1,1
+access_rc_project_resource_wizard,project.resource.wizard,model_project_resource_wizard,base.group_user,1,1,1,1

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        
+        <record id="rc_project_view_purchase_requisition_form" model="ir.ui.view">
+            <field name="name">rc.view.purchase.requisition.form</field>
+            <field name="model">purchase.requisition</field>
+            <field name="inherit_id" ref="purchase_requisition.view_purchase_requisition_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//header" position="inside">
+                    <button name="submit" string="Submit to DSC" type="object" states="draft"/>
+                    <button name="line_manager_approve" string="Submit" type="object" attrs="{}" />
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>
