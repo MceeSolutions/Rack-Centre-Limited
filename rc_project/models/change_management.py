@@ -20,6 +20,9 @@ class ChangeManagement(models.Model):
 
     state = fields.Selection([
         ('open', 'Open'),
+        ('submit', 'Submit'),
+        ('approved', 'PSC Approved'),
+        ('reject', 'PSC Rejected'),
         ('wip', 'Work in Progress'),
         ('closed', 'Closed'),
         ('late', 'Late'),
@@ -55,11 +58,47 @@ class ChangeManagement(models.Model):
     resolution_rationale = fields.Text(string='Final Resolution & Rationale')
 
     def button_submit_change(self):
-        self.write({'state': 'wip'})
-        group_id = self.env['ir.model.data'].xmlid_to_object('rc_project.group_pmo_manager')
+        self.write({'state': 'submit'})
+        group_id = self.env['ir.model.data'].xmlid_to_object('rc_project.group_pmo_manager','rc_project.group_psc')
         partner_ids = []
         for user in group_id.users:
             partner_ids.append(user.partner_id.id)
         self.message_subscribe(partner_ids=partner_ids)
         subject = "Change Request for '{}', needs review".format(self.project_id.name)
+        self.message_post(subject=subject,body=subject,partner_ids=partner_ids)
+    
+    #approvals to be lnked to the appropriate group
+    def button_approve(self):
+        self.write({'state': 'approved'})
+        subject = "Change Request '{}', has been Approved".format(self.project_id.name)
+        partner_ids = []
+        for partner in self.message_partner_ids:
+            partner_ids.append(partner.id)
+        self.message_post(subject=subject,body=subject,partner_ids=partner_ids)
+    
+    def button_reject(self):
+        self.write({'state': 'reject'})
+        subject = "Change Request '{}', has been rejected".format(self.project_id.name)
+        partner_ids = []
+        for partner in self.message_partner_ids:
+            partner_ids.append(partner.id)
+        self.message_post(subject=subject,body=subject,partner_ids=partner_ids)
+    
+    def button_reset(self):
+        self.write({'state': 'open'})
+
+    def button_in_progress(self):
+        self.write({'state': 'wip'})
+        subject = "Change Request '{}', is in Progress".format(self.project_id.name)
+        partner_ids = []
+        for partner in self.message_partner_ids:
+            partner_ids.append(partner.id)
+        self.message_post(subject=subject,body=subject,partner_ids=partner_ids)
+
+    def button_closed(self):
+        self.write({'state': 'closed'})
+        subject = "Change Request '{}', has been closed".format(self.project_id.name)
+        partner_ids = []
+        for partner in self.message_partner_ids:
+            partner_ids.append(partner.id)
         self.message_post(subject=subject,body=subject,partner_ids=partner_ids)

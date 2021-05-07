@@ -24,6 +24,11 @@
         <field name="priority" eval="2"/>
         <field name="arch" type="xml">
             <form string="Risk Identification">
+                <header>
+                      <button name="button_wip" states="open" string="In Progress" type="object" class="btn btn-primary"/>
+                      <button name="button_closed" states="wip" string="Close" type="object" class="btn btn-primary"/>
+                     <field name="state" widget="statusbar" statusbar_visible="open,wip,closed" readonly="1"/>
+                </header>
                 <sheet>
                     <div class="oe_title">
                         <label for="name" class="oe_edit_only"/>

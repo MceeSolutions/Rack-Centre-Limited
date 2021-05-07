@@ -36,6 +36,14 @@ class RiskIdentification(models.Model):
     likelihood = fields.Float(string='Likelihood', required=True, tracking=True)
     mitigation = fields.Text(string='Mitigation', required=True, tracking=True)
 
+    def button_wip(self):
+        self.write({'state': 'wip'})
+        subject = "Risk Identified '{}', for {} is in Progress".format(self.name, self.project_id.name)
+        partner_ids = []
+        for partner in self.message_partner_ids:
+            partner_ids.append(partner.id)
+        self.message_post(subject=subject,body=subject,partner_ids=partner_ids)
+
     def button_closed(self):
         self.write({'state': 'closed'})
         subject = "Risk Identified '{}', for {} has been closed".format(self.name, self.project_id.name)

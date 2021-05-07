@@ -91,6 +91,7 @@ class WorkPackage(models.Model):
         for partner in self.message_partner_ids:
             partner_ids.append(partner.id)
         self.message_post(subject=subject,body=subject,partner_ids=partner_ids)
+        self.action_launch()
     
     def button_ps_reject(self):
         self.write({'state': 'pms_reject'})
@@ -102,6 +103,17 @@ class WorkPackage(models.Model):
 
     def button_reset_ps(self):
         self.write({'state': 'waiting'})
+    
+    #option to create/schedule activity
+    def action_launch(self):
+        mail_activity_type_obj = self.env['mail.activity.type'].search([('category','=','upload_file')], limit=1)
+        date_deadline = self.env['mail.activity']._calculate_date_deadline(mail_activity_type_obj)
+        self.activity_schedule(
+            activity_type_id=mail_activity_type_obj.id,
+            summary='Upload Project Charter for ' + self.name,
+            user_id=self.employee_id.user_id.id,
+            date_deadline=date_deadline
+        )
 
 class WorkPackageLine(models.Model):
     _name = 'work.package.line'
