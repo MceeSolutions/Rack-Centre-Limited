@@ -28,6 +28,7 @@ class ChangeManagement(models.Model):
         ], string='Current Status', readonly=False, index=True, copy=False, default='open', tracking=True)
     
     priority = fields.Selection([
+        ('nil', 'None'),
         ('low', 'Low'),
         ('medium', 'Medium'),
         ('high', 'High'),

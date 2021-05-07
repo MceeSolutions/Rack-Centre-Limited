@@ -33,6 +33,9 @@
         'views/issue_form_views.xml',
         'views/rca_form_views.xml',
         'views/project_schedule_views.xml',
+        'views/work_package_views.xml',
+        'views/po_approval_request_views.xml',
+        'views/purchase_requisition_view.xml',
         # 'views/templates.xml',
     ],
 }

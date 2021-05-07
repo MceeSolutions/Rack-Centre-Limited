@@ -7,10 +7,46 @@
             <field name="model">purchase.requisition</field>
             <field name="inherit_id" ref="purchase_requisition.view_purchase_requisition_form" />
             <field name="arch" type="xml">
-                <xpath expr="//header" position="inside">
-                    <button name="submit" string="Submit to DSC" type="object" states="draft"/>
-                    <button name="line_manager_approve" string="Submit" type="object" attrs="{}" />
+                <xpath expr="//header" position="before">
+                    <field name="is_for_project" invisible="1" />
                 </xpath>
+                <xpath expr="//header" position="inside">
+                    <button name="create_pof" string="Create POF" type="object" states="open" attrs="{'invisible': ['|', ('is_for_project', '!=', True), ('state', '!=', 'open')]}"/>
+                </xpath>
+                <xpath expr="//button[hasclass('oe_stat_button')] [last()]" position="after">
+                    <button class="oe_stat_button" type="object" name="open_pof" icon="fa-list" attrs="{'invisible': [('is_for_project', '!=', True)]}">
+                        <div class="o_stat_info">
+                            <field name="pof_log_count" class="o_stat_value"/>
+                            <span class="o_stat_text">POF</span>
+                        </div>
+                    </button>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="rc_action_purchase_requisition">
+            <field name="name">Purchase Agreements</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">purchase.requisition</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="search_view_id" ref="purchase_requisition.view_purchase_requisition_filter"/>
+            <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Start a new purchase agreement
+            </p><p>
+                Example of purchase agreements include call for tenders and blanket orders.
+            </p><p>
+                In a call for tenders, you can record the products you need to buy
+                and generate the creation of RfQs to vendors. Once the tenders have
+                been registered, you can review and compare them and you can
+                validate some and cancel others.
+            </p><p>
+                For a blanket order, you can record an agreement for a specifc period
+                (e.g. a year) and you order products within this agreement, benefiting
+                from the negotiated prices.
+            </p>
             </field>
         </record>
 

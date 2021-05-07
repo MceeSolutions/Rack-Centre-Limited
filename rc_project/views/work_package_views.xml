@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <!-- explicit list view definition -->
+        <record model="ir.ui.view" id="rc_work_package_list">
+        <field name="name">Work Package</field>
+        <field name="model">work.package</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="state"/>
+            </tree>
+        </field>
+        </record>
+
+        <!-- explicit form view definition -->
+        <record model="ir.ui.view" id="rc_work_package_view">
+            <field name="name">work.package.view</field>
+            <field name="model">work.package</field>
+            <field name="priority" eval="2"/>
+            <field name="arch" type="xml">
+                <form string="Work Package">
+                    <header>
+                        <button name="button_submit" states="draft" string="Submit" type="object"/>
+                        <button name="button_approve" states="submit" string="Approve" type="object" class="btn btn-primary" groups="rc_base.group_coo"/>
+                        <button name="button_reject" states="submit" string="Reject" type="object" class="btn btn-danger" groups="rc_base.group_coo"/>
+                        <button name="button_reset" states="reject" string="Set to Draft" type="object" /> 
+                        
+                        <button name="button_submit_ps" states="approved" string="Submit to Sponsor" type="object"/>
+                        <button name="button_ps_approve" states="waiting" string="Approve" type="object" class="btn btn-primary" groups="rc_project.group_ps"/>
+                        <button name="button_ps_reject" states="waiting" string="Reject" type="object" class="btn btn-danger" groups="rc_project.group_ps"/>
+                        <button name="button_reset_ps" states="pm_reject" string="Set PM Selection to Draft" type="object" /> 
+                        
+                        <field name="state" widget="statusbar" statusbar_visible="draft,submit,approved" readonly="1"/>
+                    </header>
+                    <sheet>
+                        <!-- <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button" type="object" name="action_view_projects" icon="fa-puzzle-piece">
+                                <div class="o_stat_info">
+                                    <field name="projects_count" class="o_stat_value"/>
+                                    <span class="o_stat_text">Project</span>
+                                </div>
+                            </button>
+                        </div> -->
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1><field name="name"/></h1>
+                        </div>
+                        <group col="4">
+                            <field name="project_id"/>
+                            <field name="employee_id"/>
+                            <field name="currency_id"/>
+                        </group>
+
+                        <notebook>
+                            <page string='WP &amp; Budget Sheet'>
+                                <field name="wp_line_ids" context="{'wp_id': 'active_id'}">
+                                    <tree editable="1">
+                                        <field name="name" />
+                                        <field name="initial_budget_local" />
+                                        <field name="initial_budget_foreign" />
+                                        <field name="latest_budget" />
+                                        <field name="savings" />
+                                        <field name="firm_up_rate" />
+                                        <field name="partner_id" />
+                                        <field name="cost_status" />
+                                        <field name="cost_comment" />
+                                        <field name="quote_reference" />
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string='Finance Info'>
+                                <group>
+                                    <field name="firm" />
+                                    <field name="budgetary" />
+                                    <field name="estimate" />
+                                </group>
+                            </page>
+                        </notebook>
+
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- actions opening views on models -->
+
+        <record model="ir.actions.act_window" id="rc_work_package_action_window">
+        <field name="name">Work Package</field>
+        <field name="res_model">work.package</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                let's create a new Work Package.
+                </p>
+            </field>
+        </record>
+
+
+        <!-- Top menu item -->
+
+        <menuitem
+            name="Work Package"
+            parent="project.menu_main_pm"
+            id="menu_rc_work_package" action="rc_work_package_action_window" sequence="2"/>
+
+    </data>
+</odoo>

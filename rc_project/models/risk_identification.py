@@ -17,6 +17,12 @@ class RiskIdentification(models.Model):
     
     project_id = fields.Many2one(comodel_name='project.project', string="Project", default=_get_default_project, required=True, tracking=True)
 
+    state = fields.Selection([
+        ('open', 'Open'),
+        ('wip', 'Work in Progress'),
+        ('closed', 'Closed'),
+        ], string='Current Status', readonly=False, index=True, copy=False, default='open', tracking=True)
+
     name = fields.Char(string='Risk', required=True)
     category = fields.Selection([
         ('cost', 'Cost'),
@@ -29,5 +35,13 @@ class RiskIdentification(models.Model):
     impact = fields.Float(string='Impact', required=True, tracking=True)
     likelihood = fields.Float(string='Likelihood', required=True, tracking=True)
     mitigation = fields.Text(string='Mitigation', required=True, tracking=True)
+
+    def button_closed(self):
+        self.write({'state': 'closed'})
+        subject = "Risk Identified '{}', for {} has been closed".format(self.name, self.project_id.name)
+        partner_ids = []
+        for partner in self.message_partner_ids:
+            partner_ids.append(partner.id)
+        self.message_post(subject=subject,body=subject,partner_ids=partner_ids)
 
     
