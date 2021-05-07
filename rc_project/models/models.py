@@ -44,7 +44,7 @@ class Project(models.Model):
         self.state = 'start'
     
     def approve_project(self):
-        self.state = 'approve'
+        self.state = 'approved'
 
     def lessons_count(self):
         lessons_learned_obj = self.env['lessons.learned']

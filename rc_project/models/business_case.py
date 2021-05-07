@@ -18,9 +18,9 @@ class BusinessCase(models.Model):
         ('submit', 'Submitted'),
         ('approved', 'Business Case Approved'),
         ('reject', 'Business Case Rejected'),
-        ('waiting', 'Awaiting Approval for PM'),
+        ('waiting', 'Project Sponsor Approval'),
         ('pm_approved', 'PM Approved'),
-        ('pm_reject', 'PM Rejected'),
+        ('pm_reject', 'Project Sponsor Rejected'),
         ], string='Status', readonly=False, index=True, copy=False, default='draft', tracking=True)
 
     name = fields.Char(string='Order Reference', readonly=True, required=True, index=True, copy=False, default='New')
