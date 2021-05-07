@@ -54,7 +54,7 @@
                         <field name="date"/>
                         <field name="employee_id"/>
                         <field name="prospective_partner_id"/>
-                        <field name="prospective_pm_id"/>
+                        <field name="prospective_pm_id" attrs="{'required': [('state', '=', 'approved')]}"/>
                     </group>
                         
                     <!-- <group string='Document(s)' col="2">
