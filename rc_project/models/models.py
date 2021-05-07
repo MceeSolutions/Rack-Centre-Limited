@@ -10,9 +10,9 @@ class Project(models.Model):
 
     state = fields.Selection([
         ('draft', 'New'),
-        ('submit', 'Submitted'),
+        ('start', 'Commenced'),
         ('approved', 'Approved'),
-        ], string='Status', readonly=False, index=True, copy=False, tracking=True)
+        ], string='Status', default='draft', readonly=False, index=True, copy=False, tracking=True)
     
     project_team_ids = fields.Many2many(comodel_name='hr.employee', string="Team Members")
 
@@ -22,6 +22,29 @@ class Project(models.Model):
     issue_log_count = fields.Integer(compute="issue_count",string="Issue Log")
     rfp_log_count = fields.Integer(compute="rfp_count",string="RFP's")
     wp_log_count = fields.Integer(compute="wp_count",string="WP's")
+
+    @api.model
+    def create(self, vals):
+        res = super(Project, self).create(vals)
+        res.action_launch()
+        return res 
+    
+    #option to create/schedule activity
+    def action_launch(self):
+        mail_activity_type_obj = self.env['mail.activity.type'].search([('category','=','upload_file')], limit=1)
+        date_deadline = self.env['mail.activity']._calculate_date_deadline(mail_activity_type_obj)
+        self.activity_schedule(
+            activity_type_id=mail_activity_type_obj.id,
+            summary='Upload Initiation Document for ' + self.name,
+            user_id=self.user_id.id,
+            date_deadline=date_deadline
+        )
+    
+    def commence_project(self):
+        self.state = 'start'
+    
+    def approve_project(self):
+        self.state = 'approve'
 
     def lessons_count(self):
         lessons_learned_obj = self.env['lessons.learned']
