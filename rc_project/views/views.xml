@@ -26,7 +26,7 @@
 
         <xpath expr="//header" position="inside">
           <button name="create_purchase_agreement" string="Create RFP" type="object"/>
-          <button name="create_wbs" string="Create WBS" type="object"/>
+          <button name="create_wbs" string="Create WBS" type="object" invisible="1"/>
         </xpath>
         
         <xpath expr="//button[hasclass('oe_stat_button')] [last()]" position="after">
@@ -58,6 +58,12 @@
               <div class="o_stat_info">
                 <field name="rfp_log_count" class="o_stat_value"/>
                 <span class="o_stat_text">RFP's</span>
+              </div>
+            </button>
+            <button class="oe_stat_button" type="object" name="open_wp" icon="fa-money">
+              <div class="o_stat_info">
+                <field name="wp_log_count" class="o_stat_value"/>
+                <span class="o_stat_text">WP &amp; Budget Sheet</span>
               </div>
             </button>
         </xpath>

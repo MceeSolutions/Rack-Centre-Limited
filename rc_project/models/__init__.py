@@ -9,3 +9,5 @@ from . import issue_form
 from . import rca_form
 from . import purchase_requisition
 from . import project_schedule
+from . import work_package
+from . import po_approval_request

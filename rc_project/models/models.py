@@ -21,6 +21,7 @@ class Project(models.Model):
     risk_identification_count = fields.Integer(compute="risk_count",string="Risk Identification")
     issue_log_count = fields.Integer(compute="issue_count",string="Issue Log")
     rfp_log_count = fields.Integer(compute="rfp_count",string="RFP's")
+    wp_log_count = fields.Integer(compute="wp_count",string="WP's")
 
     def lessons_count(self):
         lessons_learned_obj = self.env['lessons.learned']
@@ -115,7 +116,26 @@ class Project(models.Model):
 
     def open_rfp(self):
         self.ensure_one()
-        action = self.env.ref('purchase_requisition.action_purchase_requisition').read()[0]
+        action = self.env.ref('rc_project.rc_action_purchase_requisition').read()[0]
+        action['domain'] = literal_eval(action['domain'])
+        action['domain'].append(('project_id', '=', self.id))
+        return action
+
+    def wp_count(self):
+        wp_obj = self.env['work.package']
+        for wp in self:
+            domain = [('project_id', '=', wp.id)]
+            wp_obj_ids = wp_obj.search(domain)
+            browseed_ids = wp_obj.browse(wp_obj_ids)
+            wp_obj_count = 0
+            for id in browseed_ids:
+                wp_obj_count+=1
+            wp.wp_log_count= wp_obj_count
+        return True
+
+    def open_wp(self):
+        self.ensure_one()
+        action = self.env.ref('rc_project.rc_work_package_action_window').read()[0]
         action['domain'] = literal_eval(action['domain'])
         action['domain'].append(('project_id', '=', self.id))
         return action
