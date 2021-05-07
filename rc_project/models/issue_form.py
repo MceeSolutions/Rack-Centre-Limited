@@ -49,6 +49,22 @@ class IssueForm(models.Model):
             vals['ref'] = self.env['ir.sequence'].next_by_code('issue.form') or '/'
         return super(IssueForm, self).create(vals)
 
+    def button_wip(self):
+        self.write({'state': 'wip'})
+        subject = "Issue '{}', for {} is in Progress".format(self.name, self.project_id.name)
+        partner_ids = []
+        for partner in self.message_partner_ids:
+            partner_ids.append(partner.id)
+        self.message_post(subject=subject,body=subject,partner_ids=partner_ids)
+
+    def button_closed(self):
+        self.write({'state': 'closed'})
+        subject = "Issue '{}', for {} has been closed".format(self.name, self.project_id.name)
+        partner_ids = []
+        for partner in self.message_partner_ids:
+            partner_ids.append(partner.id)
+        self.message_post(subject=subject,body=subject,partner_ids=partner_ids)
+
     def rca_count(self):
         rca_form_obj = self.env['rca.form']
         for rca_form in self:

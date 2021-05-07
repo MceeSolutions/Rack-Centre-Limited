@@ -35,7 +35,11 @@
             <form string="Change Management">
                 <header>
                     <button name="button_submit_change" states="open" string="Submit Change Request" type="object"/>
-                    <field name="state" widget="statusbar" statusbar_visible="open,wip,closed" clickable="1"/>
+                    <button name="button_approve" states="submit" string="Approve" type="object" class="btn btn-primary"/>
+                    <button name="button_reject" states="submit" string="Reject" type="object" class="btn btn-danger"/>
+                    <button name="button_in_progress" states="approved" string="In Progress" type="object" class="btn btn-primary"/>
+                    <button name="button_closed" states="wip" string="Close" type="object" />
+                    <field name="state" widget="statusbar" statusbar_visible="open,approved,wip,closed" clickable="1"/>
                 </header>
                 <sheet>
                     <!-- <div class="oe_title">
