@@ -16,6 +16,8 @@ class Project(models.Model):
     
     project_team_ids = fields.Many2many(comodel_name='hr.employee', string="Team Members")
 
+    business_case_id = fields.Many2one(comodel_name='business.case', string="Business Case")
+
     lessons_learned_count = fields.Integer(compute="lessons_count",string="Lessons Learned")
     change_log_count = fields.Integer(compute="change_count",string="Change Management")
     risk_identification_count = fields.Integer(compute="risk_count",string="Risk Identification")
@@ -39,6 +41,17 @@ class Project(models.Model):
             user_id=self.user_id.id,
             date_deadline=date_deadline
         )
+        if self.business_case_id:
+            self.business_case_id.write({'project_ids': [(4, self.id)] })    
+    
+    def name_get(self):
+        res = []
+        for project in self:
+            result = project.name
+            if project.business_case_id.name:
+                result = str(project.business_case_id.name) + " " + "-" + " " + str(project.name)
+            res.append((project.id, result))
+        return res
     
     def commence_project(self):
         self.state = 'start'

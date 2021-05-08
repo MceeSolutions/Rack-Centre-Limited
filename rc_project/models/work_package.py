@@ -121,6 +121,11 @@ class WorkPackageLine(models.Model):
 
     wp_id = fields.Many2one(comodel_name='work.package')
 
+    display_type = fields.Selection([
+        ('line_section', "Section"),
+        ('line_note', "Note")], default=False, help="Technical field for UX purpose.")
+    
+    sequence = fields.Integer(string='Sequence', default=10)
     name = fields.Char(string='Cost Item')
     initial_budget_local = fields.Float(string='Initial Budget (Local Currency)')
     initial_budget_foreign = fields.Float(string='Initial Budget ($)')

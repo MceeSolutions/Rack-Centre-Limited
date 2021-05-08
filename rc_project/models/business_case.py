@@ -13,6 +13,10 @@ class BusinessCase(models.Model):
     def _default_employee(self):
         return self.env['hr.employee'].sudo().search([('user_id','=', self.env.uid)])
     
+    def _default_department(self): # this method is to search the hr.employee and return the user id of the person clicking the form atm
+        user = self.env['hr.employee'].sudo().search([('user_id','=',self.env.uid)])
+        return user.department_id.id
+    
     state = fields.Selection([
         ('draft', 'New'),
         ('submit', 'Submitted'),
@@ -27,19 +31,28 @@ class BusinessCase(models.Model):
     note = fields.Text(string="Notes", readonly=True, states={'draft': [('readonly', False)]})
     date = fields.Date(string='Date', required=True, tracking=True, default=date.today(), readonly=True, states={'draft': [('readonly', False)]})
     employee_id = fields.Many2one(comodel_name='hr.employee', required=True, string='Employee', tracking=True, default=_default_employee, readonly=True, states={'draft': [('readonly', False)]})
-    
+    department_id = fields.Many2one(comodel_name='hr.department', string='Department', default=_default_department)
+
     doc_id = fields.Binary(string='Document(s)', attachment=True)
 
-    prospective_partner_id = fields.Many2one(comodel_name="res.partner", string='Prospective Client')
-    prospective_pm_id = fields.Many2one(comodel_name="res.users", string='Prospective PM')
+    prospective_partner_id = fields.Many2one(comodel_name="res.partner", string='End User')
+    prospective_pm_id = fields.Many2one(comodel_name="res.users", string='PM')
 
     project_ids = fields.Many2many(comodel_name="project.project", string="Project", readonly=True)
     projects_count = fields.Integer(string="Projects", compute="count_projects")
 
+    category = fields.Selection([('internal', 'Internal'), ('external', 'External')], string='Category', tracking=True, default='internal', required=True)
+
     #Approvals
-    elt_manager_id = fields.Many2one(comodel_name="res.users", string='ELT Manager', readonly=True)
-    elt_approval_date = fields.Date(string='ELT Approval Date', readonly=True)
-    
+    md_manager_id = fields.Many2one(comodel_name="res.users", string='Managing Director', readonly=True)
+    md_approval_date = fields.Date(string='MD Approval Date', readonly=True)
+
+    fd_manager_id = fields.Many2one(comodel_name="res.users", string='Finance Director', readonly=True)
+    fd_approval_date = fields.Date(string='FD Approval Date', readonly=True)
+
+    coo_manager_id = fields.Many2one(comodel_name="res.users", string='Chief Operating Officer', readonly=True)
+    coo_approval_date = fields.Date(string='COO Approval Date', readonly=True)
+
     @api.model
     def create(self, vals):
         if vals.get('name', 'New') == 'New':
@@ -65,7 +78,7 @@ class BusinessCase(models.Model):
     #submit to elt manager
     def button_submit(self):
         self.write({'state': 'submit'})
-        group_id = self.env['ir.model.data'].xmlid_to_object('rc_base.group_elt')
+        group_id = self.env['ir.model.data'].xmlid_to_object('rc_base.group_coo', 'rc_base.group_md')
         partner_ids = []
         attachments = []
         for user in group_id.users:
@@ -79,8 +92,12 @@ class BusinessCase(models.Model):
     #approvals to be lnked to the appropriate group
     def button_approve(self):
         self.write({'state': 'approved'})
-        self.elt_manager_id = self.env.uid
-        self.elt_approval_date = date.today()
+        self.md_manager_id = self.env.uid
+        self.md_approval_date = date.today()
+        self.fd_manager_id = self.env.uid
+        self.fd_approval_date = date.today()
+        self.coo_manager_id = self.env.uid
+        self.coo_approval_date = date.today()
         subject = "Business Case '{}', from {} has been Approved".format(self.name, self.employee_id.name)
         partner_ids = []
         for partner in self.message_partner_ids:
@@ -131,16 +148,6 @@ class BusinessCase(models.Model):
         self.write({'state': 'waiting'})
         self.prospective_pm_id = False
 
-    #option to create new project
-    def create_project(self): 
-        vals = {                
-            'name': 'Project: ' + self.name,
-            'user_id': self.prospective_pm_id.id,
-            'partner_id': self.prospective_partner_id.id,    
-            }
-        project_obj = self.env['project.project'].create(vals)
-        self.project_ids += project_obj
-
     #option to create/schedule activity
     def action_launch(self):
         mail_activity_type_obj = self.env['mail.activity.type'].search([('category','=','upload_file')], limit=1)
@@ -151,3 +158,29 @@ class BusinessCase(models.Model):
             user_id=self.employee_id.user_id.id,
             date_deadline=date_deadline
         )
+
+    #option to create new project
+    def create_project(self):
+        """
+        Method to open new project form
+        """
+
+        view_ref = self.env['ir.model.data'].get_object_reference('project', 'edit_project')
+        view_id = view_ref[1] if view_ref else False
+        
+        res = {
+            'type': 'ir.actions.act_window',
+            'name': ('Project'),
+            'res_model': 'project.project',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'view_id': view_id,
+            'target': 'current',
+            'context': {
+                        'default_business_case_id': self.id, 
+                        'default_user_id': self.prospective_pm_id.id,
+                        'default_partner_id': self.prospective_partner_id.id,
+                        'default_message_main_attachment_id': self.message_main_attachment_id.id,
+                        }
+        }
+        return res

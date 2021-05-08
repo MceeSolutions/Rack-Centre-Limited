@@ -53,7 +53,9 @@
                     <group col="4">
                         <field name="date"/>
                         <field name="employee_id"/>
-                        <field name="prospective_partner_id"/>
+                        <field name="category" widget='radio' options="{'horizontal': true}" />
+                        <field name="prospective_partner_id" />
+                         <field name="department_id" attrs="{'required': [('category', '=', 'internal')]}"/>
                         <field name="prospective_pm_id" attrs="{'required': [('state', '=', 'approved')]}"/>
                     </group>
                         
@@ -65,9 +67,15 @@
                         <field name="note"/>
                     </group>
 
-                    <group string='Business Case Approval' col="4">
-                        <field name="elt_manager_id"/>
-                        <field name="elt_approval_date"/>
+                    <group string='ELT Approval' col="4">
+                        <field name="md_manager_id"/>
+                        <field name="md_approval_date"/>
+
+                        <field name="fd_manager_id"/>
+                        <field name="fd_approval_date"/>
+                        
+                        <field name="coo_manager_id"/>
+                        <field name="coo_approval_date"/>
                     </group>
                 </sheet>
                 <div class="oe_chatter">
