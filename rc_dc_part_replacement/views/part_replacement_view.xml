@@ -1,0 +1,120 @@
+<odoo>
+  <data>
+
+    <record id="view_tree_dc_part_replacement" model="ir.ui.view">
+      <field name="name">view.tree.dc.part.replacement</field>
+      <field name="model">rc_dc_part_replacement.part_replacement</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name" />
+          <field name="user_id" />
+          <field name="date_request" />
+          <field name="state" />
+        </tree>
+      </field>
+    </record>
+
+    <record id="view_form_dc_part_replacement" model="ir.ui.view">
+      <field name="name">view.form.dc.part.replacement</field>
+      <field name="model">rc_dc_part_replacement.part_replacement</field>
+      <field name="arch" type="xml">
+        <form string="DC Part Replacement">
+          <header>
+            <button name="submit" string="Submit" type="object" class="oe_highlight" states="draft" />
+            <button name="cancel" string="Cancel" type="object" class="oe_highlight" states="draft" />
+            <button name="validate" string="Validate" type="object" class="oe_highlight" states="open" groups="rc_dc_part_replacement.part_replacement_manager" />
+            <button name="approve" string="Approve" type="object" class="oe_highlight" states="validate" groups="rc_dc_part_replacement.part_replacement_officer" />
+            <button name="reject" string="Reject" type="object" class="btn-danger" states="open" />
+            <button name="reset_to_draft" string="Set to Draft" type="" class="btn-primary" states="reject,cancel" />
+            <field name="state" widget="statusbar" statusbar_visible="draft,open,validate,approve" />
+          </header>
+          <sheet>
+            <div class="oe_title">
+              <h1>
+                <field name="name" />
+              </h1>
+            </div>
+            <group>
+              <group>
+                <field name="user_id" />
+                <field name="date_request" />
+              </group>
+              <group>
+                <field name="description" />
+              </group>
+            </group>
+            <notebook>
+              <page string="Fault Lines" name="replacement_line">
+                <field name="line_ids" nolabel="1" />
+              </page>
+            </notebook>
+          </sheet>
+          <div class="oe_chatter">
+            <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+            <field name="message_ids" widget="mail_thread"/>
+          </div>
+        </form>
+      </field>
+    </record>
+
+    <record id="view_search_dc_part_replacement" model="ir.ui.view">
+      <field name="name">view.search.dc.part.replacement</field>
+      <field name="model">rc_dc_part_replacement.part_replacement</field>
+      <field name="arch" type="xml">
+        <search string="DC Part Replacement">
+          <field name="name" />
+          <field name="user_id" />
+          <field name="date_request"/>
+          <field name="state"/>
+          <field name="description"/>
+        </search>
+      </field>
+    </record>
+
+    <record id="dc_part_replacement_action" model="ir.actions.act_window">
+      <field name="name">DC Part Replacement</field>
+      <field name="res_model">rc_dc_part_replacement.part_replacement</field>
+      <field name="view_mode">tree,form</field>
+      <field name="help" type="html">
+        <p class="oe_no_content_create">Please click here to create a new part replacement request</p>
+      </field>
+    </record>
+
+    <menuitem id="menu_dc_part_replacement_root" name="DC Part Replacement" />
+    <menuitem id="menu_dc_part_replacement_child" name="DC Part Replacement" parent="menu_dc_part_replacement_root" sequence="1" />
+    <menuitem id="menu_dc_part_replacement_action" name="Part Replacement" parent="menu_dc_part_replacement_child" sequence="1" action="dc_part_replacement_action" />
+
+    <record id="view_tree_dc_part_replacement_line" model="ir.ui.view">
+      <field name="name">view.tree.dc.part.replacement.line</field>
+      <field name="model">rc_dc_part_replacement.part_replacement.line</field>
+      <field name="arch" type="xml">
+        <tree create="false" edit="false">
+          <field name="product_id" />
+          <field name="fault" />
+          <field name="date_request" string="Date" />
+        </tree>
+      </field>
+    </record>
+
+    <record id="view_search_dc_part_replacement_line" model="ir.ui.view">
+      <field name="name">view.search.dc.part.replacement.line</field>
+      <field name="model">rc_dc_part_replacement.part_replacement.line</field>
+      <field name="arch" type="xml">
+        <search string="DC Part Replacement Details">
+          <field name="product_id" />
+          <field name="fault" />
+          <field name="date_request"/>
+        </search>
+      </field>
+    </record>
+
+    <record id="dc_part_replacement_line_action" model="ir.actions.act_window">
+      <field name="name">DC Part Replacement Details</field>
+      <field name="res_model">rc_dc_part_replacement.part_replacement.line</field>
+      <field name="view_mode">tree</field>
+    </record>
+
+    <menuitem id="menu_dc_part_replacement_line_action" name="DC Part Replacement Details" parent="menu_dc_part_replacement_child" sequence="1" action="dc_part_replacement_line_action" />
+
+  </data>
+</odoo>

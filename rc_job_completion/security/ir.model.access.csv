@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_rc_job_completion_job_completion,rc_job_completion.job_completion,model_rc_job_completion_job_completion,base.group_user,1,1,1,1
+access_rc_job_completion_job_completion_line,rc_job_completion.job_completion_line,model_rc_job_completion_job_completion_line,base.group_user,1,1,1,1
