@@ -1,26 +1,25 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "Cash retirement",
+    'name': "DC Part Replacement",
 
     'summary': """
-        Employee Cash retirement""",
+        DC Part Replacement""",
 
     'description': """
-        Employee Cash retirement
+        DC Part Replacement
     """,
 
     'author': "MCEE Business Solutions",
     'website': "http://www.mceesolutions.com",
 
-    'category': 'Account',
+    'category': 'Uncategorized',
     'version': '0.1',
 
-    'depends': ['account', 'rc_cash_advance', 'rc_base'],
+    'depends': ['base', 'account_asset', 'product', "rc_data_centre"],
 
     'data': [
         'security/user_groups.xml',
-        'data/sequence.xml',
         'security/ir.model.access.csv',
-        'views/retirement_view.xml',
+        'views/part_replacement_view.xml',
     ],
 }

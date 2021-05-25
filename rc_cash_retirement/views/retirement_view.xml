@@ -10,6 +10,7 @@
         <field name="note"/>
         <field name="employee_id"/>
         <field name="department_id"/>
+        <field name="company_id"/>
         <field name="state"/>
       </field>
     </record>
@@ -22,10 +23,10 @@
         <form string="Cash retirement">
           <header>
             <button name="submit" string="Submit" class="oe_highlight" type="object" states="draft" />
-            <button name="mgr_approve" string="Approve" class="oe_highlight" type="object" groups="sunray_cash_advance.group_cash_advance_user" states="submit" />
+            <button name="mgr_approve" string="Approve" class="oe_highlight" type="object" groups="rc_cash_advance.group_cash_advance_user" states="submit" />
             <button name="finance_approve" string="Approve" class="oe_highlight" type="object" states="mgr_approve" groups="account.group_account_user" />
             <button name="post_entries" string="Post Journal Entries" class="oe_highlight" type="object" states="approve" groups="account.group_account_user"/>
-            <button name="button_reject" string="Reject" class="btn-danger" type="object" states="submit" groups="sunray_cash_advance.group_cash_advance_user"/>
+            <button name="button_reject" string="Reject" class="btn-danger" type="object" states="submit" groups="rc_cash_advance.group_cash_advance_user"/>
             <button name="button_reject" string="Reject" class="btn-danger" type="object" states="mgr_approve" groups="account.group_account_user"/>
             <button name="set_to_draft" string="Set to Draft" class="btn-danger" type="object" states="cancel" />
             <field name="state" widget="statusbar" readonly="1" />
@@ -79,6 +80,7 @@
               </page>
               <page string="Accounting Details">
                 <group>
+                  <field name="payment_account_id" />
                   <field name="journal_id" />
                 </group>
                 <group>

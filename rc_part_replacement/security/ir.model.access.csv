@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_rc_part_replacement_rc_part_replacement,rc_part_replacement.rc_part_replacement,model_rc_part_replacement_part_replacement,base.group_user,1,1,1,1
+access_rc_part_replacement_rc_part_replacement_line,rc_part_replacement.rc_part_replacement.line,rc_part_replacement.model_rc_part_replacement_part_replacement_line,base.group_user,1,1,1,1

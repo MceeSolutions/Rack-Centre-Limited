@@ -33,10 +33,10 @@ class CashAdvance(models.Model):
         ('approve', 'Finance Approved'),
         ('close', 'Retired'),
         ('cancel', 'Cancelled'),
-        ], string='Status', readonly=False, index=True, copy=False, default='draft', track_visibility='onchange')
+        ], string='Status', readonly=False, index=True, copy=False, default='draft', tracking='1')
 
-    date = fields.Date(string='Date', required=True, track_visibility='onchange', default=date.today(), readonly=True, states={'draft': [('readonly', False)]})
-    employee_id = fields.Many2one(comodel_name='hr.employee', required=True, readonly=True, string='Employee', track_visibility='onchange', states={'draft': [('readonly', False)]}, default=_default_employee)
+    date = fields.Date(string='Date', required=True, tracking='1', default=date.today(), readonly=True, states={'draft': [('readonly', False)]})
+    employee_id = fields.Many2one(comodel_name='hr.employee', required=True, readonly=True, string='Employee', tracking='1', states={'draft': [('readonly', False)]}, default=_default_employee)
     user_id = fields.Many2one(comodel_name='res.users', required=True, string='User', default=_get_user, readonly= True, states={'draft': [('readonly', False)]})
     manager_id = fields.Many2one(comodel_name="hr.employee", string="Employee Manager", compute="_get_employee_manager")
     department_id = fields.Many2one(comodel_name='hr.department', string='Department', related='employee_id.department_id', readonly=True, states={'draft': [('readonly', False)]})
@@ -47,6 +47,7 @@ class CashAdvance(models.Model):
     paid = fields.Boolean(string="Paid")
     move_id = fields.Many2one(comodel_name="account.move", string="Accounting Entry", readonly=True)
     journal_id = fields.Many2one(comodel_name="account.journal", string="Journal")
+    payment_account_id = fields.Many2one('account.account', string="Account")
 
     def _get_company(self):
         return self.env.user.company_id
@@ -136,7 +137,7 @@ class CashAdvance(models.Model):
                 'name': self.name,
                 'credit': self.total_amount > 0 and self.total_amount,
                 'debit': 0.0,
-                'account_id': self.journal_id.default_credit_account_id.id,
+                'account_id': self.payment_account_id.id,
                 'date_maturity': date.today(),
                 'partner_id': requesting_partner.id,
                 })

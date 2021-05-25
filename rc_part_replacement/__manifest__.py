@@ -1,26 +1,25 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "Cash retirement",
+    'name': "Part Replacement",
 
     'summary': """
-        Employee Cash retirement""",
+        Part Replacement""",
 
     'description': """
-        Employee Cash retirement
+        Long description of module's purpose
     """,
 
     'author': "MCEE Business Solutions",
     'website': "http://www.mceesolutions.com",
 
-    'category': 'Account',
+    'category': 'Uncategorized',
     'version': '0.1',
 
-    'depends': ['account', 'rc_cash_advance', 'rc_base'],
+    'depends': ['base', 'account_asset', 'product'],
 
     'data': [
         'security/user_groups.xml',
-        'data/sequence.xml',
         'security/ir.model.access.csv',
-        'views/retirement_view.xml',
+        'views/part_replacement_view.xml',
     ],
 }
