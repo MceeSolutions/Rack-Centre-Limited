@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="seq_business_case" model="ir.sequence">
+            <field name="name">Business Case</field>
+            <field name="code">business.case</field>
+            <field name="prefix">BC/%(year)s/</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_issue_form" model="ir.sequence">
+            <field name="name">Issue Form</field>
+            <field name="code">issue.form</field>
+            <field name="prefix">RC-PMO_RM-</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_rca_form" model="ir.sequence">
+            <field name="name">RCA Form</field>
+            <field name="code">rca.form</field>
+            <field name="prefix">RC-PMO_RCA-</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        
+        <record id="seq_po_approval_request_form" model="ir.sequence">
+            <field name="name">PO Approval Request</field>
+            <field name="code">po.approval.request</field>
+            <field name="prefix">PMO-PO-ARF-</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+    </data>
+</odoo>

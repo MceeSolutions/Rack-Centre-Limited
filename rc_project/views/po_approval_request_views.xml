@@ -1,0 +1,105 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+
+    <record model="ir.ui.view" id="rc_po_approval_request_list">
+      <field name="name">PO Approval Request</field>
+      <field name="model">po.approval.request</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="project_id"/>
+          <field name="employee_id"/>
+        </tree>
+      </field>
+    </record>
+
+    <!-- explicit form view definition -->
+    <record model="ir.ui.view" id="rc_po_approval_request_view">
+        <field name="name">po.approval.request.view</field>
+        <field name="model">po.approval.request</field>
+        <field name="priority" eval="2"/>
+        <field name="arch" type="xml">
+            <form string="PO Approval Request">
+                <header>
+                    <button name="button_submit" states="draft" string="Submit" type="object"/>
+                    <button name="button_approve" states="submit" string="Approve" type="object" class="btn btn-primary" groups="rc_project.group_psc"/>
+                    <button name="button_reject" states="submit" string="Reject" type="object" class="btn btn-danger" groups="rc_project.group_psc"/>
+                    <button name="button_reset" states="reject" string="Set to Draft" type="object" /> 
+                    
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submit,approved" readonly="1"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group col="4">
+                        <field name="description" />
+                        <field name="project_id"/>
+                        <field name="date_raised"/>
+                        <field name="employee_id"/>
+                        <field name="value_of_pof"/>
+                        <field name="po_type"/>
+                        <field name="project_status"/>
+                    </group>
+
+                    <group col="2">
+                        <field name="project_manager_comment"/>
+                        <field name="engineering_comment"/>
+                        <field name="commercial_comment"/>
+                        <field name="other_comments"/>
+                    </group>
+                        
+                    <group string='Information Attached' col="2">
+                        <field name="schedule" widget='radio' options="{'horizontal': true}" />
+                        <field name="cost" widget='radio' options="{'horizontal': true}"/>
+                        <field name="scope" widget='radio' options="{'horizontal': true}"/>
+                        <field name="other_atch" widget='radio' options="{'horizontal': true}"/>
+                    </group>
+
+                    <group string='Approval' col="4">
+                        <!-- <field name="pmo_manager_id"/>
+                        <field name="pmo_approval_date"/>
+
+                        <field name="coo_manager_id"/>
+                        <field name="coo_approval_date"/>
+
+                        <field name="finance_manager_id"/>
+                        <field name="finance_approval_date"/> -->
+
+                        <field name="psc_manager_id"/>
+                        <field name="psc_approval_date"/>
+                    </group>
+
+                </sheet>
+
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+
+            </form>
+        </field>
+    </record>
+
+    <!-- actions opening views on models -->
+
+    <record model="ir.actions.act_window" id="rc_po_approval_request_action_window">
+      <field name="name">PO Approval Request</field>
+      <field name="res_model">po.approval.request</field>
+      <field name="view_mode">tree,form</field>
+      <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+            let's create a PO Approval Request.
+            </p><p>
+            Once you have created your Request, submit it to Management who will validate it.
+            </p>
+        </field>
+    </record>
+
+  </data>
+</odoo>

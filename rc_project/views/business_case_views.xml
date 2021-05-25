@@ -1,0 +1,116 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+
+    <record model="ir.ui.view" id="rc_business_case_list">
+      <field name="name">Business Case</field>
+      <field name="model">business.case</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="date"/>
+          <field name="employee_id"/>
+          <field name="state"/>
+        </tree>
+      </field>
+    </record>
+
+    <!-- explicit form view definition -->
+    <record model="ir.ui.view" id="rc_business_case_view">
+        <field name="name">business.case.view</field>
+        <field name="model">business.case</field>
+        <field name="priority" eval="2"/>
+        <field name="arch" type="xml">
+            <form string="Business Case">
+                <header>
+                    <button name="button_submit" states="draft" string="Submit" type="object"/>
+                    <button name="button_approve" states="submit" string="Approve" type="object" class="btn btn-primary" groups="rc_base.group_elt"/>
+                    <button name="button_reject" states="submit" string="Reject" type="object" class="btn btn-danger" groups="rc_base.group_elt"/>
+                    <button name="button_reset" states="reject" string="Set to Draft" type="object" /> 
+                    
+                    <button name="button_submit_prospective_pm" states="approved" string="Submit Prospective PM" type="object"/>
+                    <button name="button_pm_approve" states="waiting" string="Approve" type="object" class="btn btn-primary" groups="rc_base.group_elt"/>
+                    <button name="button_pm_reject" states="waiting" string="Reject" type="object" class="btn btn-danger" groups="rc_base.group_elt"/>
+                    <button name="button_reset_pm" states="pm_reject" string="Set PM Selection to Draft" type="object" /> 
+                    
+                    <button name="create_project" states="pm_approved" string="Create Project" type="object"/> 
+                    
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submit,approved" readonly="1"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" type="object" name="action_view_projects" icon="fa-puzzle-piece">
+                            <div class="o_stat_info">
+                                <field name="projects_count" class="o_stat_value"/>
+                                <span class="o_stat_text">Project</span>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group col="4">
+                        <field name="date"/>
+                        <field name="employee_id"/>
+                        <field name="category" widget='radio' options="{'horizontal': true}" />
+                        <field name="prospective_partner_id" />
+                         <field name="department_id" attrs="{'required': [('category', '=', 'internal')]}"/>
+                        <field name="prospective_pm_id" attrs="{'required': [('state', '=', 'approved')]}"/>
+                    </group>
+                        
+                    <!-- <group string='Document(s)' col="2">
+                        <field name="doc_id" widget="file"/>
+                    </group> -->
+
+                    <group string='Notes'>
+                        <field name="note"/>
+                    </group>
+
+                    <group string='ELT Approval' col="4">
+                        <field name="md_manager_id"/>
+                        <field name="md_approval_date"/>
+
+                        <field name="fd_manager_id"/>
+                        <field name="fd_approval_date"/>
+                        
+                        <field name="coo_manager_id"/>
+                        <field name="coo_approval_date"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- actions opening views on models -->
+
+    <record model="ir.actions.act_window" id="rc_business_case_action_window">
+      <field name="name">Business Case</field>
+      <field name="res_model">business.case</field>
+      <field name="view_mode">tree,form</field>
+      <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+            let's create a new Business Case.
+            </p><p>
+            Once you have created your Business Case, submit it to Management who will validate it.
+            </p>
+        </field>
+    </record>
+
+
+    <!-- Top menu item -->
+
+    <menuitem
+        name="Business Case"
+        parent="project.menu_main_pm"
+        id="menu_rc_business_case" action="rc_business_case_action_window" sequence="1"/>
+
+  </data>
+</odoo>
