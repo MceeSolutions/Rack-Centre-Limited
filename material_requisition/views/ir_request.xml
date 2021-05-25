@@ -5,7 +5,7 @@
             <field name="name">material_requisition list</field>
             <field name="model">ir.request</field>
             <field name="arch" type="xml">
-                <tree colors="grey:state == 'done'">
+                <tree>
                     <field name="name"/>
                     <field name="requester"/>
                     <field name="end_user"/>
@@ -120,7 +120,7 @@
             </field>
         </record>
 
-        <menuitem name="Material Request" id="material_requisition_menu_root"/>
+        <menuitem name="Material Request" id="material_requisition_menu_root" parent="rc_data_centre.menu_data_centre" />
 
         <menuitem name="Requisition" id="material_requisition_menu_1" parent="material_requisition_menu_root"
                   action="material_requisition_action_window"/>

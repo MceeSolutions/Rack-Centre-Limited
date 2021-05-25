@@ -80,7 +80,7 @@
       </field>
     </record>
 
-    <menuitem id="menu_dc_part_replacement_root" name="DC Part Replacement" />
+    <menuitem id="menu_dc_part_replacement_root" name="DC Part Replacement" parent="rc_data_centre.menu_data_centre" />
     <menuitem id="menu_dc_part_replacement_child" name="DC Part Replacement" parent="menu_dc_part_replacement_root" sequence="1" />
     <menuitem id="menu_dc_part_replacement_action" name="Part Replacement" parent="menu_dc_part_replacement_child" sequence="1" action="dc_part_replacement_action" />
 
@@ -88,7 +88,7 @@
       <field name="name">view.tree.dc.part.replacement.line</field>
       <field name="model">rc_dc_part_replacement.part_replacement.line</field>
       <field name="arch" type="xml">
-        <tree create="false" edit="false">
+        <tree>
           <field name="product_id" />
           <field name="fault" />
           <field name="date_request" string="Date" />

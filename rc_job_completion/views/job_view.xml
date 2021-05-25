@@ -82,7 +82,7 @@
       <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem name="Job completion" id="rc_job_completion.menu_root"/>
+    <menuitem name="Job completion" id="rc_job_completion.menu_root" parent="rc_data_centre.menu_data_centre" />
     <menuitem name="Job Completioin" id="rc_job_completion.menu_child" parent="rc_job_completion.menu_root"/>
     <menuitem name="Job completion" id="rc_job_completion.menu_action" parent="rc_job_completion.menu_child" action="rc_job_completion.action_window"/>
 

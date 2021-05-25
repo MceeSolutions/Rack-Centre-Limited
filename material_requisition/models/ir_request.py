@@ -122,7 +122,7 @@ class IRRequest(models.Model):
             line.qty >= line.quantity for line in self.approve_request_ids
         )
 
-    @api.multi
+    
     def action_move_create(self):
         """Creates requisition related financial move lines"""
         account_move = self.env["account.move"]
@@ -224,7 +224,6 @@ class IRRequest(models.Model):
         return res
 
     @api.depends("approve_request_ids")
-    @api.one
     def _compute_availabilty(self):
         count_total = len(self.approve_request_ids)
         count_avail = len(
@@ -252,8 +251,8 @@ class IRRequest(models.Model):
         res = super(IRRequest, self).create(vals)
         return res
 
-    @api.multi
-    def submit(self, context):
+    
+    def submit(self):
         seq = self.env["ir.sequence"].next_by_code("ir.request")
         recipient = self.recipient("hod", self.hod)
         url = self.request_link()
@@ -261,31 +260,31 @@ class IRRequest(models.Model):
         mail_template.with_context({'recipient': recipient, 'url': url}).send_mail(self.id, force_send=True)
         self.write({"state": "submit", "name": seq})
 
-    @api.multi
-    def department_manager_approve(self, context):
+    
+    def department_manager_approve(self):
         if self:
-            approved = context.get("approved")
-            if not approved:
-                # send rejection mail to the author.
-                return {
-                    "type": "ir.actions.act_window",
-                    "res_model": "ir.request.wizard",
-                    "views": [[False, "form"]],
-                    "context": {"request_id": self.id},
-                    "target": "new",
-                }
-                self.write({"state": "draft"})
-            else:
-                # move to next level and send mail
-                url = self.request_link()
-                recipient = self.recipient(
-                    "department_manager", self.department_id
-                )
-                mail_template = self.env.ref('material_requisition.material_requisition_approval')
-                mail_template.with_context({'recipient': recipient, 'url': url}).send_mail(self.id, force_send=True)
-                self.write({"state": "approve"})
+            # approved = context.get("appoved")
+            # if not approved:
+            #     # send rejection mail to the author.
+            #     return {
+            #         "type": "ir.actions.act_window",
+            #         "res_model": "ir.request.wizard",
+            #         "views": [[False, "form"]],
+            #         "context": {"request_id": self.id},
+            #         "target": "new",
+            #     }
+            #     self.write({"state": "draft"})
+            # else:
+            # move to next level and send mail
+            url = self.request_link()
+            recipient = self.recipient(
+                "department_manager", self.department_id
+            )
+            mail_template = self.env.ref('material_requisition.material_requisition_approval')
+            mail_template.with_context({'recipient': recipient, 'url': url}).send_mail(self.id, force_send=True)
+            self.write({"state": "approve"})
 
-    @api.multi
+    
     def warehouse_officer_confirm_qty(self):
         """Forward the available quantity to warehouse officer."""
         if (
@@ -303,11 +302,11 @@ class IRRequest(models.Model):
         else:
             self.state = 'transfer'
 
-    @api.multi
+    
     def proceed_after_procurement(self):
         self.state = "approve"
 
-    @api.multi
+    
     def do_transfer(self):
         if self:
             src_location_id = self.src_location_id.id
@@ -454,7 +453,7 @@ class IRRequestApprove(models.Model):
             self.name = self.product_id.product_tmpl_id.name
 
     @api.depends("product_id")
-    @api.one
+    
     def _compute_qty(self):
         location_id = self.request_id.src_location_id.id
         product_id = self.product_id.id
@@ -464,7 +463,7 @@ class IRRequestApprove(models.Model):
         self.qty = sum([stock_quant.quantity for stock_quant in stock_quants])
 
     @api.depends("qty")
-    @api.one
+    
     def _compute_state(self):
         if self.qty <= 0:
             self.state = "not_available"
@@ -473,7 +472,7 @@ class IRRequestApprove(models.Model):
         else:
             self.state = "available"
 
-    @api.multi
+    
     def procure(self, context):
         product_id, quantity = self.product_id, self.quantity - self.qty
         requisition = self.env["purchase.requisition"]

@@ -1,0 +1,5 @@
+<odoo>
+  <data>
+    <menuitem id="menu_data_centre" name="Data Centre &amp; Facility" web_icon="rc_data_centre,static/description/icon.png"/>
+  </data>
+</odoo>

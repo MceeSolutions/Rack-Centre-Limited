@@ -9,7 +9,6 @@ class IRRequest(models.TransientModel):
 
     reason = fields.Text(string="Reason", required=True)
 
-    @api.multi
     def reject(self):
         request_id = self.env.context.get("request_id")
         if request_id:

@@ -12,7 +12,7 @@ class PartReplacement(models.Model):
     user_id = fields.Many2one(comodel_name="res.users", string="Requested by")
     date_request = fields.Date(string="Requested On")
     description = fields.Text(string="Additional Note")
-    asset_id = fields.Many2one(comodel_name="account.asset.asset")
+    asset_id = fields.Many2one(comodel_name="account.asset", string="Asset")
     state = fields.Selection(selection=[
         ('draft', 'New'),
         ('open', "Submitted"),

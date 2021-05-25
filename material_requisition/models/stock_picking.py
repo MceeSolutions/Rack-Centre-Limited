@@ -6,7 +6,7 @@ from odoo.tools.float_utils import float_compare, float_is_zero
 class Picking(models.Model):
     _inherit = "stock.picking"
 
-    @api.multi
+    
     def process_move(self):
         self.ensure_one()
         if not self.move_lines and not self.move_line_ids:

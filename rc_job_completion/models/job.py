@@ -15,7 +15,7 @@ class JobCompletion(models.Model):
     partner_id = fields.Many2one(comodel_name="res.partner", string="Contractor", required=True)
     user_id = fields.Many2one(comodel_name="res.users", string="Employee", default=_get_session_user, required=True)
     description = fields.Text(string="Summary of the work that was done")
-    signed_form = fields.Binary(string="Signed Form", readonly=True, states={'submit': [('readonly', False)]})
+    signed_form = fields.Binary(string="Signed Form", readonly=True, states={'draft': [('readonly', False)]})
     state = fields.Selection(selection=[
         ('draft', 'New'),
         ('submit', 'Submitted'),

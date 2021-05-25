@@ -1,7 +1,7 @@
 <odoo>
     <data>
         <record model="ir.module.category" id="part_replacement_category">
-            <field name="name">Part replacement</field>
+            <field name="name">DC Part replacement</field>
             <field name="sequence">100</field>
         </record>
 
