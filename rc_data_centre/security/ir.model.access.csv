@@ -1,2 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_rc_data_centre_rc_data_centre,rc_data_centre.rc_data_centre,model_rc_data_centre_rc_data_centre,base.group_user,1,1,1,1
+access_tool_management,access_tool_management,model_tool_management,base.group_user,1,1,1,1
+access_tool_management_line,access_tool_management_line,model_tool_management_line,base.group_user,1,1,1,1
+access_tool_tool,access_tool_tool,model_tool_tool,base.group_user,1,1,1,1
+access_material_gate_pass,access_material_gate_pass,model_material_gate_pass,base.group_user,1,1,1,1

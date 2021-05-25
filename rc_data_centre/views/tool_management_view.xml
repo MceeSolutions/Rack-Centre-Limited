@@ -1,0 +1,159 @@
+<odoo>
+    <data>
+
+        <record id="view_tree_tool_management" model="ir.ui.view">
+            <field name="name">view.tree.tool.management</field>
+            <field name="model">tool.management</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" />
+                    <field name="user_id" />
+                    <field name="date_request" />
+                    <field name="approver" />
+                    <field name="date_approve" />
+                    <field name="state" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_form_tool_management" model="ir.ui.view">
+            <field name="name">view.form.tool.management</field>
+            <field name="model">tool.management</field>
+            <field name="arch" type="xml">
+                <form string="Tool Management">
+                    <header>
+                        <button name="submit" string="Submit" type="object" class="oe_highlight" states="draft" />
+                        <button name="cancel" string="Cancel" type="object" class="oe_highlight" states="draft" />
+                        <button name="approve" string="Approve" type="object" class="oe_highlight" states="validate" />
+                        <button name="reject" string="Reject" type="object" class="btn-danger" states="open" />
+                        <button name="reset_to_draft" string="Set to Draft" type="" class="btn-primary" states="reject,cancel" />
+                        <field name="state" widget="statusbar" statusbar_visible="draft,open,validate,approve" />
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" />
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="user_id" />
+                                <field name="date_request" />
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Tools" name="tool_request_line">
+                                <field name="line_ids" nolabel="1" context="{'default_management_id': active_id}">
+                                    <tree editable="bottom">
+                                        <field name="tool_id" />
+                                        <field name="qty_request" />
+                                        <field name="qty_done" />
+                                    </tree>
+                                    <form>
+                                        <group>
+                                            <group>
+                                                <field name="tool_id" />
+                                                <field name="qty_request" />
+                                            </group>
+                                            <group>
+                                                <field name="qty_done" />
+                                                <field name="management_id" invisible="1" />
+                                            </group>
+                                        </group>
+                                    </form>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_search_tool_management" model="ir.ui.view">
+            <field name="name">view.search.tool.management</field>
+            <field name="model">tool.management</field>
+            <field name="arch" type="xml">
+                <search string="Tool Management">
+                    <field name="name" />
+                    <field name="user_id" />
+                    <field name="date_request"/>
+                    <field name="state"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="tool_management_action" model="ir.actions.act_window">
+            <field name="name">Tool Management</field>
+            <field name="res_model">tool.management</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_no_content_create">Please click here to create a new Tool Management request</p>
+            </field>
+        </record>
+
+        <record id="view_tree_tool_tool" model="ir.ui.view">
+            <field name="name">view.tree.tool.tool</field>
+            <field name="model">tool.tool</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" />
+                    <field name="description" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_form_tool_tool" model="ir.ui.view">
+            <field name="name">view.form.tool.tool</field>
+            <field name="model">tool.tool</field>
+            <field name="arch" type="xml">
+                <form string="Tool">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" />
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="description" />
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_search_tool_tool" model="ir.ui.view">
+            <field name="name">view.search.tool.tool</field>
+            <field name="model">tool.tool</field>
+            <field name="arch" type="xml">
+                <search string="Tool Management">
+                    <field name="name" />
+                    <field name="description"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="tool_tool_action" model="ir.actions.act_window">
+            <field name="name">Tool Management</field>
+            <field name="res_model">tool.tool</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_no_content_create">Please click here to create a new tool</p>
+            </field>
+        </record>
+
+        <menuitem id="menu_tool_management" name="Tool Management" parent="menu_data_centre" />
+        <menuitem id="menu_tool_request" name="Request Tools" parent="menu_tool_management" action="tool_management_action"/>
+        <menuitem id="menu_tool_return" name="Return Tools" parent="menu_tool_management" action="tool_management_action"/>
+        <menuitem id="menu_tool_tool" name="Tools" parent="menu_tool_management" action="tool_tool_action" />
+    </data>
+</odoo>
