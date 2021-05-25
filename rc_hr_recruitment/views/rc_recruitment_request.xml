@@ -29,7 +29,7 @@
                     <button name="button_approve" states="submit" string="Approve" type="object" class="btn btn-primary" groups="hr.group_hr_user"/>
                     <button name="button_reject" states="submit" string="Reject" type="object" class="btn btn-danger" groups="hr.group_hr_user"/>
                     <button name="button_reset" states="reject" string="Set to Draft" type="object" /> 
-                    <button name="create_job_position" string="Create Job Position" type="object" attrs="{'invisible': [('existing_job_position', '=', 'yes'), ('state', '=', 'approve')]}"/>/> 
+                    <button name="create_job_position" string="Create Job Position" type="object" attrs="{'invisible': [('existing_job_position', '=', 'yes'), ('state', '=', 'approve')]}"/> 
                     <field name="state" widget="statusbar" statusbar_visible="draft,submit,approve" readonly="1"/>
                 </header>
                 <sheet>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="rc_project_resource" model="ir.ui.view">
+            <field name="name">Project Resource</field>
+            <field name="model">project.resource.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <notebook colspan="4">
+                            <page string="Team">
+                                <group colspan="4" >
+                                    <separator string="Team Members" colspan="4"/>
+                                    <field name="project_team_ids" nolabel="1"/>
+                                </group>
+                            </page>
+                            <page string="Project">
+                                <group colspan="2" >
+                                    <field name="schedule_id" nolabel="0"/>
+                                    <field name="project_id" nolabel="0"/>
+                                    <field name="employee_id" nolabel="o"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <footer>
+                        <button name="action_assign" string="Assign Resource" type="object" class="oe_highlight" groups="rc_project.group_psa"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="rc_project_resource_wizard_action" model="ir.actions.act_window">
+            <field name="name">Project Resource</field>
+            <field name="res_model">project.resource.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+    </data>
+</odoo>
