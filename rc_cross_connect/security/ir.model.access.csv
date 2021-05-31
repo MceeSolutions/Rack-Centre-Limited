@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_rc_cross_connect,cross.connect,model_cross_connect,base.group_user,1,1,1,1
+access_rc_cross_connect_portal,cross.connect,model_cross_connect,base.group_portal,1,1,1,0

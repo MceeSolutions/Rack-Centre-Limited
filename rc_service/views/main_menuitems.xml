@@ -1,0 +1,11 @@
+<odoo>
+  <data>
+
+    <!-- Top menu item -->
+    <menuitem name="Command Centre &amp; Service Delivery" id="service_request_menu_root" web_icon="rc_service,static/description/icon.png"/>
+
+    <!-- menu categories -->
+    <!-- <menuitem name="Service Request" id="rc_service_menu" parent="service_request_menu_root"/> -->
+
+  </data>
+</odoo>

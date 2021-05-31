@@ -9,18 +9,30 @@
             <field name="arch" type="xml">
                 <xpath expr="//header" position="before">
                     <field name="is_for_project" invisible="1" />
+                    <field name="evaluated" invisible="1" />
                 </xpath>
                 <xpath expr="//header" position="inside">
                     <button name="create_pof" string="Create POF" type="object" states="open" attrs="{'invisible': ['|', ('is_for_project', '!=', True), ('state', '!=', 'open')]}"/>
+                    <button name="vendor_valuated" string="Vendor Valuation Done" type="object" states="open" attrs="{'invisible': ['|','|', ('is_for_project', '!=', True), ('state', '!=', 'open'), ('evaluated', '=', 'yes')]}"/>
+                </xpath>
+                <xpath expr="//div[hasclass('oe_button_box')] [last()]" position="after">
+                    <widget name="web_ribbon" title="Validated" attrs="{'invisible': [('evaluated', '=', 'no')]}"/>
                 </xpath>
                 <xpath expr="//button[hasclass('oe_stat_button')] [last()]" position="after">
-                    <button class="oe_stat_button" type="object" name="open_pof" icon="fa-list" attrs="{'invisible': [('is_for_project', '!=', True)]}">
+                    <button class="oe_stat_button" type="object" name="open_pof" icon="fa-list" attrs="{'invisible': [('is_for_project', '!=', True), ('pof_log_count', '=', 0)]}">
                         <div class="o_stat_info">
                             <field name="pof_log_count" class="o_stat_value"/>
                             <span class="o_stat_text">POF</span>
                         </div>
                     </button>
                 </xpath>
+                <xpath expr="//field[@name='vendor_id']" position="attributes">
+                    <attribute name="attrs">{'required':[('evaluated', '=', 'yes')]}</attribute>
+                </xpath>
+                <field name="vendor_id" position="after">
+                    <field name="business_need" attrs="{'invisible': [('is_for_project', '!=', True)]}"/>
+                    <field name="justification" attrs="{'invisible': [('is_for_project', '!=', True)], 'required': [('evaluated', '=', 'yes')]}"/>
+                </field>
             </field>
         </record>
 
