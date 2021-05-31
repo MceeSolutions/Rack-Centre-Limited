@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+from datetime import date
 from odoo import models, fields, api
 
 
@@ -8,9 +8,12 @@ class PartReplacement(models.Model):
     _description = 'Part Replacement'
     _inherit = 'mail.thread'
 
+    def get_session_user(self):
+        return self.env.uid
+
     name = fields.Char(string="Description...",)
-    user_id = fields.Many2one(comodel_name="res.users", string="Requested by")
-    date_request = fields.Date(string="Requested On")
+    user_id = fields.Many2one(comodel_name="res.users", string="Requested by", default=get_session_user)
+    date_request = fields.Date(string="Requested On", default=date.today())
     description = fields.Text(string="Additional Note")
     asset_id = fields.Many2one(comodel_name="account.asset", string="Asset")
     state = fields.Selection(selection=[
