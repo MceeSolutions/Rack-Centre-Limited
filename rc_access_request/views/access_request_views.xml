@@ -1,0 +1,108 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+
+    <record model="ir.ui.view" id="rc_access_request_list">
+      <field name="name">Access Request</field>
+      <field name="model">access.request</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="company_name"/>
+          <field name="designation"/>
+          <field name="purpose"/>
+          <field name="access_category"/>
+          <field name="start_date"/>
+          <field name="end_date"/>
+        </tree>
+      </field>
+    </record>
+
+    <!-- explicit form view definition -->
+    <record model="ir.ui.view" id="rc_access_request_view">
+        <field name="name">access.request.view</field>
+        <field name="model">access.request</field>
+        <field name="priority" eval="2"/>
+        <field name="arch" type="xml">
+            <form string="Access Request">
+                <header>
+                    <button name="button_submit" states="draft" string="Submit" type="object"/>
+                    <button name="button_approve" states="submit" string="Approve" type="object" class="btn btn-primary" groups="rc_base.group_elt"/>
+                    <button name="button_reject" states="submit" string="Reject" type="object" class="btn btn-danger" groups="rc_base.group_elt"/>
+                    <button name="button_reset" states="reject" string="Set to Draft" type="object" />   
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submit,approved" readonly="1"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group col="4">
+                        <field name="company_name"/>
+                        <field name="designation"/>
+                        <field name="purpose"/>
+                        <field name="access_category"/>
+                        <field name="start_date"/>
+                        <field name="end_date"/>
+                        <field name="start_time"/>
+                        <field name="end_time"/>
+                    </group>
+
+                    <group string="Areas to be Accessed" col="6">
+                        <field name="office_building"/>
+                        <field name="data_centre"/>
+                        <field name="dx_unit"/>
+                        <field name="dc_surroundings"/>
+                        <field name="staging_area"/>
+                        <field name="diesel_generator_area"/>
+                    </group>
+
+                    <group string='Notes'>
+                        <field name="additional_info"/>
+                    </group>
+
+                    <!-- <group string='ELT Approval' col="4">
+                        <field name="md_manager_id"/>
+                        <field name="md_approval_date"/>
+
+                        <field name="fd_manager_id"/>
+                        <field name="fd_approval_date"/>
+                        
+                        <field name="coo_manager_id"/>
+                        <field name="coo_approval_date"/>
+                    </group> -->
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- actions opening views on models -->
+
+    <record model="ir.actions.act_window" id="rc_access_request_action_window">
+      <field name="name">Access Request</field>
+      <field name="res_model">access.request</field>
+      <field name="view_mode">tree,form</field>
+      <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+            let's create a new Access Request.
+            </p><p>
+            Once you have created your Access Request, submit it to Management who will validate it.
+            </p>
+        </field>
+    </record>
+
+    <!-- Top menu item -->
+    <menuitem
+        name="Access Request"
+        parent="rc_service.service_request_menu_root"
+        id="menu_rc_access_request" action="rc_access_request_action_window" sequence="1"/>
+
+  </data>
+</odoo>

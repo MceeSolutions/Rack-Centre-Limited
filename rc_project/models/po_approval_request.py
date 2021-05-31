@@ -52,6 +52,8 @@ class POApprovalRequest(models.Model):
     # finance_manager_id = fields.Many2one(comodel_name="res.users", string='Finance Director', readonly=True)
     # finance_approval_date = fields.Date(string='Finance Director Approval Date', readonly=True)
 
+    purchase_requisition_id = fields.Many2one(comodel_name='purchase.requisition', string="RFP")
+
     psc_manager_id = fields.Many2one(comodel_name="res.users", string='PSC Manager', readonly=True)
     psc_approval_date = fields.Date(string='PSC Manager Approval Date', readonly=True)
 
@@ -78,6 +80,11 @@ class POApprovalRequest(models.Model):
         self.write({'state': 'approved'})
         self.psc_manager_id = self.env.uid
         self.psc_approval_date = date.today()
+
+
+        po = self.purchase_requisition_id.purchase_ids.search([('partner_id','=', self.purchase_requisition_id.vendor_id.id)], limit=1)
+        po.button_confirm()
+
         subject = "POF '{}', from {} has been Approved".format(self.name, self.employee_id.name)
         partner_ids = []
         for partner in self.message_partner_ids:

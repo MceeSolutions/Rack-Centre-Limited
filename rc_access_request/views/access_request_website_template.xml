@@ -1,0 +1,327 @@
+<odoo>
+    <data>
+
+        <record id="menu_access_request_form" model="website.menu">
+            <field name="name">Access Request</field>
+            <field name="url">/access_request</field>
+            <field name="parent_id" ref="website.main_menu"/>
+            <field name="sequence">55</field>
+        </record>
+    
+        <template id="create_access_request" name="Access Request">
+          <t t-call="website.layout">
+            <div id="wrap">
+                <div class="oe_structure">
+                    <div class="container">
+                        <br/>
+                        <h2 class="text-center"> Access Request Form </h2>
+                        <form role="form" action="/create/webaccessrequest" method="POST">
+                            <div class="s_website_form_rows row s_col_no_bgcolor">
+
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-6" data-type="char" data-name="Field">
+                                    <label class="s_website_form_label " style="width: 200px" for="name">
+                                        <span class="s_website_form_label_content">Name</span>
+                                        <span class="s_website_form_mark" style="color:Red;">*</span>
+                                    </label>
+                                    <input type="text" class="form-control s_website_form_input" name="name" required="1" t-att-value="default_values.get('name', '')" placeholder="" id="name"/>
+                                </div>
+
+                                <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-6" data-type="char" data-name="Field">
+                                    <label class="s_website_form_label " style="width: 200px" for="company_name">
+                                        <span class="s_website_form_label_content">Organization</span>
+                                        <span class="s_website_form_mark" style="color:Red;">*</span>
+                                    </label>
+                                    <input type="text" class="form-control s_website_form_input" name="company_name" t-att-value="default_values.get('company_name', '')" placeholder="" id="company_name"/>
+                                </div>
+
+                                <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-6" data-type="char" data-name="Field">
+                                    <label class="s_website_form_label " style="width: 200px" for="designation">
+                                        <span class="s_website_form_label_content">Designation</span>
+                                        <span class="s_website_form_mark" style="color:Red;">*</span>
+                                    </label>
+                                    <input type="text" class="form-control s_website_form_input" name="designation" required="1" placeholder="" id="designation"/>
+                                </div>
+
+                                <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-6" data-type="char" data-name="Field">
+                                    <label class="s_website_form_label " style="width: 200px" for="purpose">
+                                        <span class="s_website_form_label_content">Purpose</span>
+                                        <span class="s_website_form_mark" style="color:Red;">*</span>
+                                    </label>
+                                    <input type="text" class="form-control s_website_form_input" name="purpose" required="1" placeholder="" id="purpose"/>
+                                </div>
+
+                                <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-6" data-type="char" data-name="Field">
+                                    <label class="s_website_form_label " style="width: 200px" for="access_category">
+                                        <span class="s_website_form_label_content">Access Category</span>
+                                        <span class="s_website_form_mark" style="color:Red;">*</span>
+                                    </label>
+                                    <input type="text" class="form-control s_website_form_input" name="access_category" required="1" placeholder="" id="access_category"/>
+                                </div>
+
+                                <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-6" data-type="char" data-name="Field">
+                                    <label class="s_website_form_label " style="width: 200px" for="access_areas">
+                                        <span class="s_website_form_label_content">Areas to be accessed</span>
+                                        <span class="s_website_form_mark" style="color:Red;">*</span>
+                                    </label>
+                                        <div class="row s_col_no_resize s_col_no_bgcolor s_website_form_multiple" data-name="checkbox" data-display="horizontal">
+                                            
+                                            <div class="checkbox col-12 col-lg-4 col-md-6">
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="s_website_form_input form-check-input" id="office_building" name="office_building" value="office_building"/>
+                                                    <label class="form-check-label s_website_form_check_label" for="office_building">
+                                                        Office Building
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="checkbox col-12 col-lg-4 col-md-6">
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="s_website_form_input form-check-input" id="data_centre" name="data_centre" value="data_centre"/>
+                                                    <label class="form-check-label s_website_form_check_label" for="data_centre">
+                                                        Data Centre
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="checkbox col-12 col-lg-4 col-md-6">
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="s_website_form_input form-check-input" id="dx_unit" name="dx_unit" value="dx_unit"/>
+                                                    <label class="form-check-label s_website_form_check_label" for="dx_unit">
+                                                        DX Unit
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="checkbox col-12 col-lg-4 col-md-6">
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="s_website_form_input form-check-input" id="dc_surroundings" name="dc_surroundings" value="dc_surroundings"/>
+                                                    <label class="form-check-label s_website_form_check_label" for="dc_surroundings">
+                                                        DC Surroundings - RF shelter, teleport area, water chamber, etc.
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="checkbox col-12 col-lg-4 col-md-6">
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="s_website_form_input form-check-input" id="diesel_generator_area" name="diesel_generator_area" value="diesel_generator_area"/>
+                                                    <label class="form-check-label s_website_form_check_label" for="diesel_generator_area">
+                                                        Diesel &amp; Generator Area
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="checkbox col-12 col-lg-4 col-md-6">
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="s_website_form_input form-check-input" id="staging_area" name="staging_area" value="staging_area"/>
+                                                    <label class="form-check-label s_website_form_check_label" for="staging_area">
+                                                        Staging Area
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                </div>
+
+                                <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-6" data-type="date" data-name="Field">
+                                    <label class="s_website_form_label " style="width: 200px" for="start_date">
+                                        <span class="s_website_form_label_content">Start Date</span>
+                                        <span class="s_website_form_mark" style="color:Red;">*</span>
+                                    </label>
+                                    <input type="date" class="form-control s_website_form_input" name="start_date" required="1" placeholder="" id="start_date"/>
+                                </div>
+
+                                <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-6" data-type="char" data-name="Field">
+                                    <label class="s_website_form_label " style="width: 200px" for="end_date">
+                                        <span class="s_website_form_label_content">End Date</span>
+                                        <span class="s_website_form_mark" style="color:Red;">*</span>
+                                    </label>
+                                    <input type="date" class="form-control s_website_form_input" name="end_date" required="1" placeholder="" id="end_date"/>
+                                </div>
+
+                                <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-6" data-type="char" data-name="Field">
+                                    <label class="s_website_form_label " style="width: 200px" for="start_time">
+                                        <span class="s_website_form_label_content">Start Time</span>
+                                        <span class="s_website_form_mark" style="color:Red;">*</span>
+                                    </label>
+                                    <input type="time" class="form-control s_website_form_input" name="start_time" required="1" placeholder="" id="start_time"/>
+                                </div>
+
+                                <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-6" data-type="char" data-name="Field">
+                                    <label class="s_website_form_label " style="width: 200px" for="end_time">
+                                        <span class="s_website_form_label_content">End TIme</span>
+                                        <span class="s_website_form_mark" style="color:Red;">*</span>
+                                    </label>
+                                    <input type="time" class="form-control s_website_form_input" name="end_time" required="1" placeholder="" id="end_time"/>
+                                </div>
+
+                                <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-12" data-type="char" data-name="Field">
+                                    <label class="s_website_form_label " style="width: 200px" for="additional_info">
+                                        <span class="s_website_form_label_content">Addittional Information?</span>
+                                    </label>
+                                    <textarea id="additional_info" class="form-control s_website_form_input" name="additional_info" rows="3"/>
+                                </div>
+
+                                <div class="form-group col-12 text-center s_website_form_submit" data-name="Submit Button">
+                                    <div style="width: 200px;" class="s_website_form_label"/>
+                                    <button type="submit" href="#" role="button" class="btn btn-primary btn-lg s_website_form_send">Submit</button>
+                                    <span id="s_website_form_result"></span>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+          </t>
+        </template>
+
+        <template id="portal_layout" name="Portal layout: project menu entry" inherit_id="portal.portal_breadcrumbs" priority="60">
+            <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+                <li t-if="page_name == 'Access Requests' or access_request" class="col-lg-2" t-attf-class="breadcrumb-item #{'active ' if not access_request else ''}">
+                    <a t-if="access_request" t-attf-href="/my/access_requests?{{ keep_query() }}">Access Requests</a>
+                    <t t-else="">Access Requests</t>
+                </li>
+                <li t-if="access_request" class="breadcrumb-item active text-truncate col-8 col-lg-10">
+                    <t t-esc="access_request.name"/>
+                </li>
+            </xpath>
+        </template>
+
+        <template id="portal_my_home" name="Show Access Requests" customize_show="True" inherit_id="portal.portal_my_home" priority="60">
+            <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+                <t t-call="portal.portal_docs_entry">
+                    <t t-set="title">Access Requests</t>
+                    <t t-set="url" t-value="'/my/access_requests'"/>
+                    <t t-set="placeholder_count" t-value="'access_request_count'"/>
+                </t>
+            </xpath>
+        </template>
+
+        <template id="portal_my_access_requests" name="My Access Requests">
+            <t t-call="portal.portal_layout">
+                <t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+                <t t-call="portal.portal_searchbar">
+                    <t t-set="title">Access Requests</t>
+                </t>
+                <t t-if="not access_requests">
+                    <div class="alert alert-warning mt8" role="alert">
+                        There are no Access Requests. <a href="/access_request">Click Here</a> To create one.
+                    </div>
+                </t>
+                <t t-if="access_requests" t-call="portal.portal_table">
+                    <tbody>
+                        <tr t-foreach="access_requests" t-as="access_request">
+                            <td>
+                                <a t-attf-href="/my/access_request/#{access_request.id}?{{ keep_query() }}"><span t-field="access_request.name"/></a>
+                            </td>
+                            <td class="text-right">
+                                <span class="badge badge-pill badge-info" title="Current stage of the request" t-esc="access_request.state" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </t>
+                <br/>
+                <a href="/access_request" role="button" class="btn pull-right btn-primary">New Access Request</a>
+            </t>
+        </template>
+
+        <template id="portal_my_access_request" name="My Access Requests">
+            <t t-call="portal.portal_layout">
+                <t t-set="o_portal_fullwidth_alert" >
+                    <t t-call="portal.portal_back_in_edit_mode">
+                        <t t-set="backend_url" t-value="'/web#model=access.request&amp;id=%s&amp;view_type=form' % (access_request.id)"/>
+                    </t>
+                </t>
+
+                <t t-call="portal.portal_record_layout">
+                    <t t-set="card_header">
+                        <div class="row no-gutters">
+                            <div class="col-12">
+                                <h5 class="d-flex mb-1 mb-md-0 row">
+                                    <span t-field="access_request.name" class="col-9 text-truncate"/>
+                                    <small class="text-muted d-none d-md-inline"> (#<span t-field="access_request.id"/>)</small>
+                                    <div class="col-3 col-md-2 text-right">
+                                        <small class="text-right">Status:</small>
+                                        <span t-field="access_request.state" class=" badge badge-pill badge-info" title="Current stage of this Request"/>
+                                    </div>
+                                </h5>
+                            </div>
+                        </div>
+                    </t>
+                    <t t-set="card_body">
+
+                        <div class="row mb-4">
+                            <div class="col-12 col-md-6 mb-1">
+                                <strong>Organization:</strong> <span t-field="access_request.company_name"/>
+                            </div>
+                            <div class="col-12 col-md-6 mb-1">
+                                <strong>Designation:</strong> <span t-field="access_request.designation"/>
+                            </div>
+                            <div class="col-12 col-md-6 mb-1">
+                                <strong>Purpose:</strong> <span t-field="access_request.purpose" />
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <strong>Access Category:</strong> <span t-field="access_request.access_category"/>
+                            </div>
+                           
+                            <div class="col-12 col-md-6 mb-1">
+                                <strong>Start Date:</strong> <span t-field="access_request.start_date" t-options='{"widget": "date"}'/>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <strong>End Date:</strong> <span t-field="access_request.end_date" t-options='{"widget": "date"}'/>
+                            </div>
+                            
+                            <div class="col-12 col-md-6">
+                                <strong>Areas to be accessed:</strong> <br/>
+                                <ul>
+                                    <div t-if="access_request.office_building == True"> 
+                                        <li>Office Building</li>
+                                    </div>
+                                    <div t-if="access_request.data_centre == True"> 
+                                        <li>Data Centre</li> <br/>
+                                    </div>
+                                    <div t-if="access_request.dx_unit == True"> 
+                                        <li>DX Unit</li> <br/>
+                                    </div>
+                                    <div t-if="access_request.dc_surroundings == True"> 
+                                        <li>DC Surroundings - RF shelter, teleport area, water chamber, etc.</li> <br/>
+                                    </div>
+                                    <div t-if="access_request.staging_area == True"> 
+                                        <li>Staging Area</li> <br/>
+                                    </div>
+                                    <div t-if="access_request.diesel_generator_area == True"> 
+                                        <li>Diesel &amp; Generator Area</li> 
+                                    </div>
+                                </ul>
+                            </div>
+
+                        </div>
+
+                        
+                        <div class="row" t-if="access_request.additional_info">
+                            <div>
+                                <hr class="mb-1"/>
+                                <div class="d-flex my-2">
+                                    <strong>Addittional Information</strong>
+                                </div>
+                                <div class="py-1 px-2 bg-100 small" t-field="access_request.additional_info"/>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+
+                <div class="mt32">
+                    <h4><strong>Message and communication history</strong></h4>
+                    <t t-call="portal.message_thread">
+                        <t t-set="object" t-value="access_request"/>
+                        <t t-set="pid" t-value="pid"/>
+                        <t t-set="hash" t-value="hash"/>
+                    </t>
+                </div>
+            </t>
+        </template>
+        
+    </data>
+</odoo>
