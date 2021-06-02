@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+
+        <record id="rc_remote_hand_partner" model="ir.ui.view">
+			<field name="name">rc.remote.hands.res.partner</field>
+			<field name="model">res.partner</field>
+			<field name="inherit_id" ref="base.view_partner_form" />
+			<field name="arch" type="xml">
+                <div name="button_box" position="inside">
+                    <button class="oe_stat_button" type="object" name="action_view_remote_hands" icon="fa-handshake-o">
+                        <field string="Remote Hands" name="remote_hands_count" widget="statinfo"/>
+                    </button>
+                </div>
+                <field name="vat" position="after">
+                    <field name="free_remote_hands" />
+                </field>
+            </field>
+        </record>
+
+    </data>
+</odoo>

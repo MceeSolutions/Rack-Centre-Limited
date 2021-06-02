@@ -19,6 +19,8 @@
                             <div class="s_website_form_rows row s_col_no_bgcolor">
 
                                 <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <input type="hidden" name="partner_id" t-att-value="default_values.get('partner_id', '')" id="partner_id"/>
+                                
                                 <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-6" data-type="char" data-name="Field">
                                     <label class="s_website_form_label " style="width: 200px" for="name">
                                         <span class="s_website_form_label_content">Name</span>
@@ -207,7 +209,7 @@
                 </t>
                 <t t-if="not access_requests">
                     <div class="alert alert-warning mt8" role="alert">
-                        There are no Access Requests. <a href="/access_request">Click Here</a> To create one.
+                        You have no Access Requests. <a href="/access_request">Click Here</a> To make a request.
                     </div>
                 </t>
                 <t t-if="access_requests" t-call="portal.portal_table">
@@ -229,9 +231,9 @@
 
         <template id="portal_my_access_request" name="My Access Requests">
             <t t-call="portal.portal_layout">
-                <t t-set="o_portal_fullwidth_alert" >
+                <t t-set="o_portal_fullwidth_alert" groups="base.group_user">
                     <t t-call="portal.portal_back_in_edit_mode">
-                        <t t-set="backend_url" t-value="'/web#model=access.request&amp;id=%s&amp;view_type=form' % (access_request.id)"/>
+                        <t t-set="backend_url" t-value="'/web#model=access.request&amp;id=%s&amp;view_type=form' % (access_request.id)" />
                     </t>
                 </t>
 
@@ -272,8 +274,16 @@
                             <div class="col-12 col-md-6">
                                 <strong>End Date:</strong> <span t-field="access_request.end_date" t-options='{"widget": "date"}'/>
                             </div>
+
+                            <div class="col-12 col-md-6 mb-1">
+                                <strong>Start Time:</strong> <span t-field="access_request.start_time" t-options='{"widget": "time"}'/>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <strong>End Time:</strong> <span t-field="access_request.end_time" t-options='{"widget": "time"}'/>
+                            </div>
                             
                             <div class="col-12 col-md-6">
+                                <br/>
                                 <strong>Areas to be accessed:</strong> <br/>
                                 <ul>
                                     <div t-if="access_request.office_building == True"> 

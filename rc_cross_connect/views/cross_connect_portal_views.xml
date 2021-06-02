@@ -394,7 +394,7 @@
 
         <template id="portal_my_cross_connect" name="My Cross Connect">
             <t t-call="portal.portal_layout">
-                <t t-set="o_portal_fullwidth_alert" >
+                <t t-set="o_portal_fullwidth_alert" groups="base.group_user">
                     <t t-call="portal.portal_back_in_edit_mode">
                         <t t-set="backend_url" t-value="'/web#model=cross.connect&amp;id=%s&amp;view_type=form' % (cross_connect.id)"/>
                     </t>
@@ -432,59 +432,123 @@
                                 </div>
                             </div>
 
-                            <div class="col-12 col-md-6 mb-1">
+                            <!-- <div class="col-12 col-md-6 mb-1">
                                 <h6> Client Category </h6>
-                                <strong>Client (Cl):</strong> <span t-field="cross_connect.client_cl"/>
-                            </div>
+                                <strong>Client (Cl):</strong> <span t-field="cross_connect.client_cl" t-options='{"widget": "checkbox"}'/>
+                            </div> -->
 
-                        </div>
-                        <!-- <div class="row mb-4">
-                            <div class="col-12 col-md-6 mb-1">
-                                <strong>Organization:</strong> <span t-field="access_request.company_name"/>
-                            </div>
-                            <div class="col-12 col-md-6 mb-1">
-                                <strong>Designation:</strong> <span t-field="access_request.designation"/>
-                            </div>
-                            <div class="col-12 col-md-6 mb-1">
-                                <strong>Purpose:</strong> <span t-field="access_request.purpose" />
-                            </div>
                             <div class="col-12 col-md-6">
-                                <strong>Access Category:</strong> <span t-field="access_request.access_category"/>
-                            </div>
-                           
-                            <div class="col-12 col-md-6 mb-1">
-                                <strong>Start Date:</strong> <span t-field="access_request.start_date" t-options='{"widget": "date"}'/>
-                            </div>
-                            <div class="col-12 col-md-6">
-                                <strong>End Date:</strong> <span t-field="access_request.end_date" t-options='{"widget": "date"}'/>
-                            </div>
-                            
-                            <div class="col-12 col-md-6">
-                                <strong>Areas to be accessed:</strong> <br/>
+                                <br/>
+                                <strong>Client Category:</strong> <br/>
                                 <ul>
-                                    <div t-if="access_request.office_building == True"> 
-                                        <li>Office Building</li>
+                                    <div t-if="cross_connect.client_cl == True"> 
+                                        <li>Client (Cl)</li>
                                     </div>
-                                    <div t-if="access_request.data_centre == True"> 
-                                        <li>Data Centre</li> <br/>
+                                    <div t-if="cross_connect.carrier_ca == True"> 
+                                        <li>Carrier (Ca)</li>
                                     </div>
-                                    <div t-if="access_request.dx_unit == True"> 
-                                        <li>DX Unit</li> <br/>
+                                    <div t-if="cross_connect.indirect_client == True"> 
+                                        <li>Indirect Client (IDC)</li>
                                     </div>
-                                    <div t-if="access_request.dc_surroundings == True"> 
-                                        <li>DC Surroundings - RF shelter, teleport area, water chamber, etc.</li> <br/>
-                                    </div>
-                                    <div t-if="access_request.staging_area == True"> 
-                                        <li>Staging Area</li> <br/>
-                                    </div>
-                                    <div t-if="access_request.diesel_generator_area == True"> 
-                                        <li>Diesel &amp; Generator Area</li> 
+                                    <div t-if="cross_connect.ixpn == True"> 
+                                        <li>IXPN</li>
                                     </div>
                                 </ul>
                             </div>
 
-                        </div> -->
+                            <div class="col-12 col-md-6">
+                                <br/>
+                                <strong>Request Type:</strong> <br/>
+                                <ul>
+                                    <div t-if="cross_connect.new_installation == True"> 
+                                        <li>New Installation</li>
+                                    </div>
+                                    <div t-if="cross_connect.decommissioning == True"> 
+                                        <li>Decommissioning</li>
+                                    </div>
+                                    <div t-if="cross_connect.relocation == True"> 
+                                        <li>Relocation</li>
+                                    </div>
+                                </ul>
+                            </div>
 
+                            <div class="col-12 col-md-6">
+                                <br/>
+                                <strong>Service Options:</strong> <br/>
+                                <ul>
+                                    <div t-if="cross_connect.cl_ca == True"> 
+                                        <li>Cl-Ca</li>
+                                    </div>
+                                    <div t-if="cross_connect.ca_cl == True"> 
+                                        <li>Ca-Cl</li>
+                                    </div>
+                                    <div t-if="cross_connect.cl_cl == True"> 
+                                        <li>Cl-Cl</li>
+                                    </div>
+                                    <div t-if="cross_connect.ca_ca == True"> 
+                                        <li>Ca-Ca</li>
+                                    </div>
+                                    <div t-if="cross_connect.ca_ixpn == True"> 
+                                        <li>Ca-IXPN</li>
+                                    </div>
+                                    <div t-if="cross_connect.cl_ixpn == True"> 
+                                        <li>Cl-IXPN</li>
+                                    </div>
+                                    <div t-if="cross_connect.ixpn_ca == True"> 
+                                        <li>IXPN-CA</li>
+                                    </div>
+                                    <div t-if="cross_connect.ixpn_cl == True"> 
+                                        <li>IXPN-Cl</li>
+                                    </div>
+                                </ul>
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <br/>
+                                <strong>Technical Details:</strong> <br/>
+                                <ul>
+                                    <div t-if="cross_connect.requester == True"> 
+                                        <li>Requester</li>
+                                    </div>
+                                    <div t-if="cross_connect.destination == True"> 
+                                        <li>Destination</li>
+                                    </div>
+                                    <div t-if="cross_connect.fibre == True"> 
+                                        <li>Fibre (MM/SMF)</li>
+                                    </div>
+                                    <div t-if="cross_connect.cat6 == True"> 
+                                        <li>CAT 6 (RJ45)</li>
+                                    </div>
+                                    
+                                    <div t-if="cross_connect.number_of_xconnect"> 
+                                        <li><b>Number of X-connect: </b><span t-field="cross_connect.number_of_xconnect"/></li>
+                                    </div>
+                                    <div t-if="cross_connect.location_from"> 
+                                        <li><b>Location (From): </b><span t-field="cross_connect.location_from"/></li>
+                                    </div>
+                                    <div t-if="cross_connect.location_to"> 
+                                        <li><b>Location (To): </b><span t-field="cross_connect.location_to"/></li>
+                                    </div>
+                                </ul>
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <br/>
+                                <strong>Billing information:</strong> <br/>
+                                <ul>
+                                    <div t-if="cross_connect.billed_to_requester == True"> 
+                                        <li>Billed to Requester</li>
+                                    </div>
+                                    <div t-if="cross_connect.billed_to_recipient == True"> 
+                                        <li>Billed to Recipient</li>
+                                    </div>
+                                    <div t-if="cross_connect.waived == True"> 
+                                        <li>Waived</li>
+                                    </div>
+                                </ul>
+                            </div>
+
+                        </div>
                         
                         <div class="row" t-if="cross_connect.additional_info">
                             <div>

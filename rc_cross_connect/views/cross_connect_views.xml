@@ -36,10 +36,11 @@
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
-                        <button class="oe_stat_button" type="object" name="action_view_invoices" icon="fa-pencil-square-o">
+                        <button class="oe_stat_button" type="object" name="action_view_invoices" icon="fa-pencil-square-o" attrs="{'invisible': [('invoices_count', '=', 0)]}">
                             <div class="o_stat_info">
                                 <field name="invoices_count" class="o_stat_value"/>
-                                <span class="o_stat_text">Invoice</span>
+                                <span attrs="{'invisible': [('invoices_count','&gt;', 1)]}">Invoice</span>
+                                <span attrs="{'invisible': [('invoices_count','&lt;=', 1)]}">Invoices</span>
                             </div>
                         </button>
                     </div>

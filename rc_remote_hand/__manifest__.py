@@ -22,8 +22,10 @@
     # always loaded
     'data': [
         'security/ir.model.access.csv',
+        'security/remote_hand_security.xml',
         'data/sequence.xml',
         'views/remote_hand_views.xml',
         'views/remote_hand_portal_views.xml',
+        'views/res_partner_views.xml',
     ],
 }

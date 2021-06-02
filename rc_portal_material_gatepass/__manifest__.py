@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "Rack Centre Access Request Module",
+    'name': "Rack Centre Material Gatepass Portal Module",
 
     'summary': """
-        Access Request Module""",
+        Material Gatepass Portal""",
 
     'description': """
         
@@ -17,15 +17,12 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'rc_base', 'rc_service', 'website'],
+    'depends': ['base', 'rc_base', 'rc_service', 'rc_data_centre', 'website'],
 
     # always loaded
     'data': [
         'security/ir.model.access.csv',
-        'security/access_request_security.xml',
-        'data/sequence.xml',
-        'data/cron.xml',
-        'views/access_request_views.xml',
-        'views/access_request_website_template.xml',
+        'security/portal_material_gatepass.xml',
+        'views/portal_material_gatepass_views.xml',
     ],
 }

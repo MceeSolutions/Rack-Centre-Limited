@@ -2,6 +2,7 @@
 
 from datetime import date
 from odoo import models, fields, api, _
+from odoo.exceptions import UserError
 
 class CrossConnect(models.Model):
     _name = 'cross.connect'
@@ -35,7 +36,7 @@ class CrossConnect(models.Model):
     decommissioning = fields.Boolean(string='Decommissioning')
     relocation = fields.Boolean(string='Relocation')
 
-    #Service options
+    #Service Options
     cl_ca = fields.Boolean(string='Cl-Ca')
     ca_cl = fields.Boolean(string='Ca-Cl')
     cl_cl = fields.Boolean(string='Cl-Cl')
@@ -43,7 +44,7 @@ class CrossConnect(models.Model):
     ca_ixpn = fields.Boolean(string='Ca-IXPN')
     cl_ixpn = fields.Boolean(string='Cl-IXPN')
     ixpn_ca = fields.Boolean(string='IXPN-CA')
-    ixpn_cl = fields.Boolean(string='Ixpn-Cl')
+    ixpn_cl = fields.Boolean(string='IXPN-Cl')
 
     #Technical Details
     requester = fields.Boolean(string='Requester')
@@ -72,16 +73,28 @@ class CrossConnect(models.Model):
     finance_approval_date = fields.Date(string='Finanace Approval Date', readonly=True)
 
     data_centre_manager_id = fields.Many2one(comodel_name="res.users", string='Data Centre Manager', readonly=True)
-    data_centre_approval_date = fields.Date(string='Finanace Approval Date', readonly=True)
+    data_centre_approval_date = fields.Date(string='Data Centre Date', readonly=True)
 
     service_delivery_manager_id = fields.Many2one(comodel_name="res.users", string='Service Delivery Manager', readonly=True)
     service_delivery_approval_date = fields.Date(string='Service Delivery Manager Approval Date', readonly=True)
-
+    
     @api.model
     def create(self, vals):
         if vals.get('ref', 'New') == 'New':
             vals['ref'] = self.env['ir.sequence'].next_by_code('change.management') or '/'
-        return super(CrossConnect, self).create(vals) 
+        res = super(CrossConnect, self).create(vals)
+        res.action_alert_manager()
+        return res 
+    
+    #alerts cc
+    def action_alert_manager(self):
+        group_id = self.env['ir.model.data'].xmlid_to_object('rc_service.group_ccm')
+        partner_ids = []
+        for user in group_id.users:
+            partner_ids.append(user.partner_id.id)
+        self.message_subscribe(partner_ids=partner_ids)
+        subject = "A new Cross Connect Request '{}' with reference '{}', needs review".format(self.name, self.ref)
+        self.message_post(subject=subject,body=subject,partner_ids=partner_ids)
     
     def count_invoices(self):
         invoice_obj = self.env['account.move']
@@ -120,6 +133,9 @@ class CrossConnect(models.Model):
 
     #submit to Data Centre
     def button_finance_approve(self):
+        if self.partner_id.cross_connect_count > self.partner_id.free_cross_connects and self.invoices_count == 0:
+            raise UserError("This client no longer has free Cross Connects, Hence an invoice should be raised! ")
+
         self.write({'state': 'finance_approved'})
         self.finance_manager_id = self.env.uid
         self.finance_approval_date = date.today()

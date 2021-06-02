@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Scheduler for Resetting Access Request Number -->
+        <record forcecreate="True" id="ir_cron_access_request" model="ir.cron">
+            <field name="name">Access Request: Reset Number</field>
+            <field name="model_id" ref="base.model_ir_sequence"/>
+            <field name="state">code</field>
+            <field name="code">model._check_request_sequence()</field>
+            <field eval="True" name="active"/>
+            <field name="user_id" ref="base.user_root" />
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+        </record>
+
+    </data>
+</odoo>
