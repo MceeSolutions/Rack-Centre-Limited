@@ -93,7 +93,7 @@
     <record model="ir.actions.act_window" id="rc_access_request_action_window">
       <field name="name">Access Request</field>
       <field name="res_model">access.request</field>
-      <field name="view_mode">tree,form</field>
+      <field name="view_mode">tree,form,graph,pivot</field>
       <field name="domain">[]</field>
         <field name="context">{}</field>
         <field name="help" type="html">
