@@ -48,7 +48,9 @@ class ChangeManagement(models.Model):
     change_coordinator = fields.Many2one(comodel_name="res.users", string='Change Coordinator')
     change_manager = fields.Many2one(comodel_name="res.users", string='Change Manager')
 
-    submit_date = fields.Date(string='Submit Date')
+    submit_date = fields.Date(string='Submit Date', default=date.today())
+
+    additional_info = fields.Char(string='Additional Information')
 
     #Approvals
     change_coordinator_id = fields.Many2one(comodel_name="res.users", string='Change Coordinator', readonly=True)
@@ -62,17 +64,29 @@ class ChangeManagement(models.Model):
 
     director_operation_id = fields.Many2one(comodel_name="res.users", string='Director of Operations', readonly=True)
     director_operation_approval_date = fields.Date(string='Director of Operations Approval Date', readonly=True)
-
+    
     @api.model
     def create(self, vals):
         if vals.get('ref', 'New') == 'New':
             vals['ref'] = self.env['ir.sequence'].next_by_code('change.management') or '/'
-        return super(ChangeManagement, self).create(vals) 
+        res = super(ChangeManagement, self).create(vals)
+        res.action_alert_manager()
+        return res 
+    
+    #alerts cc
+    def action_alert_manager(self):
+        group_id = self.env['ir.model.data'].xmlid_to_object('rc_service.group_ccm')
+        partner_ids = []
+        for user in group_id.users:
+            partner_ids.append(user.partner_id.id)
+        self.message_subscribe(partner_ids=partner_ids)
+        subject = "A new Change Management Request '{}' with reference '{}', needs review".format(self.name, self.ref)
+        self.message_post(subject=subject,body=subject,partner_ids=partner_ids)
 
     #submit to change coordinator
     def button_submit(self):
         self.write({'state': 'submit'})
-        self.submit_date = date.today()
+        #self.submit_date = date.today()
         partner_ids = []
         if not self.change_coordinator:
             raise UserError(_('Please Specify the Change Coordinator.'))

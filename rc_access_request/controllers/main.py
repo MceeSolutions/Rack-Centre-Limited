@@ -11,7 +11,11 @@ class AccessRequest(http.Controller):
         default_values = {}
         if request.env.user.partner_id != request.env.ref('base.public_partner'):
             default_values['name'] = request.env.user.partner_id.name
-            default_values['company_name'] = request.env.user.partner_id.company_name
+            if request.env.user.partner_id.parent_id:
+                default_values['company_name'] = request.env.user.partner_id.parent_id.name
+            else:
+                default_values['company_name'] = request.env.user.partner_id.company_name
+            default_values['partner_id'] = request.env.user.partner_id.id
 
         return http.request.render('rc_access_request.create_access_request', {'default_values': default_values})
 

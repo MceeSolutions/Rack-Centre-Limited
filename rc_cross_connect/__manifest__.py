@@ -22,7 +22,9 @@
     # always loaded
     'data': [
         'security/ir.model.access.csv',
+        'security/cross_connect_security.xml',
         'views/cross_connect_views.xml',
         'views/cross_connect_portal_views.xml',
+        'views/res_partner_views.xml',
     ],
 }

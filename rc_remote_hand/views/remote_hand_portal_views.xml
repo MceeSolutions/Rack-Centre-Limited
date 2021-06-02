@@ -129,9 +129,9 @@
 
         <template id="portal_my_remote_hand" name="My Remote Hand">
             <t t-call="portal.portal_layout">
-                <t t-set="o_portal_fullwidth_alert" >
+                <t t-set="o_portal_fullwidth_alert" groups="base.group_user">
                     <t t-call="portal.portal_back_in_edit_mode">
-                        <t t-set="backend_url" t-value="'/web#model=cross.connect&amp;id=%s&amp;view_type=form' % (remote_hand.id)"/>
+                        <t t-set="backend_url" t-value="'/web#model=remote.hand&amp;id=%s&amp;view_type=form' % (remote_hand.id)"/>
                     </t>
                 </t>
 
@@ -152,7 +152,7 @@
                     </t>
                     <t t-set="card_body">
                         
-                        <div class="row">
+                        <!-- <div class="row">
 
                             <div t-if="cross_connect.partner_id" class="col-12 col-md-12 mb-2 mb-md-0">
                                 <h6>Client Details</h6>
@@ -172,13 +172,13 @@
                                 <strong>Client (Cl):</strong> <span t-field="cross_connect.client_cl"/>
                             </div>
 
-                        </div>
+                        </div> -->
 
                         <div class="row mb-4">
                             <div class="col-12 col-md-6 mb-1">
                                 <strong>Service ID:</strong> <span t-field="remote_hand.ref"/>
                             </div>
-                            <div class="col-12 col-md-6 mb-1">
+                            <div t-if="remote_hand.legend" class="col-12 col-md-6 mb-1">
                                 <strong>Legend:</strong> <span t-field="remote_hand.legend"/>
                             </div>
                             <div class="col-12 col-md-6 mb-1">
@@ -191,7 +191,7 @@
                                 <strong>Weekday:</strong> <span t-field="remote_hand.weekday"/>
                             </div>
                             <div class="col-12 col-md-6">
-                                <strong>Requested For:</strong> <span t-field="remote_hand.partner_id.name"/>
+                                <strong>Requested For:</strong> <span t-field="remote_hand.partner_id.company_name"/>
                             </div>
                             <div class="col-12 col-md-6">
                                 <strong>Implemented By:</strong> <span t-field="remote_hand.implemented_by.name"/>
@@ -201,10 +201,13 @@
                             </div> -->
                            
                             <div class="col-12 col-md-6 mb-1">
-                                <strong>RC Request Start Date &amp; Time:</strong> <span t-field="remote_hand.request_start_datetime" t-options='{"widget": "date"}'/>
+                                <strong>RC Request Start Date &amp; Time:</strong> <span t-field="remote_hand.request_start_datetime" t-options='{"widget": "datetime"}'/>
                             </div>
                             <div class="col-12 col-md-6">
-                                <strong>RC Resolution Date &amp; Time:</strong> <span t-field="remote_hand.resolution_date_time" t-options='{"widget": "date"}'/>
+                                <strong>RC Resolution Date &amp; Time:</strong> <span t-field="remote_hand.resolution_date_time" t-options='{"widget": "datetime"}'/>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <strong>TOTAL DURATION (H:M):</strong> <span t-field="remote_hand.total_duration" t-options='{"widget": "float_time"}'/>
                             </div>
                             
                             <!-- <div class="col-12 col-md-6">

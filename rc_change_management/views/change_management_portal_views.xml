@@ -35,6 +35,34 @@
                                     <input type="text" class="form-control s_website_form_input" name="name" required="1" placeholder="Change Request For..." id="name"/>
                                 </div>
 
+                                <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-6" data-type="char" data-name="Field">
+                                    <label class="s_website_form_label " style="width: 200px" for="change_type">
+                                        <span class="s_website_form_label_content">Change Type</span>
+                                        <span class="s_website_form_mark" style="color:Red;">*</span>
+                                    </label>
+                                    <input type="text" class="form-control s_website_form_input" name="change_type" placeholder="" id="change_type"/>
+                                </div>
+
+                                <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-6" data-type="char" data-name="Field">
+                                    <label class="s_website_form_label " style="width: 200px" for="change_category">
+                                        <span class="s_website_form_label_content">Change Category</span>
+                                        <span class="s_website_form_mark" style="color:Red;">*</span>
+                                    </label>
+                                    <select class="form-control o_website_form_input" name="change_category" id="change_category">
+                                        <option value="onboarding">Onboarding</option>
+                                        <option value="decommissioning">Decommissioning</option>
+                                        <option value="cross_connect">Cross-Connect</option>
+                                        <option value="others">Others</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-12" data-type="char" data-name="Field">
+                                    <label class="s_website_form_label " style="width: 200px" for="additional_info">
+                                        <span class="s_website_form_label_content">Comment/Additional information:</span>
+                                    </label>
+                                    <textarea id="additional_info" class="form-control s_website_form_input" name="additional_info" rows="3"/>
+                                </div>
+
                                 <div class="form-group col-12 text-center s_website_form_submit" data-name="Submit Button">
                                     <div style="width: 200px;" class="s_website_form_label"/>
                                     <button type="submit" href="#" role="button" class="btn btn-primary btn-lg s_website_form_send">Submit</button>

@@ -22,6 +22,8 @@
     # always loaded
     'data': [
         'security/ir.model.access.csv',
+        'security/change_management_security.xml',
+        'data/sequence.xml',
         'views/change_management_views.xml',
         'views/change_management_portal_views.xml',
     ],

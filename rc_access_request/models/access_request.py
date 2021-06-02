@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields
+from odoo import models, fields, api
 
 class AccessRequest(models.Model):
     _name = 'access.request'
@@ -15,8 +15,10 @@ class AccessRequest(models.Model):
         ('reject', 'Rejected'),
         ], string='Status', readonly=False, index=True, copy=False, default='draft', tracking=True)
 
-    name = fields.Char(string='Name', required=True, copy=False, default='New')
-    partner_id = fields.Many2one(comodel_name='res.partner', string='Organization', domain=[('company_type', '=', 'company')])
+    ref = fields.Char(string='Order Reference', readonly=True, required=True, index=True, copy=False, default='New')
+
+    name = fields.Char(string='Name', required=True)
+    partner_id = fields.Many2one(comodel_name='res.partner', string='Company', domain=[('company_type', '=', 'company')])
     company_name = fields.Char(string='Organization')
     designation = fields.Char(string='Designation')
     purpose = fields.Char(string='Purpose')
@@ -40,21 +42,39 @@ class AccessRequest(models.Model):
 
     additional_info = fields.Text(string='Additional Information')
 
-    #submit to elt manager
-    def button_submit(self):
-        self.write({'state': 'submit'})
-        group_id = self.env['ir.model.data'].xmlid_to_object('rc_base.group_coo', 'rc_base.group_md')
+    @api.model
+    def create(self, vals):
+        if vals.get('ref', 'New') == 'New':
+            vals['ref'] = self.env['ir.sequence'].next_by_code('access.request') or '/'
+        res = super(AccessRequest, self).create(vals)
+        res.action_alert_manager()
+        return res 
+    
+    #alerts cc
+    def action_alert_manager(self):
+        group_id = self.env['ir.model.data'].xmlid_to_object('rc_service.group_ccm')
         partner_ids = []
         for user in group_id.users:
             partner_ids.append(user.partner_id.id)
         self.message_subscribe(partner_ids=partner_ids)
-        subject = "Access Request for '{}', needs approval".format(self.name)
+        subject = "A new Access Request for '{}' with reference '{}', needs review".format(self.name, self.ref)
+        self.message_post(subject=subject,body=subject,partner_ids=partner_ids)
+
+    #submit to elt manager
+    def button_submit(self):
+        self.write({'state': 'submit'})
+        group_id = self.env['ir.model.data'].xmlid_to_object('rc_service.group_dc')
+        partner_ids = []
+        for user in group_id.users:
+            partner_ids.append(user.partner_id.id)
+        self.message_subscribe(partner_ids=partner_ids)
+        subject = "Access Request for '{}' with reference '{}', needs approval".format(self.name, self.ref)
         self.message_post(subject=subject,body=subject,partner_ids=partner_ids)
 
     #approvals to be lnked to the appropriate group
     def button_approve(self):
         self.write({'state': 'approved'})
-        subject = "Access Request for '{}', has been Approved".format(self.name)
+        subject = "Access Request for '{}' with reference '{}', has been Approved".format(self.name, self.ref)
         partner_ids = []
         for partner in self.message_partner_ids:
             partner_ids.append(partner.id)
@@ -62,7 +82,7 @@ class AccessRequest(models.Model):
     
     def button_reject(self):
         self.write({'state': 'reject'})
-        subject = "Access Request for '{}', has been rejected".format(self.name)
+        subject = "Access Request for '{}' with reference '{}', has been rejected".format(self.name, self.ref)
         partner_ids = []
         for partner in self.message_partner_ids:
             partner_ids.append(partner.id)
