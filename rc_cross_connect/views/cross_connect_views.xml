@@ -1,0 +1,147 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+
+    <record model="ir.ui.view" id="rc_cross_connect_list">
+      <field name="name">Cross Connect</field>
+      <field name="model">cross.connect</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="ref"/>
+          <field name="partner_id"/>
+          <field name="state"/>
+        </tree>
+      </field>
+    </record>
+
+    <!-- explicit form view definition -->
+    <record model="ir.ui.view" id="rc_cross_connect_view">
+        <field name="name">cross.connect.view</field>
+        <field name="model">cross.connect</field>
+        <field name="priority" eval="2"/>
+        <field name="arch" type="xml">
+            <form string="Cross Connect">
+                <header>
+                    <button name="button_submit" states="draft" string="Submit" type="object"/>
+
+                    <button name="create_invoice" string="Create Invoice" type="object" attrs="{'invisible': [('state', '!=', 'submit')]}"/>
+                    <button name="button_finance_approve" states="submit" string="Approve" type="object" class="btn btn-primary" />
+                    <button name="button_dc_approve" states="finance_approved" string="Approve" type="object" class="btn btn-primary" />
+                    <button name="button_approve" states="dc_approved" string="Approve" type="object" class="btn btn-primary" />
+                    
+                    <button name="button_reject" states="submit,finance_approved,dc_approved" string="Reject" type="object" class="btn btn-danger" />
+                    <button name="button_reset" states="reject" string="Set to Draft" type="object" />   
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submit,finance_approved,dc_approved,approved" readonly="1"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" type="object" name="action_view_invoices" icon="fa-pencil-square-o" attrs="{'invisible': [('invoices_count', '=', 0)]}">
+                            <div class="o_stat_info">
+                                <field name="invoices_count" class="o_stat_value"/>
+                                <span attrs="{'invisible': [('invoices_count','&gt;', 1)]}">Invoice</span>
+                                <span attrs="{'invisible': [('invoices_count','&lt;=', 1)]}">Invoices</span>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name"/></h1>
+                    </div>
+
+                    <group col="4" string="Client Details">
+                        <field name="partner_id" widget="res_partner_many2one" context="{'res_partner_search_mode': 'customer', 'show_address': 1, 'show_vat': True}" options="{&quot;always_reload&quot;: True}"/>
+                        <field name="ref"/>
+
+                        <field name="client_cl"/>
+                        <field name="carrier_ca"/>
+                        <field name="indirect_client"/>
+                        <field name="ixpn"/>
+                    </group>
+
+                    <group col="6" string="Request Type">
+                        <field name="new_installation"/>
+                        <field name="decommissioning"/>
+                        <field name="relocation"/>
+                    </group>
+
+                    <group col="6" string="Service Options">
+                        <field name="cl_ca"/>
+                        <field name="ca_cl"/>
+                        <field name="cl_cl"/>
+
+                        <field name="ca_ca"/>
+                        <field name="ca_ixpn"/>
+
+                        <field name="cl_ixpn"/>
+                        <field name="ixpn_ca"/>
+                        <field name="ixpn_cl"/>
+                    </group>
+
+                    <group col="4" string="Technical Details">
+                        <field name="requester"/>
+                        <field name="destination"/>
+                        <field name="fibre"/>
+                        <field name="cat6"/>
+                        <field name="number_of_xconnect"/>
+
+                        <field name="location_from"/>
+                        <field name="location_to"/>
+                    </group>
+
+                    <group col="6" string="Billing Information">
+                        <field name="billed_to_requester"/>
+                        <field name="billed_to_recipient"/>
+                        <field name="waived"/>
+                    </group>
+
+                    <group string='Notes'>
+                        <field name="additional_info"/>
+                    </group>
+
+                    <group string='Approval' col="4">
+                        <field name="finance_manager_id"/>
+                        <field name="finance_approval_date"/>
+
+                        <field name="data_centre_manager_id"/>
+                        <field name="data_centre_approval_date"/>
+                        
+                        <field name="service_delivery_manager_id"/>
+                        <field name="service_delivery_approval_date"/>
+                    </group>
+
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- actions opening views on models -->
+
+    <record model="ir.actions.act_window" id="rc_cross_connect_action_window">
+      <field name="name">Cross Connect</field>
+      <field name="res_model">cross.connect</field>
+      <field name="view_mode">tree,form,graph,pivot</field>
+      <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+            let's create a new Cross Connect Request.
+            </p><p>
+            Once you have created your Cross Connect Request, submit it to Management who will validate it.
+            </p>
+        </field>
+    </record>
+
+    <!-- Top menu item -->
+    <menuitem
+        name="Cross Connect"
+        parent="rc_service.service_request_menu_root"
+        id="menu_rc_cross_connect" action="rc_cross_connect_action_window" sequence="3"/>
+
+  </data>
+</odoo>

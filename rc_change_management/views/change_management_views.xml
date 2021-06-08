@@ -1,0 +1,112 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+
+    <record model="ir.ui.view" id="rc_change_management_request_list">
+      <field name="name">Change Management Request</field>
+      <field name="model">change.management.request</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="ref"/>
+          <field name="change_type"/>
+          <field name="change_category"/>
+          <field name="partner_id"/>
+          <field name="submit_date"/>
+          <field name="actual_start_date"/>
+          <field name="actual_end_date"/>
+          <field name="closure_date_time"/>
+          <field name="status"/>
+          <field name="state"/>
+        </tree>
+      </field>
+    </record>
+
+    <!-- explicit form view definition -->
+    <record model="ir.ui.view" id="rc_change_management_request_view">
+        <field name="name">change.management.request.view</field>
+        <field name="model">change.management.request</field>
+        <field name="priority" eval="2"/>
+        <field name="arch" type="xml">
+            <form string="Change Management">
+                <header>
+                    <button name="button_submit" states="draft" string="Submit" type="object"/>
+
+                    <button name="button_change_coordinator_approve" states="submit" string="Approve" type="object" class="btn btn-primary" />
+                    <button name="button_grc_analyst_approve" states="change_coordinator_approved" string="Approve" type="object" class="btn btn-primary" />
+                    <button name="button_service_delivery_approve" states="grc_analyst_approved" string="Approve" type="object" class="btn btn-primary" />
+                    <button name="button_director_operation_approve" states="service_delivery_approved" string="Approve" type="object" class="btn btn-primary" />
+                    <button name="button_approve" states="director_operation_approved" string="Approve Implementation" type="object" class="btn btn-primary" />
+                    
+                    <button name="button_reject" states="submit,change_coordinator_approved,grc_analyst_approved,service_delivery_approved,director_operation_approved" string="Reject" type="object" class="btn btn-danger" />
+                    <button name="button_reset" states="reject" string="Set to Draft" type="object" />   
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submit,change_coordinator_approved,grc_analyst_approved,service_delivery_approved,director_operation_approved,approved" readonly="1"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group col="4">
+                        <field name="ref"/>
+                        <field name="partner_id"/>
+                        <field name="change_type"/>
+                        <field name="change_category"/>
+                        <field name="submit_date"/>
+                        <field name="actual_start_date"/>
+                        <field name="actual_end_date"/>
+                        <field name="closure_date_time"/>
+                        <field name="status"/>
+                        <field name="change_coordinator"/>
+                        <field name="change_manager"/>
+                    </group>
+
+                    <group string='Approvals' col="4">
+                        <field name="change_coordinator_id"/>
+                        <field name="change_coordinator_approval_date"/>
+
+                        <field name="grc_analyst_id"/>
+                        <field name="grc_approval_date"/>
+                        
+                        <field name="service_delivery_manager_id"/>
+                        <field name="service_delivery_approval_date"/>
+
+                        <field name="director_operation_id"/>
+                        <field name="director_operation_approval_date"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- actions opening views on models -->
+
+    <record model="ir.actions.act_window" id="rc_change_management_request_action_window">
+      <field name="name">Change Management Request</field>
+      <field name="res_model">change.management.request</field>
+      <field name="view_mode">tree,form,graph,pivot</field>
+      <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+            let's create a new Change Management Request.
+            </p><p>
+            Once you have created your Change Management Request, submit it to Management who will validate it.
+            </p>
+        </field>
+    </record>
+
+
+    <!-- Top menu item -->
+    <menuitem
+        name="Change Management Request"
+        parent="rc_service.service_request_menu_root"
+        id="menu_rc_change_management_request" action="rc_change_management_request_action_window" sequence="2"/>
+
+  </data>
+</odoo>

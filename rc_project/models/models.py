@@ -12,6 +12,7 @@ class Project(models.Model):
         ('draft', 'New'),
         ('start', 'Commenced'),
         ('approved', 'Approved'),
+        ('close', 'Closed'),
         ], string='Status', default='draft', readonly=False, index=True, copy=False, tracking=True)
     
     project_team_ids = fields.Many2many(comodel_name='hr.employee', string="Team Members")

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+
+        <record id="rc_cross_connect_partner" model="ir.ui.view">
+			<field name="name">rc.cross.connect.res.partner</field>
+			<field name="model">res.partner</field>
+			<field name="inherit_id" ref="base.view_partner_form" />
+			<field name="arch" type="xml">
+                <div name="button_box" position="inside">
+                    <button class="oe_stat_button" type="object" name="action_view_cross_connects" icon="fa-circle-o-notch">
+                        <field string="Cross Connects" name="cross_connect_count" widget="statinfo"/>
+                    </button>
+                </div>
+                <field name="vat" position="after">
+                    <field name="free_cross_connects" />
+                </field>
+            </field>
+        </record>
+
+    </data>
+</odoo>
