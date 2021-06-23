@@ -5,7 +5,10 @@
     <menuitem name="Command Centre &amp; Service Delivery" id="service_request_menu_root" web_icon="rc_service,static/description/icon.png"/>
 
     <!-- menu categories -->
-    <!-- <menuitem name="Service Request" id="rc_service_menu" parent="service_request_menu_root"/> -->
+    <menuitem name="Change Requests" id="rc_change_request_service_menu" parent="service_request_menu_root" sequence="3"/>
+
+    <!-- Configuration -->
+    <menuitem name="Configuration" id="rc_service_menu_config" parent="service_request_menu_root" sequence="50"/>
 
   </data>
 </odoo>

@@ -13,7 +13,7 @@
                     </button>
                 </div>
                 <field name="vat" position="after">
-                    <field name="free_remote_hands" />
+                    <field name="free_remote_hands" widget="float_time"/>
                 </field>
             </field>
         </record>

@@ -99,6 +99,11 @@
                         <field name="additional_info"/>
                     </group>
 
+                    <group col="4">
+                        <field name="priority" widget="priority"/>
+                        <field name="change_type"/>
+                    </group>
+
                     <group string='Approval' col="4">
                         <field name="finance_manager_id"/>
                         <field name="finance_approval_date"/>
@@ -140,7 +145,7 @@
     <!-- Top menu item -->
     <menuitem
         name="Cross Connect"
-        parent="rc_service.service_request_menu_root"
+        parent="rc_service.rc_change_request_service_menu"
         id="menu_rc_cross_connect" action="rc_cross_connect_action_window" sequence="3"/>
 
   </data>

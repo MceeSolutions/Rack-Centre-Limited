@@ -19,7 +19,7 @@
                             <div class="s_website_form_rows row s_col_no_bgcolor">
 
                                 <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                                <input type="hidden" name="partner_id" t-att-value="default_values.get('partner_id', '')" id="partner_id"/>
+                                <!-- <input type="hidden" name="partner_id" t-att-value="default_values.get('partner_id', '')" id="partner_id"/> -->
 
                                 <div class="form-group s_website_form_field col-12 s_website_form_required" data-type="char" data-name="Field">
                                     <label class="s_website_form_label " style="width: 200px" for="name">
@@ -37,7 +37,7 @@
                                     <input type="text" class="form-control s_website_form_input" name="company_name" t-att-value="default_values.get('company_name', '')" placeholder="" id="company_name"/>
                                 </div> -->
 
-                                <div class="form-group s_website_form_field col-12 s_website_form_required" data-type="char" data-name="Field">
+                                <!-- <div class="form-group s_website_form_field col-12 s_website_form_required" data-type="char" data-name="Field">
                                     <label class="s_website_form_label " style="width: 200px" for="client_category">
                                         <span class="s_website_form_label_content">Client Category</span>
                                         <span class="s_website_form_mark" style="color:Red;">*</span>
@@ -81,7 +81,7 @@
                                             </div>
 
                                         </div>
-                                </div>
+                                </div> -->
 
                                 <div class="form-group s_website_form_field col-12 s_website_form_required" data-type="char" data-name="Field">
                                     <label class="s_website_form_label " style="width: 200px" for="request_type">
@@ -120,7 +120,7 @@
                                         </div>
                                 </div>
 
-                                <div class="form-group s_website_form_field col-12 s_website_form_required" data-type="char" data-name="Field">
+                                <!-- <div class="form-group s_website_form_field col-12 s_website_form_required" data-type="char" data-name="Field">
                                     <label class="s_website_form_label " style="width: 200px" for="service_options">
                                         <span class="s_website_form_label_content">Service Options: </span>
                                         <span class="s_website_form_mark" style="color:Red;">*</span>
@@ -209,7 +209,7 @@
                                             </div>
 
                                         </div>
-                                </div>
+                                </div> -->
 
                                 <div class="form-group s_website_form_field col-12 s_website_form_required" data-type="char" data-name="Field">
                                     <label class="s_website_form_label " style="width: 200px" for="technical_details">
@@ -218,7 +218,7 @@
                                     </label>
                                         <div class="row s_col_no_resize s_col_no_bgcolor s_website_form_multiple" data-name="checkbox" data-display="horizontal">
                                             
-                                            <div class="checkbox col-12 col-lg-6 col-md-6">
+                                            <!-- <div class="checkbox col-12 col-lg-6 col-md-6">
                                                 <div class="form-check">
                                                     <input type="checkbox" class="s_website_form_input form-check-input" id="requester" name="requester" value="requester"/>
                                                     <label class="form-check-label s_website_form_check_label" for="requester">
@@ -234,7 +234,7 @@
                                                         Destination
                                                     </label>
                                                 </div>
-                                            </div>
+                                            </div> -->
 
                                             <div class="checkbox col-12 col-lg-6 col-md-6">
                                                 <div class="form-check">
@@ -260,22 +260,29 @@
                                                     <label class="s_website_form_label " style="width: 200px" for="number_of_xconnect">
                                                         <span class="s_website_form_label_content">Number of X-connect: </span>
                                                     </label>
-                                                    <div class="col-sm">
+                                                    <select class="form-control o_website_form_input" name="number_of_xconnect" id="number_of_xconnect">
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                    </select>
+                                                    <!-- <div class="col-sm">
                                                         <input type="number" class="form-control s_website_form_input" name="number_of_xconnect" placeholder="" id="number_of_xconnect"/>
-                                                    </div>
+                                                    </div> -->
                                                 </div>
                                             </div>
 
                                             <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-6" data-type="char" data-name="Field">
                                                 <label class="s_website_form_label " style="width: 200px" for="location_from">
-                                                    <span class="s_website_form_label_content">Location (From)</span>
+                                                    <span class="s_website_form_label_content">Location (Source)</span>
                                                 </label>
                                                 <input type="text" class="form-control s_website_form_input" name="location_from" placeholder="" id="location_from"/>
                                             </div>
 
                                             <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-6" data-type="char" data-name="Field">
                                                 <label class="s_website_form_label " style="width: 200px" for="location_to">
-                                                    <span class="s_website_form_label_content">Location (To)</span>
+                                                    <span class="s_website_form_label_content">Location (Destination)</span>
                                                 </label>
                                                 <input type="text" class="form-control s_website_form_input" name="location_to" placeholder="" id="location_to"/>
                                             </div>
@@ -308,14 +315,14 @@
                                                 </div>
                                             </div>
 
-                                            <div class="checkbox col-12 col-lg-4 col-md-6">
+                                            <!-- <div class="checkbox col-12 col-lg-4 col-md-6">
                                                 <div class="form-check">
                                                     <input type="checkbox" class="s_website_form_input form-check-input" id="waived" name="waived" value="waived"/>
                                                     <label class="form-check-label s_website_form_check_label" for="waived">
                                                         (c) Waived
                                                     </label>
                                                 </div>
-                                            </div>
+                                            </div> -->
 
                                         </div>
                                 </div>
@@ -569,25 +576,6 @@
                         <t t-set="pid" t-value="pid"/>
                         <t t-set="hash" t-value="hash"/>
                     </t>
-                </div>
-            </t>
-        </template>
-
-        <template id="cross_connect_submited" name="Cross Connect Received">
-            <t t-call="website.layout">
-                <div id="wrap" class="oe_structure oe_empty">
-                    <div class="container">
-                        <div class="row">
-                            <t t-if="request.session.get('form_builder_model_model', '') == 'cross.connect'">
-                                <t t-set="ticket" t-value="request.website._website_form_last_record().sudo()"/>
-                            </t>
-                            <h1 class="text-center"><i class="fa fa-check-circle fa-2x text-success" role="img" aria-label="Success" title="Success"/></h1>
-                            <t t-if="cross_connect">
-                                <h1 class="text-center">Your Request Number is <a t-if="request.session.uid" t-attf-href="/my/cross_connect/#{cross_connect.id}">#<span t-field="cross_connect.id"/></a><t t-if="not request.session.get('uid')">#<span t-field="cross_connect.id"/></t>.</h1>
-                            </t>
-                            <h1 class="text-center">Thank you for submitting your Request, our team will get right on it!</h1>
-                        </div>
-                    </div>
                 </div>
             </t>
         </template>

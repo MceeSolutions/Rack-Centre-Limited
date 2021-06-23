@@ -17,7 +17,7 @@ class CrossConnect(http.Controller):
     @http.route('/create/cross_connect', type="http", auth='user', website=True)
     def cross_connect(self, **kw):
         request.env['cross.connect'].sudo().create(kw)
-        return http.request.render('rc_cross_connect.cross_connect_submited', {})
+        return http.request.render('rc_service.request_submited', {})
 
 class CustomerPortal(CustomerPortal):
 

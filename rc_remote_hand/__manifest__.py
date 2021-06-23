@@ -17,7 +17,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'rc_base', 'rc_service', 'website'],
+    'depends': ['base', 'rc_base', 'rc_service', 'website', 'timer'],
 
     # always loaded
     'data': [

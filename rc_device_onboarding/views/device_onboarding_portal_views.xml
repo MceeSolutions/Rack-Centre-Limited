@@ -1,0 +1,547 @@
+<odoo>
+    <data>
+
+        <record id="menu_device_onboarding_form" model="website.menu">
+            <field name="name">Device Onboarding</field>
+            <field name="url">/device_onboarding</field>
+            <field name="parent_id" ref="website.main_menu"/>
+            <field name="sequence">95</field>
+        </record>
+
+        <template id="assets_backend" name="device onboarding" inherit_id="web.assets_frontend">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/rc_device_onboarding/static/src/js/main.js"></script>
+            </xpath>
+        </template>
+
+        <template id="create_device_onboarding" name="Device Onboarding">
+          <t t-call="website.layout">
+            <div id="wrap">
+                <div class="oe_structure">
+                    <div class="container">
+                        <br/>
+                        <h2 class="text-center"> Service Request Form </h2>
+                        <form role="form" action="/create/device_onboarding" method="POST" enctype="multipart/form-data">
+                            <div class="s_website_form_rows row s_col_no_bgcolor">
+
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <input type="hidden" name="partner_id" t-att-value="default_values.get('partner_id', '')" id="partner_id"/>
+                                <input type="hidden" name="user_id" t-att-value="default_values.get('user_id', '')" id="user_id"/>
+
+                                <div class="form-group s_website_form_field col-12 s_website_form_required" data-type="char" data-name="Field">
+                                    <label class="s_website_form_label " style="width: 200px" for="name">
+                                        <span class="s_website_form_label_content">Subject</span>
+                                        <span class="s_website_form_mark" style="color:Red;">*</span>
+                                    </label>
+                                    <input type="text" class="form-control s_website_form_input" name="name" required="1" placeholder="Service Request For..." id="name"/>
+                                </div>
+                                
+                                <h4 class="col-12 text-center"><b>Channel Partner Details</b></h4>
+                                <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-6" data-type="char" data-name="Field">
+                                    <label class="s_website_form_label " style="width: 200px" for="partner_name">
+                                        <span class="s_website_form_label_content">Partner Name</span>
+                                        <span class="s_website_form_mark" style="color:Red;">*</span>
+                                    </label>
+                                    <input type="text" class="form-control s_website_form_input" name="partner_name" t-att-value="default_values.get('partner_name', '')" placeholder="" id="partner_name"/>
+                                </div>
+
+                                <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-6" data-type="char" data-name="Field">
+                                    <label class="s_website_form_label " style="width: 200px" for="contact_person">
+                                        <span class="s_website_form_label_content">Contact Person</span>
+                                        <span class="s_website_form_mark" style="color:Red;">*</span>
+                                    </label>
+                                    <input type="text" class="form-control s_website_form_input" name="contact_person" t-att-value="default_values.get('name', '')" placeholder="" id="contact_name"/>
+                                </div>
+
+                                <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-12" data-type="char" data-name="Field">
+                                    <label class="s_website_form_label " style="width: 200px" for="contact_email">
+                                        <span class="s_website_form_label_content">Email Address</span>
+                                        <span class="s_website_form_mark" style="color:Red;">*</span>
+                                    </label>
+                                    <input type="text" class="form-control s_website_form_input" name="contact_email" t-att-value="default_values.get('email', '')" placeholder="" id="contact_email"/>
+                                </div>
+
+                                <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-6" data-type="char" data-name="Field">
+                                    <label class="s_website_form_label " style="width: 200px" for="contact_tel">
+                                        <span class="s_website_form_label_content">Telephone Numbers</span>
+                                        <span class="s_website_form_mark" style="color:Red;">*</span>
+                                    </label>
+                                    <input type="tel" class="form-control s_website_form_input" name="contact_tel" t-att-value="default_values.get('phone', '')" placeholder="" id="contact_tel"/>
+                                </div>
+
+                                <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-6" data-type="char" data-name="Field">
+                                    <label class="s_website_form_label " style="width: 200px" for="date">
+                                        <span class="s_website_form_label_content">Date</span>
+                                        <span class="s_website_form_mark" style="color:Red;">*</span>
+                                    </label>
+                                    <input type="date" class="form-control s_website_form_input" name="date" placeholder="" id="date"/>
+                                </div>
+
+                                <h4 class="col-12 text-center"><b>Customer Details</b></h4>
+                                <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-6" data-type="char" data-name="Field">
+                                    <label class="s_website_form_label " style="width: 200px" for="company_name">
+                                        <span class="s_website_form_label_content">Client Organization Name</span>
+                                        <span class="s_website_form_mark" style="color:Red;">*</span>
+                                    </label>
+                                    <input type="text" class="form-control s_website_form_input" name="company_name" t-att-value="default_values.get('company_name', '')" placeholder="" id="company_name"/>
+                                </div>
+                                <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-6" data-type="char" data-name="Field">
+                                    <label class="s_website_form_label " style="width: 200px" for="partner_contact_person">
+                                        <span class="s_website_form_label_content">Contact Person</span>
+                                        <span class="s_website_form_mark" style="color:Red;">*</span>
+                                    </label>
+                                    <input type="text" class="form-control s_website_form_input" name="partner_contact_person" t-att-value="default_values.get('name', '')" id="partner_contact_person"/>
+                                </div>
+                                <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-12" data-type="char" data-name="Field">
+                                    <label class="s_website_form_label " style="width: 200px" for="partner_business_address">
+                                        <span class="s_website_form_label_content">Business Address</span>
+                                        <span class="s_website_form_mark" style="color:Red;">*</span>
+                                    </label>
+                                    <input type="text" class="form-control s_website_form_input" name="partner_business_address" id="partner_business_address"/>
+                                </div>
+                                <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-6" data-type="char" data-name="Field">
+                                    <label class="s_website_form_label " style="width: 200px" for="partner_contact_email">
+                                        <span class="s_website_form_label_content">Email Address</span>
+                                        <span class="s_website_form_mark" style="color:Red;">*</span>
+                                    </label>
+                                    <input type="text" class="form-control s_website_form_input" name="partner_contact_email" t-att-value="default_values.get('email', '')" id="partner_contact_email"/>
+                                </div>
+                                <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-6" data-type="char" data-name="Field">
+                                    <label class="s_website_form_label " style="width: 200px" for="partner_contact_tel">
+                                        <span class="s_website_form_label_content">Telephone Numbers</span>
+                                        <span class="s_website_form_mark" style="color:Red;">*</span>
+                                    </label>
+                                    <input type="tel" class="form-control s_website_form_input" name="partner_contact_tel" id="partner_contact_tel"/>
+                                </div>
+
+                                
+                                <div class="equipments">
+                                    <h4>Equipment Description</h4>
+                                    <div class="row">
+                                        <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-3" data-type="char" data-name="Field" data-display="horizontal">
+                                            <label class="s_website_form_label " style="width: 200px" for="equipment_manufacturer">
+                                                <span class="s_website_form_label_content">Manufacturer</span>
+                                            </label>
+                                            <input type="text" class="form-control s_website_form_input" name="equipment_manufacturer"/>
+                                        </div>
+                                         <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-2" data-type="char" data-name="Field">
+                                            <label class="s_website_form_label " style="width: 200px" for="equipment_model">
+                                                <span class="s_website_form_label_content">Model</span>
+                                            </label>
+                                            <input type="text" class="form-control s_website_form_input" name="equipment_model"/>
+                                        </div>
+                                         <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-2" data-type="char" data-name="Field">
+                                            <label class="s_website_form_label " style="width: 200px" for="equipment_serial_numbers">
+                                                <span class="s_website_form_label_content">Serial Number</span>
+                                            </label>
+                                            <input type="text" class="form-control s_website_form_input" name="equipment_serial_numbers"/>
+                                        </div>
+
+                                        <div class="form-group s_website_form_field col-12 s_website_form_custom col-lg-3" data-type="selection" data-name="Field">
+                                            <label class="s_website_form_label" for="equipment_power_requirements">
+                                                <span class="s_website_form_label_content">Power Requirements AC/DC Voltage</span>
+                                            </label>
+                                            <div class="row s_col_no_resize s_col_no_bgcolor s_website_form_multiple" data-display="vertical">
+                                                <div class="radio col-12 ">
+                                                    <div class="form-check">
+                                                        <input type="radio" class="s_website_form_input form-check-input" value="ac_single_phase" name="equipment_power_requirements"/>
+                                                        <label class="form-check-label s_website_form_check_label" for="equipment_power_requirements">
+                                                            AC: Single Phase
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="radio col-12 ">
+                                                    <div class="form-check">
+                                                        <input type="radio" class="s_website_form_input form-check-input" value="three_phase" name="equipment_power_requirements"/>
+                                                        <label class="form-check-label s_website_form_check_label" for="equipment_power_requirements">
+                                                            Three Phase
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="radio col-12 ">
+                                                    <div class="form-check">
+                                                        <input type="radio" class="s_website_form_input form-check-input" value="dc_voltage" name="equipment_power_requirements"/>
+                                                        <label class="form-check-label s_website_form_check_label" for="equipment_power_requirements">
+                                                            DC: Voltage
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-2" data-type="char" data-name="Field">
+                                            <label class="s_website_form_label " style="width: 200px" for="equipment_power">
+                                                <span class="s_website_form_label_content">Power (w)</span>
+                                            </label>
+                                            <input type="text" class="form-control s_website_form_input" name="equipment_power"/>
+                                        </div>
+                                        <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-2" data-type="char" data-name="Field">
+                                            <label class="s_website_form_label " style="width: 200px" for="equipment_u_space">
+                                                <span class="s_website_form_label_content">U-Space</span>
+                                            </label>
+                                            <input type="text" class="form-control s_website_form_input" name="equipment_u_space"/>
+                                        </div>
+                                        
+                                        <div class="form-group s_website_form_field col-12 s_website_form_custom col-lg-3" data-type="selection" data-name="Field">
+                                            <label class="s_website_form_label " for="equipment_power_redendancy">
+                                                <span class="s_website_form_label_content">Power Redundancy Y/N</span>
+                                            </label>
+                                            <div class="row s_col_no_resize s_col_no_bgcolor s_website_form_multiple" data-display="vertical">
+                                                <div class="radio col-12 ">
+                                                    <div class="form-check">
+                                                        <input type="radio" id="equipment_power_redendancy" class="s_website_form_input form-check-input" value="single" name="equipment_power_redendancy"/>
+                                                        <label class="form-check-label s_website_form_check_label" for="equipment_power_redendancy">
+                                                            Single
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="radio col-12 ">
+                                                    <div class="form-check">
+                                                        <input type="radio" class="s_website_form_input form-check-input" value="dual" name="equipment_power_redendancy"/>
+                                                        <label class="form-check-label s_website_form_check_label" for="equipment_power_redendancy">
+                                                            Dual
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group s_website_form_field col-12 s_website_form_custom col-lg-3" data-type="selection" data-name="Field">
+                                            <label class="s_website_form_label " for="equipment_type_of_airflow">
+                                                <span class="s_website_form_label_content">Type of Airflow</span>
+                                            </label>
+                                            <div class="row s_col_no_resize s_col_no_bgcolor s_website_form_multiple" data-display="vertical">
+                                                <div class="radio col-12 ">
+                                                    <div class="form-check">
+                                                        <input type="radio" class="s_website_form_input form-check-input" value="front_to_back" name="equipment_type_of_airflow"/>
+                                                        <label class="form-check-label s_website_form_check_label" for="equipment_type_of_airflow">
+                                                            Airflow:  Front to Back
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="radio col-12 ">
+                                                    <div class="form-check">
+                                                        <input type="radio" class="s_website_form_input form-check-input" value="others" name="equipment_type_of_airflow"/>
+                                                        <label class="form-check-label s_website_form_check_label" for="equipment_type_of_airflow">
+                                                            Specify others
+                                                        </label>
+                                                        <!-- <input type="text" class="form-control s_website_form_input" name="equipment_airflow_others"/> -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-4" data-type="char" data-name="Field">
+                                            <label class="s_website_form_label " for="equipment_rack_mountkits_avilable">
+                                                <span class="s_website_form_label_content">Rack Rails / mount / Rack Conversion Kit &amp; IEC C13 - C14 / C19 - C20 Cables Available</span>
+                                            </label>
+                                            <input type="text" class="form-control s_website_form_input" name="equipment_rack_mountkits_avilable"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p><a id="add-more-equipments" href="#" class="pull-left">+ Add more</a></p>
+          
+                                <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-12" data-type="char" data-name="Field">
+                                    <label class="s_website_form_label " style="width: 200px" for="additional_info">
+                                        <span class="s_website_form_label_content">Comment/Additional information:</span>
+                                    </label>
+                                    <textarea id="additional_info" class="form-control s_website_form_input" name="additional_info" rows="3"/>
+                                </div>
+
+                                <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-12" data-type="binary" data-name="Field">
+                                    <label class="s_website_form_label " style="width: 300px" for="topology_planning_form">
+                                        <span class="s_website_form_label_content">Upload Rack Topology Planning Form</span>
+                                        <span class="s_website_form_mark" style="color:Red;">*</span>
+                                        <a class="fa fa-download" href="/download_rack_topology_planning_form"> Download Template</a>
+                                    </label>
+                                    <input type="file" class="form-control-file s_website_form_input" required="1" name="topology_planning_form" />
+                                </div>
+
+                            </div>
+
+                            <h4>Project Implementation Plan</h4>
+                            <div class="tasks">
+                                <div class="row">
+                                    <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-3" data-type="char" data-name="Field">
+                                        <label class="s_website_form_label " style="width: 200px" for="task_name">
+                                            <span class="s_website_form_label_content">Task</span>
+                                        </label>
+                                        <input type="text" class="form-control s_website_form_input" name="task_name"/>
+                                    </div>
+                                    <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-3" data-type="char" data-name="Field">
+                                        <label class="s_website_form_label " style="width: 200px" for="task_start_date">
+                                            <span class="s_website_form_label_content">Start Date &amp; Time</span>
+                                        </label>
+                                        <input type="datetime-local" class="form-control s_website_form_input" name="task_start_date"/>
+                                    </div>
+                                    <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-3" data-type="char" data-name="Field">
+                                        <label class="s_website_form_label " style="width: 200px" for="task_end_date">
+                                            <span class="s_website_form_label_content">End Date &amp; Time</span>
+                                        </label>
+                                        <input type="datetime-local" class="form-control s_website_form_input" name="task_end_date"/>
+                                    </div>
+                                    <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-3" data-type="char" data-name="Field">
+                                        <label class="s_website_form_label " style="width: 200px" for="task_assigned_resource">
+                                            <span class="s_website_form_label_content">Assigned Resource(s)</span>
+                                        </label>
+                                        <input type="text" class="form-control s_website_form_input" name="task_assigned_resource"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <p><a id="add-more-tasks" href="#" class="pull-right">+ Add more</a></p>
+
+                            <div class="form-group col-12 text-center s_website_form_submit" data-name="Submit Button">
+                                <div style="width: 200px;" class="s_website_form_label"/>
+                                <button type="submit" href="#" role="button" class="btn btn-primary btn-lg s_website_form_send">Submit</button>
+                                <span id="s_website_form_result"></span>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+          </t>
+        </template>
+
+        <template id="portal_layout" name="Portal layout: device onboarding menu entry" inherit_id="portal.portal_breadcrumbs" priority="60">
+            <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+                <li t-if="page_name == 'Device Onboardings' or device_onboarding" class="col-lg-2" t-attf-class="breadcrumb-item #{'active ' if not device_onboarding else ''}">
+                    <a t-if="device_onboarding" t-attf-href="/my/device_onboardings?{{ keep_query() }}">Device Onboarding</a>
+                    <t t-else="">Device Onboarding</t>
+                </li>
+                <li t-if="device_onboarding" class="breadcrumb-item active text-truncate col-8 col-lg-10">
+                    <t t-esc="device_onboarding.name"/>
+                </li>
+            </xpath>
+        </template>
+
+        <template id="portal_my_home1" name="Show device onboardings" customize_show="True" inherit_id="portal.portal_my_home" priority="60">
+            <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+                <t t-call="portal.portal_docs_entry">
+                    <t t-set="title">Device Onboardings</t>
+                    <t t-set="url" t-value="'/my/device_onboardings'"/>
+                    <t t-set="placeholder_count" t-value="'device_onboarding_count'"/>
+                </t>
+            </xpath>
+        </template>
+
+        <template id="portal_my_device_onboardings" name="My Device Onboardings">
+            <t t-call="portal.portal_layout">
+                <t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+                <t t-call="portal.portal_searchbar">
+                    <t t-set="title">Device Onboarding</t>
+                </t>
+                <t t-if="not device_onboardings">
+                    <div class="alert alert-warning mt8" role="alert">
+                        You have no device onboarding(s). <a href="/device_onboarding">click here</a> to create one.
+                    </div>
+                </t>
+                <t t-if="device_onboardings" t-call="portal.portal_table">
+                    <tbody>
+                        <tr t-foreach="device_onboardings" t-as="device_onboarding">
+                            <td>
+                                <a t-attf-href="/my/device_onboarding/#{device_onboarding.id}?{{ keep_query() }}"><span t-field="device_onboarding.name"/></a>
+                            </td>
+                            <td class="text-right">
+                                <span class="badge badge-pill badge-info" title="Current stage of the request" t-esc="device_onboarding.state" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </t>
+                <br/>
+                <a href="/device_onboarding" role="button" class="btn pull-right btn-primary">New Device Onboarding Request</a>
+            </t>
+        </template>
+
+        <template id="portal_my_device_onboarding" name="My Device Onboarding">
+            <t t-call="portal.portal_layout">
+                <t t-set="o_portal_fullwidth_alert" groups="base.group_user">
+                    <t t-call="portal.portal_back_in_edit_mode">
+                        <t t-set="backend_url" t-value="'/web#model=device.onboarding&amp;id=%s&amp;view_type=form' % (device_onboarding.id)"/>
+                    </t>
+                </t>
+
+                <t t-call="portal.portal_record_layout">
+                    <t t-set="card_header">
+                        <div class="row no-gutters">
+                            <div class="col-12">
+                                <h5 class="d-flex mb-1 mb-md-0 row">
+                                    <span t-field="device_onboarding.name" class="col-9 text-truncate"/>
+                                    <small class="text-muted d-none d-md-inline"> (#<span t-field="device_onboarding.id"/>)</small>
+                                    <div class="col-3 col-md-2 text-right">
+                                        <small class="text-right">Status:</small>
+                                        <span t-field="device_onboarding.state" class=" badge badge-pill badge-info" title="Current stage of this Request"/>
+                                    </div>
+                                </h5>
+                            </div>
+                        </div>
+                    </t>
+                    <t t-set="card_body">
+        
+                        <div class="row mb-4">
+                            <!-- <strong>Channel Partner Details</strong> <br/> -->
+                            <div class="col-12 col-md-6 mb-1">
+                                <strong>Partner Name:</strong> <span t-field="device_onboarding.partner_name"/>
+                            </div>
+                            <div class="col-12 col-md-6 mb-1">
+                                <strong>Contact Person:</strong> <span t-field="device_onboarding.contact_person"/>
+                            </div>
+                            <div class="col-12 col-md-6 mb-1">
+                                <strong>Contact Email:</strong> <span t-field="device_onboarding.contact_email"/>
+                            </div>
+                            <div class="col-12 col-md-6 mb-1">
+                                <strong>Contact Telephone:</strong> <span t-field="device_onboarding.contact_tel"/>
+                            </div>
+                            <div class="col-12 col-md-6 mb-1">
+                                <strong>Date:</strong> <span t-field="device_onboarding.date" />
+                            </div>
+                            
+                        </div>
+
+                        <div class="row mb-4">
+                            <strong>Customer Details:</strong> <br/>
+                            <div t-if="device_onboarding.partner_id" class="col-12 col-md-12 mb-2 mb-md-0">
+                                <h6>Client Details</h6>
+                                <div class="row">
+                                    <div class="col flex-grow-0 pr-3">
+                                        <img t-if="device_onboarding.partner_id.image_1024" class="rounded-circle mt-1 o_portal_contact_img" t-att-src="image_data_uri(device_onboarding.partner_id.image_1024)" alt="Contact"/>
+                                        <img t-else="" class="rounded-circle mt-1 o_portal_contact_img" src="/web/static/src/img/user_menu_avatar.png" alt="Contact"/>
+                                    </div>
+                                    <div class="col pl-sm-0">
+                                        <address t-field="device_onboarding.partner_id" t-options='{"widget": "contact", "fields": ["name", "email", "phone"]}'/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-6 mb-1">
+                                <strong>Company's Name:</strong> <span t-field="device_onboarding.company_name"/>
+                            </div>
+                            <div class="col-12 col-md-6 mb-1">
+                                <strong>Contact Person:</strong> <span t-field="device_onboarding.partner_contact_person"/>
+                            </div>
+                            <div class="col-12 col-md-6 mb-1">
+                                <strong>Email:</strong> <span t-field="device_onboarding.partner_contact_email"/>
+                            </div>
+                            <div class="col-12 col-md-6 mb-1">
+                                <strong>Telephone:</strong> <span t-field="device_onboarding.partner_contact_tel"/>
+                            </div>
+                        </div>
+
+                            <div class="col-12 col-md-12 mb-1">
+                                <br/>
+                                <h4>Equipment Description</h4>
+                                <table class="table table-sm">
+                                    <thead class="bg-100">
+                                        <tr>
+                                            <th>Manufacturer</th>
+                                            <th>Model</th>
+                                            <th>Serial Number</th>
+                                            <th>Power Requirements AC/DC Voltage</th>
+                                            <th>Power (w)</th>
+                                            <th>U-Space</th>
+                                            <th>Power Redundancy Y/N</th>
+                                            <th>Type of Airflow</th>
+                                            <th>Rack Rails / mount kit / Rack Conversion Kit and IEC C13 - C14 / C19 - C20 Cables Available</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="device_onboarding.device_onboarding_line_ids" t-as="ol">
+                                            <tr t-att-class="'bg-200 o_line_section'">
+                                                <t>
+                                                    <td>
+                                                        <span t-esc="ol.manufacturer"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="ol.model"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-esc="ol.serial_numbers"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="ol.power_requirements"/>
+                                                    </td>
+                                                     <td>
+                                                        <span t-esc="ol.power"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="ol.u_space"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-esc="ol.power_redendancy"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="ol.type_of_airflow"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="ol.rack_mountkits_avilable"/>
+                                                    </td>
+                                                </t>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="col-12 col-md-12 mb-1">
+                                <br/>
+                                <h4>Project Implementation Plan</h4>
+                                <table class="table table-sm">
+                                    <thead class="bg-100">
+                                        <tr>
+                                            <th>Task</th>
+                                            <th>Start Date &amp; Time</th>
+                                            <th>End Date &amp; Time</th>
+                                            <th>Assigned Resource(s)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="device_onboarding.project_plan_line_ids" t-as="ol">
+                                            <tr t-att-class="'bg-200 o_line_section'">
+                                                <t>
+                                                    <td>
+                                                        <span t-esc="ol.name"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="ol.start_date" t-options='{"widget": "datetime"}'/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-esc="ol.end_date" t-options='{"widget": "datetime"}'/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="ol.assigned_resource"/>
+                                                    </td>
+                                                </t>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
+
+
+                        <!-- </div> -->
+                        
+                        <div class="row" t-if="device_onboarding.additional_info">
+                            <div>
+                                <hr class="mb-1"/>
+                                <div class="d-flex my-2">
+                                    <strong>Addittional Information</strong>
+                                </div>
+                                <div class="py-1 px-2 bg-100 small" t-field="device_onboarding.additional_info"/>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+
+                <div class="mt32">
+                    <h4><strong>Message and communication history</strong></h4>
+                    <t t-call="portal.message_thread">
+                        <t t-set="object" t-value="device_onboarding"/>
+                        <t t-set="pid" t-value="pid"/>
+                        <t t-set="hash" t-value="hash"/>
+                    </t>
+                </div>
+            </t>
+        </template>
+        
+    </data>
+</odoo>
