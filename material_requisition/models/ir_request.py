@@ -134,7 +134,7 @@ class IRRequest(models.Model):
                         "Please define a journal for this request."
                     )
                 )
-            if not request.journal_id.sequence_id:
+            if not request.journal_id:
                 raise UserError(
                     _(
                         "Please define sequence on the journal related to this request."
