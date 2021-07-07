@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_rc_device_onboarding,device.onboarding,model_device_onboarding,base.group_user,1,1,1,1
+access_rc_device_onboarding_portal,device.onboarding,model_device_onboarding,base.group_portal,1,1,1,0
+access_rc_device_onboarding_lines,device.onboarding.lines,model_device_onboarding_lines,base.group_user,1,1,1,1
+access_rc_device_onboarding_lines_portal,device.onboarding.lines,model_device_onboarding_lines,base.group_portal,1,1,1,0
+access_rc_device_onboarding_project_plan,device.onboarding.project.plan,model_device_onboarding_project_plan,base.group_user,1,1,1,1
+access_rc_device_onboarding_project_plan_portal,device.onboarding.project.plan,model_device_onboarding_project_plan,base.group_portal,1,1,1,0

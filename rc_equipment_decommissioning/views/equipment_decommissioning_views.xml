@@ -1,0 +1,138 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+
+    <record model="ir.ui.view" id="rc_equipment_decommissioning_list">
+      <field name="name">Equipment Decommissioning</field>
+      <field name="model">equipment.decommissioning</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="ref"/>
+          <field name="user_id"/>
+          <field name="partner_id"/>
+          <field name="contact_name"/>
+          <field name="state"/>
+        </tree>
+      </field>
+    </record>
+
+    <!-- explicit form view definition -->
+    <record model="ir.ui.view" id="rc_equipment_decommissioning_view">
+        <field name="name">equipment.decommissioning.view</field>
+        <field name="model">equipment.decommissioning</field>
+        <field name="priority" eval="2"/>
+        <field name="arch" type="xml">
+            <form string="Equipment Decommissioning">
+                <header>
+                    <button name="button_submit" states="draft" string="Submit" type="object"/>
+
+                    <button name="button_finance_approve" states="submit" string="Approve" type="object" class="btn btn-primary" />
+                    <button name="button_dc_approve" states="finance_approved" string="Approve" type="object" class="btn btn-primary" />
+                    <button name="button_approve" states="dc_approved" string="Approve" type="object" class="btn btn-primary" />
+                    
+                    <button name="button_reject" states="submit,finance_approved,dc_approved" string="Reject" type="object" class="btn btn-danger" />
+                    <button name="button_reset" states="reject" string="Set to Draft" type="object" />   
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submit,finance_approved,dc_approved,approved" readonly="1"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name"/></h1>
+                    </div>
+
+                    <group col="4">
+                        <field name="company_name"/>
+                        <field name="ref"/>
+                    </group>
+
+                    <group string='Contact Information' col="4">
+                        <field name="contact_name"/>
+                        <field name="contact_email"/>
+                        <field name="contact_position"/>
+                        <field name="contact_work_phone" widget="phone"/>
+                        <field name="contact_manager_name"/>
+                        <field name="contact_manager_phone" widget="phone"/>
+                    </group>
+
+                    <group string='Equipment Information' col="4">
+                        <field name="equipment_contact_person"/>
+                        <field name="machine_name"/>
+                        <field name="serial_numbers"/>
+                        <field name="manufacturer"/>
+                        <field name="model"/>
+                        <field name="operating_system"/>
+                        <field name="ip_address"/>
+                        <field name="currect_rack_location"/>
+
+                        <field name="decommissioning_reason"/>
+                        <field name="plan_to_return"/>
+                        <field name="expected_return_date"/>
+                    </group>
+
+                    <group string='Project Implementation Plan'>
+                        <field name="project_plan_line_ids" nolabel="1">
+                            <tree editable="bottom">
+                                    <field name="name"/>
+                                    <field name="start_date"/>
+                                    <field name="end_date"/>
+                                    <field name="assigned_resource"/>
+                            </tree>
+                        </field>
+                    </group>
+
+                    <group string='Notes'>
+                        <field name="additional_info" nolabel="1"/>
+                    </group>
+
+                    <group col="4">
+                        <field name="priority" widget="priority"/>
+                        <field name="change_type"/>
+                    </group>
+
+                    <group string='Approval' col="4">
+                        <field name="finance_manager_id"/>
+                        <field name="finance_approval_date"/>
+
+                        <field name="data_centre_manager_id"/>
+                        <field name="data_centre_approval_date"/>
+                        
+                        <field name="command_centre_personnel_id"/>
+                        <field name="command_centre_approval_date"/>
+                    </group>
+
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- actions opening views on models -->
+
+    <record model="ir.actions.act_window" id="rc_equipment_decommissioning_action_window">
+      <field name="name">Equipment Decommissioning</field>
+      <field name="res_model">equipment.decommissioning</field>
+      <field name="view_mode">tree,form,graph,pivot</field>
+      <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+            let's create a new Equipment Decommissioning Request.
+            </p><p>
+            Once you have created your Equipment Decommissioning Request, submit it to Management who will validate it.
+            </p>
+        </field>
+    </record>
+
+    <!-- Top menu item -->
+    <menuitem
+        name="Equipment Decommissioning"
+        parent="rc_service.rc_change_request_service_menu"
+        id="menu_rc_equipment_decommissioning" action="rc_equipment_decommissioning_action_window" sequence="3"/>
+
+  </data>
+</odoo>

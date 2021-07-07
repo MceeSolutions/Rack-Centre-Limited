@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        
+        <record id="seq_equipment_decommissioning" model="ir.sequence">
+            <field name="name">Equipment Decommissioning</field>
+            <field name="code">equipment.decommissioning</field>
+            <field name="prefix">DCRL</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+    </data>
+</odoo>

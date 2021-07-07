@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 
-from datetime import date
+from datetime import date, datetime
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 
 class RemoteHand(models.Model):
     _name = 'remote.hand'
     _description = 'Remote Hand'
-    _inherit = ['portal.mixin', 'mail.activity.mixin', 'mail.thread']
+    _inherit = ['portal.mixin', 'mail.activity.mixin', 'mail.thread', 'timer.mixin']
     _order = 'create_date DESC'
 
     name = fields.Char(string='Subject', required=True, copy=False)
@@ -16,13 +16,13 @@ class RemoteHand(models.Model):
         ('submit', 'Submitted'),
         ('finance_approved', 'Finance Approved'),
         ('dc_approved', 'Data Centre Approved'),
-        ('approved', 'Service Delivery Approved'),
+        ('approved', 'Command Centre Approved'),
         ('reject', 'Rejected'),
         ], string='Approval Status', readonly=False, index=True, copy=False, default='draft', tracking=True)
 
     ref = fields.Char(string='Service ID', readonly=True, required=True, index=True, copy=False, default='New')
     legend = fields.Char(string='Legend')
-    reason_for_visit = fields.Char(string='Reason For Visit')
+    description = fields.Char(string='Description')
     user_id = fields.Many2one(comodel_name="res.users", string='Requested By')
     weekday = fields.Selection([
         ('1', '1'),
@@ -39,6 +39,7 @@ class RemoteHand(models.Model):
     request_start_datetime = fields.Datetime(string='RC Request Start Date & Time')
     resolution_date_time = fields.Datetime(string='RC Resolution Date & Time')
     total_duration = fields.Float(string='TOTAL DURATION (H:M)', compute='compute_time_difference')
+    total_time_duration = fields.Float(string='TIME (H:M:S)')
 
     additional_info = fields.Char(string='Additional Information')
 
@@ -52,8 +53,8 @@ class RemoteHand(models.Model):
     data_centre_manager_id = fields.Many2one(comodel_name="res.users", string='Data Centre Manager', readonly=True)
     data_centre_approval_date = fields.Date(string='Data Centre Approval Date', readonly=True)
 
-    service_delivery_manager_id = fields.Many2one(comodel_name="res.users", string='Service Delivery Manager', readonly=True)
-    service_delivery_approval_date = fields.Date(string='Service Delivery Manager Approval Date', readonly=True)
+    command_centre_personnel_id = fields.Many2one(comodel_name="res.users", string='Coomand Centre', readonly=True)
+    command_centre_approval_date = fields.Date(string='Coomand Centre Approval Date', readonly=True)
     
     @api.model
     def create(self, vals):
@@ -153,8 +154,8 @@ class RemoteHand(models.Model):
     #approved by Service Delivery
     def button_approve(self):
         self.write({'state': 'approved'})
-        self.service_delivery_manager_id = self.env.uid
-        self.service_delivery_approval_date = date.today()
+        self.command_centre_personnel_id = self.env.uid
+        self.command_centre_approval_date = date.today()
         subject = "Remote Hand Request for '{}', has been Approved by Service Delivery".format(self.name)
         partner_ids = []
         for partner in self.message_partner_ids:
@@ -172,6 +173,20 @@ class RemoteHand(models.Model):
     def button_reset(self):
         self.write({'state': 'new'})
 
+    def action_timer_start(self):
+        if not self.user_timer_id.timer_start:
+            self.request_start_datetime = datetime.today()
+            super(RemoteHand, self).action_timer_start()
+
+    def action_timer_stop(self):
+        # timer was either running or paused
+        if self.user_timer_id.timer_start:
+            minutes_spent = self.user_timer_id._get_minutes_spent()
+            self.total_time_duration = minutes_spent
+            self.resolution_date_time = datetime.today()
+            super(RemoteHand, self).action_timer_stop()
+        return False
+    
     #To create invoice
     def create_invoice(self):
         """

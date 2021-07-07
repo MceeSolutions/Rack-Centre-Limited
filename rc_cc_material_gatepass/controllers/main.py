@@ -13,13 +13,39 @@ class MaterialGatepass(http.Controller):
         if request.env.user.partner_id != request.env.ref('base.public_partner'):
             #default_values['partner_id'] = request.env.user.partner_id.id
             default_values['partner_id'] = request.env.user.id
+            default_values['partner_name'] = request.env.user.partner_id.name
             default_values['user_id'] = request.env.user.id
-        return http.request.render('rc_portal_material_gatepass.create_material_gatepass', {'default_values': default_values})
+            if request.env.user.partner_id.parent_id:
+                default_values['company_name'] = request.env.user.partner_id.parent_id.name
+            else:
+                default_values['company_name'] = request.env.user.partner_id.company_name
+        return http.request.render('rc_cc_material_gatepass.create_material_gatepass', {'default_values': default_values})
 
     @http.route('/create/material_gatepass', type="http", auth='user', website=True)
     def material_gatepass(self, **kw):
-        request.env['material.gate.pass'].sudo().create(kw)
-        return http.request.render('website_form.contactus_thanks', {})
+
+        material_description = request.httprequest.form.getlist('material_description')
+        material_qty_request = request.httprequest.form.getlist('material_qty_request')
+
+        lines = [(0, 0, {
+            'description': material_description,
+            'qty_request': material_qty_request,
+        }) for material_description, material_qty_request in zip(material_description, material_qty_request)]
+
+        data = {
+            'name': kw['name'],
+            'user_id': int(kw['user_id']),
+            'partner_id': int(kw['partner_id']),
+            'company_name': kw['company_name'],
+            'material_from': kw['from'],
+            'material_to': kw['to'],
+            'request_date': kw['request_date'],
+            'summary': kw['additional_info'],
+            'line_ids': lines,
+        }
+
+        material_gatepass = request.env['material.gatepass'].sudo().create(data)
+        return http.request.render('rc_service.request_submited', {})
 
 class CustomerPortal(CustomerPortal):
 
@@ -78,7 +104,7 @@ class CustomerPortal(CustomerPortal):
             'searchbar_sortings': searchbar_sortings,
             'sortby': sortby
         })
-        return request.render("rc_portal_material_gatepass.portal_my_material_gatepasses", values)
+        return request.render("rc_cc_material_gatepass.portal_my_material_gatepasses", values)
 
 
     @http.route(['/my/material_gatepass/<int:material_gatepass_id>'], type='http', auth="public", website=True)
@@ -89,4 +115,4 @@ class CustomerPortal(CustomerPortal):
             return request.redirect('/my')
             
         values = self._material_gatepass_get_page_view_values(material_gatepass_sudo, access_token, **kw)
-        return request.render("rc_portal_material_gatepass.portal_my_material_gatepass", values)
+        return request.render("rc_cc_material_gatepass.portal_my_material_gatepass", values)

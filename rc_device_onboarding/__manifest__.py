@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "Rack Centre Material Gatepass Portal Module",
+    'name': "Rack Centre Device Onboarding Module",
 
     'summary': """
-        Material Gatepass Portal""",
+        Device Onboarding Module""",
 
     'description': """
         
@@ -17,12 +17,14 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'rc_base', 'rc_service', 'rc_data_centre', 'website'],
+    'depends': ['base', 'website', 'rc_base', 'rc_service'],
 
     # always loaded
     'data': [
         'security/ir.model.access.csv',
-        'security/portal_material_gatepass.xml',
-        'views/portal_material_gatepass_views.xml',
+        'security/device_onboarding_security.xml',
+        'data/sequence.xml',
+        'views/device_onboarding_views.xml',
+        'views/device_onboarding_portal_views.xml',
     ],
 }

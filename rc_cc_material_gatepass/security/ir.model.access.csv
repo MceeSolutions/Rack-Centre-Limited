@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_material_gate_pass_portal,access_material_gate_pass,rc_data_centre.model_material_gate_pass,base.group_portal,1,1,1,0
+access_material_gatepass,material.gatepass,model_material_gatepass,base.group_user,1,1,1,1
+access_material_gatepass_portal,material.gatepass,model_material_gatepass,base.group_portal,1,1,1,0
+access_material_gatepass_line,material.gatepass.line,model_material_gatepass_line,base.group_user,1,1,1,0
+access_material_gatepass_line_portal,material.gatepass.line,model_material_gatepass_line,base.group_portal,1,1,1,0

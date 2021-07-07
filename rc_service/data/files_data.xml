@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data noupdate="1">
+
+        <!-- folders -->
+
+        <record id="documents_commnand_centre_folder" model="documents.folder">
+            <field name="name">Command Centre</field>
+        </record>
+
+        <!-- Attachments -->
+
+        <!-- internal -->
+
+        <record id="documents_commnand_centre_project_implementation_plan" model="documents.document">
+            <field name="name">Project implementation Plan.xlsx</field>
+            <field name="datas" type="base64" file="rc_service/data/files/Project implementation Plan.xlsx"/>
+            <field name="folder_id" ref="documents_commnand_centre_folder"/>
+        </record>
+
+        <record id="documents_commnand_centre_rack_topology_planning_form" model="documents.document">
+            <field name="name">Rack Topology Planning Form.xlsx</field>
+            <field name="datas" type="base64" file="rc_service/data/files/Rack Topology Planning Form.xlsx"/>
+            <field name="folder_id" ref="documents_commnand_centre_folder"/>
+        </record>
+
+        <record id="documents_commnand_centre_health_screening_form" model="documents.document">
+            <field name="name">Health screening Form for Visitors.docx</field>
+            <field name="datas" type="base64" file="rc_service/data/files/Health screening Form for Visitors.docx"/>
+            <field name="folder_id" ref="documents_commnand_centre_folder"/>
+        </record>
+
+    </data>
+</odoo>

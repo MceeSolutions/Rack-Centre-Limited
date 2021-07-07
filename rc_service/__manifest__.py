@@ -18,11 +18,14 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'rc_base'],
+    'depends': ['base', 'rc_base', 'documents'],
 
     # always loaded
     'data': [
         'security/user_groups.xml',
+        'data/files_data.xml',
+        'data/sequence.xml',
         'views/main_menuitems.xml',
+        'views/templates.xml',
     ],
 }

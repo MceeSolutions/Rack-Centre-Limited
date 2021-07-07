@@ -23,7 +23,8 @@ class ToolManagement(models.Model):
         ('reject', "Rejected"),
         ('cancel', "Cancelled"),
     ], string="State", default="draft", tracking=True)
-    # line_ids = fields.One2many(comodel_name="tool.management.line", inverse_name="management_id", string="Tools")
+    
+    line_ids = fields.One2many(comodel_name="tool.management.line", inverse_name="gatepass_id", string="Tools")
 
     def submit(self):
         self.state = 'submit'
@@ -41,14 +42,18 @@ class ToolManagement(models.Model):
         self.state = 'draft'
 
 
-# class ToolManagementLine(models.Model):
-#     _name = 'tool.management.line'
-#     _description = 'Tool Management Line'
+class ToolManagementLine(models.Model):
+    _name = 'tool.management.line'
+    _description = 'Tool Management Line'
 
-#     tool_id = fields.Many2one(comodel_name='tool.tool', string="Tool")
-#     qty_request = fields.Float(string="Quantity")
-#     qty_done = fields.Float(string="Done")
-#     management_id = fields.Many2one(comodel_name="tool.management", string="Management")
+    tool_id = fields.Many2one(comodel_name='tool.tool', string="Tool")
+
+    gatepass_id = fields.Many2one(comodel_name='material.gate.pass', string="material gatepass")
+    description = fields.Char(string='Item Description')
+
+    qty_request = fields.Float(string="Quantity")
+    qty_done = fields.Float(string="Done")
+    management_id = fields.Many2one(comodel_name="tool.management", string="Management")
 
 
 # class ToolTool(models.Model):

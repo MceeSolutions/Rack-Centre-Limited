@@ -1,0 +1,283 @@
+<odoo>
+    <data>
+
+        <record id="menu_material_gatepass_form" model="website.menu">
+            <field name="name">Material Gatepass</field>
+            <field name="url">/material_gatepass</field>
+            <field name="parent_id" ref="website.main_menu"/>
+            <field name="sequence">95</field>
+        </record>
+
+        <template id="assets_backend" name="material gatepasses" inherit_id="web.assets_frontend">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/rc_cc_material_gatepass/static/src/js/main.js"></script>
+            </xpath>
+        </template>
+
+        <template id="create_material_gatepass" name="Material Gatepass">
+          <t t-call="website.layout">
+            <div id="wrap">
+                <div class="oe_structure">
+                    <div class="container">
+                        <br/>
+                        <h2 class="text-center"> Material Gatepass Request Form </h2>
+                        <form role="form" action="/create/material_gatepass" method="POST" enctype="multipart/form-data">
+                            <div class="s_website_form_rows row s_col_no_bgcolor">
+
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <input type="hidden" name="partner_id" t-att-value="default_values.get('partner_id', '')" id="partner_id"/>
+                                <input type="hidden" name="user_id" t-att-value="default_values.get('user_id', '')" id="user_id"/>
+
+                                <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-6" data-type="char" data-name="Field">
+                                    <label class="s_website_form_label " style="width: 200px" for="name">
+                                        <span class="s_website_form_label_content">Subject</span>
+                                        <span class="s_website_form_mark" style="color:Red;">*</span>
+                                    </label>
+                                    <input type="text" class="form-control s_website_form_input" name="name" required="1" placeholder="Material Gatepass Request For..." id="name"/>
+                                </div>
+
+                                <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-6" data-type="char" data-name="Field">
+                                    <label class="s_website_form_label " style="width: 200px" for="contact_name">
+                                        <span class="s_website_form_label_content">Name</span>
+                                        <span class="s_website_form_mark" style="color:Red;">*</span>
+                                    </label>
+                                    <input type="text" class="form-control s_website_form_input" name="contact_name" t-att-value="default_values.get('partner_name', '')" placeholder="" id="contact_name"/>
+                                </div>
+
+                                <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-6" data-type="char" data-name="Field">
+                                    <label class="s_website_form_label " style="width: 200px" for="request_date">
+                                        <span class="s_website_form_label_content">Date</span>
+                                        <span class="s_website_form_mark" style="color:Red;">*</span>
+                                    </label>
+                                    <input type="date" class="form-control s_website_form_input" name="request_date"/>
+                                </div>
+
+                                <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-6" data-type="char" data-name="Field">
+                                    <label class="s_website_form_label " style="width: 200px" for="company_name">
+                                        <span class="s_website_form_label_content">Company Name</span>
+                                        <span class="s_website_form_mark" style="color:Red;">*</span>
+                                    </label>
+                                    <input type="text" class="form-control s_website_form_input" name="company_name" t-att-value="default_values.get('company_name', '')"/>
+                                </div>
+
+                                <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-6" data-type="char" data-name="Field">
+                                    <label class="s_website_form_label " style="width: 200px" for="from">
+                                        <span class="s_website_form_label_content">From</span>
+                                        <span class="s_website_form_mark" style="color:Red;">*</span>
+                                    </label>
+                                    <input type="text" class="form-control s_website_form_input" name="from"/>
+                                </div>
+
+                                <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-6" data-type="char" data-name="Field">
+                                    <label class="s_website_form_label " style="width: 200px" for="to">
+                                        <span class="s_website_form_label_content">To</span>
+                                        <span class="s_website_form_mark" style="color:Red;">*</span>
+                                    </label>
+                                    <input type="text" class="form-control s_website_form_input" name="to"/>
+                                </div>
+
+                                <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-12" data-type="char" data-name="Field">
+                                    <label class="s_website_form_label " style="width: 200px" for="additional_info">
+                                        <span class="s_website_form_label_content">REASON FOR MOVEMENT:</span>
+                                    </label>
+                                    <textarea id="additional_info" class="form-control s_website_form_input" name="additional_info" placeholder="Summary..." rows="3"/>
+                                </div>
+
+                            </div>
+
+                            <h4>MATERIAL DETAILS</h4>
+                            <div class="materials">
+                                <div class="row">
+                                    <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-6" data-type="char" data-name="Field">
+                                        <label class="s_website_form_label " style="width: 200px" for="material_description">
+                                            <span class="s_website_form_label_content">ITEM DESCRIPTION</span>
+                                        </label>
+                                        <input type="text" class="form-control s_website_form_input" name="material_description"/>
+                                    </div>
+                                    <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-6" data-type="char" data-name="Field">
+                                        <label class="s_website_form_label " style="width: 200px" for="material_qty_request">
+                                            <span class="s_website_form_label_content">QTY</span>
+                                        </label>
+                                        <input type="number" class="form-control s_website_form_input" name="material_qty_request"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <p><a id="add-more-materials" href="#" class="pull-right">+ Add more</a></p>
+                                
+                            <div class="form-group col-12 text-center s_website_form_submit" data-name="Submit Button">
+                                <div style="width: 200px;" class="s_website_form_label"/>
+                                <button type="submit" href="#" role="button" class="btn btn-primary btn-lg s_website_form_send">Submit</button>
+                                <span id="s_website_form_result"></span>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+          </t>
+        </template>
+
+        <template id="portal_layout" name="Portal layout: material gatepass hand menu entry" inherit_id="portal.portal_breadcrumbs" priority="60">
+            <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+                <li t-if="page_name == 'Material Gatepasses' or material_gatepasses" class="col-lg-2" t-attf-class="breadcrumb-item #{'active ' if not material_gatepass else ''}">
+                    <a t-if="material_gatepass" t-attf-href="/my/material_gatepasses?{{ keep_query() }}">Material Gatepasses</a>
+                    <t t-else="">Material Gatepasses</t>
+                </li>
+                <li t-if="material_gatepass" class="breadcrumb-item active text-truncate col-8 col-lg-10">
+                    <t t-esc="material_gatepass.name"/>
+                </li>
+            </xpath>
+        </template>
+
+        <template id="portal_my_home" name="Show material gatepasses" customize_show="True" inherit_id="portal.portal_my_home" priority="60">
+            <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+                <t t-call="portal.portal_docs_entry">
+                    <t t-set="title">Material Gatepasses</t>
+                    <t t-set="url" t-value="'/my/material_gatepasses'"/>
+                    <t t-set="placeholder_count" t-value="'material_gatepass_count'"/>
+                </t>
+            </xpath>
+        </template>
+
+        <template id="portal_my_material_gatepasses" name="My Material Gatepasses">
+            <t t-call="portal.portal_layout">
+                <t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+                <t t-call="portal.portal_searchbar">
+                    <t t-set="title">Material Gatepasses</t>
+                </t>
+                <t t-if="not material_gatepasses">
+                    <div class="alert alert-warning mt8" role="alert">
+                        There are no Material Gatepasses. <a href="/material_gatepass">Click Here</a> To create one.
+                    </div>
+                </t>
+                <t t-if="material_gatepasses" t-call="portal.portal_table">
+                    <tbody>
+                        <tr t-foreach="material_gatepasses" t-as="material_gatepass">
+                            <td>
+                                <a t-attf-href="/my/material_gatepass/#{material_gatepass.id}?{{ keep_query() }}"><span t-field="material_gatepass.name"/></a>
+                            </td>
+                            <td class="text-right">
+                                <span class="badge badge-pill badge-info" title="Current stage of the request" t-esc="material_gatepass.state" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </t>
+                <br/>
+                <a href="/material_gatepass" role="button" class="btn pull-right btn-primary">New Material Gatepasses Request</a>
+            </t>
+        </template>
+
+        <template id="portal_my_material_gatepass" name="My Material Gatepasses">
+            <t t-call="portal.portal_layout">
+                <t t-set="o_portal_fullwidth_alert" groups="base.group_user">
+                    <t t-call="portal.portal_back_in_edit_mode">
+                        <t t-set="backend_url" t-value="'/web#model=material.gate.pass&amp;id=%s&amp;view_type=form' % (material_gatepass.id)"/>
+                    </t>
+                </t>
+
+                <t t-call="portal.portal_record_layout">
+                    <t t-set="card_header">
+                        <div class="row no-gutters">
+                            <div class="col-12">
+                                <h5 class="d-flex mb-1 mb-md-0 row">
+                                    <span t-field="material_gatepass.name" class="col-9 text-truncate"/>
+                                    <small class="text-muted d-none d-md-inline"> (#<span t-field="material_gatepass.id"/>)</small>
+                                    <div class="col-3 col-md-2 text-right">
+                                        <small class="text-right">Status:</small>
+                                        <span t-field="material_gatepass.state" class=" badge badge-pill badge-info" title="Current stage of this Request"/>
+                                    </div>
+                                </h5>
+                            </div>
+                        </div>
+                    </t>
+                    <t t-set="card_body">
+                        
+                        <div class="row">
+
+                            <div t-if="material_gatepass.partner_id" class="col-12 col-md-12 mb-2 mb-md-0">
+                                <h6>Client Details</h6>
+                                <div class="row">
+                                    <div class="col flex-grow-0 pr-3">
+                                        <img t-if="material_gatepass.partner_id.image_1024" class="rounded-circle mt-1 o_portal_contact_img" t-att-src="image_data_uri(material_gatepass.partner_id.image_1024)" alt="Contact"/>
+                                        <img t-else="" class="rounded-circle mt-1 o_portal_contact_img" src="/web/static/src/img/user_menu_avatar.png" alt="Contact"/>
+                                    </div>
+                                    <div class="col pl-sm-0">
+                                        <address t-field="material_gatepass.partner_id" t-options='{"widget": "contact", "fields": ["name", "email", "phone"]}'/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-4">
+                                <!-- <strong>Contact Information:</strong> <br/> -->
+                                <div class="col-12 col-md-6 mb-1">
+                                    <strong>Requester: </strong> <span t-field="material_gatepass.user_id.name"/>
+                                </div>
+                                <div class="col-12 col-md-6 mb-1">
+                                    <strong>Date:</strong> <span t-field="material_gatepass.date_request" />
+                                </div>
+                                <div class="col-12 col-md-6 mb-1">
+                                    <strong>Company Name:</strong> <span t-field="material_gatepass.partner_id.company_name" />
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <strong>From:</strong> <span t-field="material_gatepass.material_from"/>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <strong>To:</strong> <span t-field="material_gatepass.material_to"/>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-12 mb-1">
+                                <br/>
+                                <h4>MATERIAL DETAILS</h4>
+                                <table class="table table-sm">
+                                    <thead class="bg-100">
+                                        <tr>
+                                            <th>Qty</th>
+                                            <th>Item Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="material_gatepass.line_ids" t-as="ol">
+                                            <tr t-att-class="'bg-200 o_line_section'">
+                                                <t>
+                                                    <td>
+                                                        <span t-esc="ol.qty_request"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="ol.description"/>
+                                                    </td>
+                                                </t>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                        
+                        <!-- <div class="row" t-if="material_gatepass.additional_info">
+                            <div>
+                                <hr class="mb-1"/>
+                                <div class="d-flex my-2">
+                                    <strong>Addittional Information</strong>
+                                </div>
+                                <div class="py-1 px-2 bg-100 small" t-field="material_gatepass.additional_info"/>
+                            </div>
+                        </div> -->
+                    </t>
+                </t>
+
+                <div class="mt32">
+                    <h4><strong>Message and communication history</strong></h4>
+                    <t t-call="portal.message_thread">
+                        <t t-set="object" t-value="material_gatepass"/>
+                        <t t-set="pid" t-value="pid"/>
+                        <t t-set="hash" t-value="hash"/>
+                    </t>
+                </div>
+            </t>
+        </template>
+        
+    </data>
+</odoo>

@@ -18,7 +18,7 @@ class RemoteHand(http.Controller):
     @http.route('/create/remote_hand', type="http", auth='user', website=True)
     def remote_hand(self, **kw):
         request.env['remote.hand'].sudo().create(kw)
-        return http.request.render('website_form.contactus_thanks', {})
+        return http.request.render('rc_service.request_submited', {})
 
 class CustomerPortal(CustomerPortal):
 
