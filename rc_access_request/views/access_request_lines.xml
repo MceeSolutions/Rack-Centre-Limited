@@ -79,7 +79,7 @@
       <field name="res_model">access.request.lines</field>
       <field name="view_mode">tree,form,graph,pivot</field>
       <field name="domain">[]</field>
-      <field name="search_view_id" ref="search_access_request_lines"/>
+      <!-- <field name="search_view_id" ref="search_access_request_lines"/> -->
       <field name="context">{}</field>
     </record>
 
