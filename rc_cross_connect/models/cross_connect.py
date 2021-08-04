@@ -78,10 +78,69 @@ class CrossConnect(models.Model):
     service_delivery_manager_id = fields.Many2one(comodel_name="res.users", string='Service Delivery Manager', readonly=True)
     service_delivery_approval_date = fields.Date(string='Service Delivery Manager Approval Date', readonly=True)
     
+    priority = fields.Selection([
+        ('0', 'Nil'),
+        ('1', 'Low'),
+        ('2', 'Medium'),
+        ('3', 'High'),
+        ('4', 'Critical'),
+        ], string='Priority', default='1', tracking=True)
+
+    change_type = fields.Selection([
+        ('minor', 'Minor'),
+        ('major', 'Major'),
+        ], string='Change Type', default='minor', tracking=True, compute='_compute_change_type')
+
+    coordinator_group = fields.Char(string='Coordinator Group')
+    service = fields.Char(string='Service')
+    summary = fields.Char(string='Summary')
+    change_class = fields.Char(string='Class')
+    change_reason = fields.Char(string='Change Reason')
+    target_date = fields.Date(string='Target date')
+    impact = fields.Selection([
+        ('minor', 'Minor/Localized'),
+        ('major', 'Major'),
+        ], string='Impact', tracking=True)
+    urgency = fields.Selection([
+        ('low', 'Low'),
+        ('mid', 'Medium'),
+        ('high', 'Hign'),
+        ], string='Urgency', tracking=True)
+    priority = fields.Selection([
+        ('0', 'Nil'),
+        ('1', 'Low'),
+        ('2', 'Medium'),
+        ('3', 'High'),
+        ('4', 'Critical'),
+        ], string='Priority', default='1', tracking=True)
+
+    change_type = fields.Selection([
+        ('minor', 'Minor'),
+        ('major', 'Major'),
+        ], string='Change Type', default='minor', tracking=True, compute='_compute_change_type')
+
+    risk_level = fields.Char(string='Risk Level')
+    manager_group = fields.Char(string='Manager Group')
+
+    scheduled_start_date = fields.Date(string='Scheduled Start Date & Time')
+    scheduled_end_date = fields.Date(string='Scheduled End Date & time')
+
+    scope_and_impact = fields.Text(string='Scope and Impact of Change')
+    docs_impacted = fields.Char(string='Documents Impacted')
+
+    controls_required = fields.Text(string='Controls required')
+    financial_impact = fields.Text(string='Financial Impact')
+    risk_assessment = fields.Text(string='Risk assessment')
+
+    #Business Justification for the Proposed Change
+    business_case_benefits = fields.Text(string='Business Case / Benefits')
+    technical_case = fields.Text(string='Technical case, for and against the Change')
+    estimated_cost_resources_required = fields.Text(string='Estimated Cost / Resources required for the change.')
+
     @api.model
     def create(self, vals):
         if vals.get('ref', 'New') == 'New':
-            vals['ref'] = self.env['ir.sequence'].next_by_code('change.management') or '/'
+            vals['ref'] = self.env['ir.sequence'].next_by_code('change.request') or '/'
         res = super(CrossConnect, self).create(vals)
         res.action_alert_manager()
         return res 
@@ -119,6 +178,13 @@ class CrossConnect(models.Model):
             result['views'] = [(res and res.id or False, 'form')]
             result['res_id'] = invoice.id
         return result
+
+    def _compute_change_type(self):
+        for type in self:
+            if type.priority == '0' or type.priority == '1' or type.priority == '2':
+                type.change_type = 'minor'
+            else:
+                type.change_type = 'major'
 
     #submit to finance
     def button_submit(self):

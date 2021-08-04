@@ -1,0 +1,111 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+
+    <record model="ir.ui.view" id="rc_material_gatepass_list">
+      <field name="name">Material Gatepass</field>
+      <field name="model">material.gatepass</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="company_name"/>
+          <field name="material_from"/>
+          <field name="material_to"/>
+          <field name="request_date"/>
+          <field name="state"/>
+        </tree>
+      </field>
+    </record>
+
+    <!-- explicit form view definition -->
+    <record model="ir.ui.view" id="rc_material_gatepass_view">
+        <field name="name">material.gatepass.view</field>
+        <field name="model">material.gatepass</field>
+        <field name="priority" eval="2"/>
+        <field name="arch" type="xml">
+            <form string="Access Request">
+                <header>
+                    <button name="button_submit" states="draft" string="Submit" type="object"/>
+
+                    <button name="button_dc_approve" states="submit" string="Approve" type="object" class="btn btn-primary" groups="rc_service.group_dc"/>
+                    <button name="button_cso_approve" states="dc_approved" string="Approve" type="object" class="btn btn-primary" />
+                    
+                    <button name="button_reject" states="submit,dc_approved" string="Reject" type="object" class="btn btn-danger" />
+                    
+                    <button name="button_reset" states="reject" string="Set to Draft" type="object" />   
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submit,dc_approved,approved" readonly="1"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group col="4">
+                        <field name="request_date"/>
+                        <field name="company_name"/>
+                        <field name="material_from"/>
+                        <field name="material_to"/>
+                    </group>
+                    
+                    <field name="line_ids" nolabel="1">
+	                   <tree editable="bottom">
+	                        <field name="description"/>
+                            <field name="qty_request"/>
+                            <field name="qty_done"/>
+                       </tree>
+	               </field>
+
+                    <!-- <group col="4">
+                        <field name="employee_id"/>
+                        <field name="department_id"/>
+                        <field name="user_id"/>
+                        <field name="requested_for_id"/>
+                        <field name="request_date"/>
+                    </group> -->
+
+                    <group string='REASON FOR MOVEMENT'>
+                        <field name="summary"/>
+                    </group>
+
+                    <group string='Approval' col="4">
+                        <field name="dc_approver_id"/>
+                        <field name="dc_approver_date"/>
+                        <field name="cso_approver_id"/>
+                        <field name="cso_approver_date"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- actions opening views on models -->
+
+    <record model="ir.actions.act_window" id="rc_material_gatepass_action_window">
+      <field name="name">Material Gatepass</field>
+      <field name="res_model">material.gatepass</field>
+      <field name="view_mode">tree,form,graph,pivot</field>
+      <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+            let's create a new material gatepass.
+            </p><p>
+            Once you have created your material gatepass, submit it to Management who will validate it.
+            </p>
+        </field>
+    </record>
+
+    <!-- Top menu item -->
+    <menuitem
+        name="Material Gatepass"
+        parent="rc_service.service_request_menu_root"
+        id="menu_rc_material_gatepass" action="rc_material_gatepass_action_window" sequence="4"/>
+
+
+  </data>
+</odoo>

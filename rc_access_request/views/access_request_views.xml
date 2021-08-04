@@ -11,9 +11,10 @@
           <field name="company_name"/>
           <field name="designation"/>
           <field name="purpose"/>
-          <field name="access_category"/>
+          <field name="access_category_id"/>
           <field name="start_date"/>
           <field name="end_date"/>
+          <field name="state"/>
         </tree>
       </field>
     </record>
@@ -26,13 +27,20 @@
         <field name="arch" type="xml">
             <form string="Access Request">
                 <header>
+                    <!-- <field name="check_in_status" invisible="1"/> -->
                     <button name="button_submit" states="draft" string="Submit" type="object"/>
                     <button name="button_approve" states="submit" string="Approve" type="object" class="btn btn-primary" groups="rc_service.group_dc"/>
+                    
+                    <!-- <button name="button_check_in" string="Check In" type="object" class="btn btn-primary" attrs="{'invisible': ['|', ('state', '!=', 'approved'), ('check_in_status', '=', 'checked_in')]}"/>
+                    <button name="button_check_out" string="Check Out" type="object" class="btn btn-danger" attrs="{'invisible': ['|', ('state', '!=', 'approved'), ('check_in_status', '=', 'checked_out')]}"/> -->
+
                     <button name="button_reject" states="submit" string="Reject" type="object" class="btn btn-danger" groups="rc_service.group_dc"/>
                     <button name="button_reset" states="reject" string="Set to Draft" type="object" />   
                     <field name="state" widget="statusbar" statusbar_visible="draft,submit,approved" readonly="1"/>
                 </header>
                 <sheet>
+                    <!-- <widget name="web_ribbon" title="Checked In" attrs="{'invisible': [('check_in_status', '!=', 'checked_in')]}"/>
+                    <widget name="web_ribbon" title="Checked Out" bg_color="bg-danger" attrs="{'invisible': [('check_in_status', '!=', 'checked_out')]}"/> -->
                     <div class="oe_title">
                         <label for="name" class="oe_edit_only"/>
                         <h1><field name="name"/></h1>
@@ -42,17 +50,30 @@
                         <field name="company_name"/>
                         <field name="designation"/>
                         <field name="purpose"/>
-                        <field name="access_category"/>
+                        <field name="access_category_id"/>
                     </group>
 
                     <group string="Request Duration" col="4">
                         <field name="start_date"/>
                         <field name="end_date"/>
                     </group>
+                    
+                    <field name="access_request_line_ids" nolabel="1">
+	                   <tree editable="bottom">
+	                        <field name="name"/>
+                            <field name="designation"/>
+                            <field name="company"/>
+                            <field name="phone"/>
+                            <field name="checked_in"/>
+                            <field name="checked_out"/>
+                            <field name="check_in_status"/>
+                            <button name="button_check_in" type="object"  class="btn btn-primary" string="Check In"  attrs="{'invisible': ['|', ('parent.state', '!=', 'approved'), ('check_in_status', '=', 'checked_in')]}"/>
+                            <button name="button_check_out" type="object" class="btn btn-danger" string="Check Out" attrs="{'invisible': ['|', ('parent.state', '!=', 'approved'), ('check_in_status', '=', 'checked_out')]}"/>
+	                   </tree>
+	               </field>
 
-                    <group string="Daily Arrival" col="4">
-                        <field name="start_time"/>
-                        <field name="end_time"/>
+                    <group col="6">
+                        
                     </group>
 
                     <group string="Areas to be Accessed" col="6">
@@ -62,22 +83,25 @@
                         <field name="dc_surroundings"/>
                         <field name="staging_area"/>
                         <field name="diesel_generator_area"/>
+                        <field name="bcp_building"/>
+                    </group>
+
+                    <group col="4">
+                        <field name="employee_id"/>
+                        <field name="department_id"/>
+                        <field name="user_id"/>
+                        <field name="requested_for_id"/>
+                        <field name="request_date"/>
                     </group>
 
                     <group string='Notes'>
                         <field name="additional_info" nolabel="1"/>
                     </group>
 
-                    <!-- <group string='ELT Approval' col="4">
-                        <field name="md_manager_id"/>
-                        <field name="md_approval_date"/>
-
-                        <field name="fd_manager_id"/>
-                        <field name="fd_approval_date"/>
-                        
-                        <field name="coo_manager_id"/>
-                        <field name="coo_approval_date"/>
-                    </group> -->
+                    <group string='Approval' col="4">
+                        <field name="approver_id"/>
+                        <field name="approver_date"/>
+                    </group>
                 </sheet>
                 <div class="oe_chatter">
                     <field name="message_follower_ids" widget="mail_followers"/>
@@ -95,6 +119,7 @@
       <field name="res_model">access.request</field>
       <field name="view_mode">tree,form,graph,pivot</field>
       <field name="domain">[]</field>
+      <!-- <field name="search_view_id" ref="search_access_request"/> -->
         <field name="context">{}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
@@ -105,11 +130,28 @@
         </field>
     </record>
 
+    <!-- Search Views -->
+    <record id="search_access_request" model="ir.ui.view">
+      <field name="name">search.access.request</field>
+      <field name="model">access.request</field>
+      <field name="arch" type="xml">
+        <search string="Visitors">
+          <field name="name"/>
+          <filter name="start_date" domain="['&amp;', ('start_date', '&gt;=', datetime.datetime.now().strftime('%Y-%m-%d 00:00:00')), '&amp;', ('start_date', '&lt;=', datetime.datetime.now().strftime('%Y-%m-%d 23:23:59')), ('state','not in',['approved'])]" string="Expected Today" />
+        </search>
+      </field>
+    </record>
+
     <!-- Top menu item -->
     <menuitem
         name="Access Request"
         parent="rc_service.service_request_menu_root"
-        id="menu_rc_access_request" action="rc_access_request_action_window" sequence="1"/>
+        id="menu_rc_access_request" sequence="1"/>
+
+    <menuitem
+        name="Requests"
+        parent="menu_rc_access_request"
+        id="menu_rc_requests" action="rc_access_request_action_window" sequence="1"/>
 
   </data>
 </odoo>

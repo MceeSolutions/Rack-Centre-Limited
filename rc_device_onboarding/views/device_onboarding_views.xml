@@ -1,0 +1,161 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+
+    <record model="ir.ui.view" id="rc_device_onboarding_list">
+      <field name="name">Device Onboarding</field>
+      <field name="model">device.onboarding</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="ref"/>
+          <field name="user_id"/>
+          <field name="partner_id"/>
+          <field name="contact_person"/>
+          <field name="state"/>
+        </tree>
+      </field>
+    </record>
+
+    <!-- explicit form view definition -->
+    <record model="ir.ui.view" id="rc_device_onboarding_view">
+        <field name="name">device.onboarding.view</field>
+        <field name="model">device.onboarding</field>
+        <field name="priority" eval="2"/>
+        <field name="arch" type="xml">
+            <form string="Device Onboarding">
+                <header>
+                    <button name="button_submit" states="draft" string="Submit" type="object"/>
+
+                    <button name="button_finance_approve" states="submit" string="Approve" type="object" class="btn btn-primary" />
+                    <button name="button_dc_approve" states="finance_approved" string="Approve" type="object" class="btn btn-primary" />
+                    <button name="button_approve" states="dc_approved" string="Approve" type="object" class="btn btn-primary" />
+                    
+                    <button name="button_reject" states="submit,finance_approved,dc_approved" string="Reject" type="object" class="btn btn-danger" />
+                    <button name="button_reset" states="reject" string="Set to Draft" type="object" />   
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submit,finance_approved,dc_approved,approved" readonly="1"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name"/></h1>
+                    </div>
+
+                    <group col="4">
+                        <!-- <field name="company_name"/> -->
+                        <field name="ref"/>
+                    </group>
+
+                    <group string='Channel Partner Details' col="4">
+                        <field name="partner_name"/>
+                        <field name="contact_person"/>
+                        <field name="contact_email" widget="email"/>
+                        <field name="contact_tel" widget="phone"/>
+                        <field name="date"/>
+                    </group>
+
+                    <group string='Customer Details' col="4">
+                        <field name="company_name"/>
+                        <field name="partner_contact_person"/>
+                        <field name="partner_business_address"/>
+                        <field name="partner_contact_email" widget="email"/>
+                        <field name="partner_contact_tel" widget="phone"/>
+                    </group>
+
+                    <notebook>
+                        <page string="Service Request Lines">
+                            <group string='Service Request Lines'>
+                                <field name="device_onboarding_line_ids" nolabel="1" colspan='4' context="{'group_by': 'manufacturer'}">
+                                    <tree editable="bottom">
+
+                                        <field name="manufacturer"/>
+                                        <field name="model"/>
+                                        <field name="serial_numbers"/>
+
+                                        <field name="power_requirements"/>
+
+                                        <field name="power"/>
+                                        <field name="u_space"/>
+
+                                        <field name="power_redendancy"/>
+
+                                        <field name="type_of_airflow"/>
+                                        <!-- <field name="airflow_others"/> -->
+
+                                        <field name="rack_mountkits_avilable"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+
+                        <page string='Project Implementation Plan'>
+                            <group string='Project Implementation Plan'>
+                                <field name="project_plan_line_ids" nolabel="1">
+                                    <tree editable="bottom">
+                                            <field name="name"/>
+                                            <field name="start_date"/>
+                                            <field name="end_date"/>
+                                            <field name="assigned_resource"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                    </notebook>
+
+                    
+
+                    <group string='Notes'>
+                        <field name="additional_info" nolabel="1"/>
+                    </group>
+
+                    <group col="4">
+                        <field name="priority" widget="priority"/>
+                        <field name="change_type"/>
+                    </group>
+
+                    <group string='Approval' col="4">
+                        <field name="finance_manager_id"/>
+                        <field name="finance_approval_date"/>
+
+                        <field name="data_centre_manager_id"/>
+                        <field name="data_centre_approval_date"/>
+                        
+                        <field name="command_centre_personnel_id"/>
+                        <field name="command_centre_approval_date"/>
+                    </group>
+
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- actions opening views on models -->
+
+    <record model="ir.actions.act_window" id="rc_device_onboarding_action_window">
+      <field name="name">Device Onboarding</field>
+      <field name="res_model">device.onboarding</field>
+      <field name="view_mode">tree,form,graph,pivot</field>
+      <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+            let's create a new Device Onboarding Request.
+            </p><p>
+            Once you have created your Device Onboarding Request, submit it to Management who will validate it.
+            </p>
+        </field>
+    </record>
+
+    <!-- Top menu item -->
+    <menuitem
+        name="Device Onboarding"
+        parent="rc_service.rc_change_request_service_menu"
+        id="menu_rc_device_onboarding" action="rc_device_onboarding_action_window" sequence="3"/>
+
+  </data>
+</odoo>

@@ -6,7 +6,7 @@ from odoo import api, fields, models, _
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
-    free_remote_hands = fields.Integer(string='Free Remote Hands', default=1)
+    free_remote_hands = fields.Float(string='Free Remote Hands(Mins)')
 
     remote_hands_count = fields.Integer(string='Remote Hands', compute="count_remote_hands")
 

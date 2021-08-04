@@ -37,13 +37,36 @@
                         <group>
                             <group>
                                 <field name="user_id" />
-                                <field name="date_request" />
                                 <field name="partner_id" />
                                 <field name="date_request" />
                                 <field name="date_last_maintenance" />
                                 <field name="date_approve" />
                             </group>
                         </group>
+                        <notebook>
+                                    <page string="MATERIAL DETAILS" name="tool_request_line">
+                                        <field name="line_ids" nolabel="1" context="{'default_gatepass_id': active_id}">
+                                            <tree editable="bottom">
+                                                <!-- <field name="tool_id" /> -->
+                                                <field name="description" />
+                                                <field name="qty_request" />
+                                                <field name="qty_done" />
+                                            </tree>
+                                            <form>
+                                                <group>
+                                                    <group>
+                                                        <field name="description" />
+                                                        <field name="qty_request" />
+                                                    </group>
+                                                    <group>
+                                                        <field name="qty_done" />
+                                                        <field name="gatepass_id" invisible="1" />
+                                                    </group>
+                                                </group>
+                                            </form>
+                                        </field>
+                                    </page>
+                                </notebook>
                     </sheet>
                     <div class="oe_chatter">
                         <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>

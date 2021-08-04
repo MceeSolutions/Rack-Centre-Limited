@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        
+        <record id="seq_equipment_relocation" model="ir.sequence">
+            <field name="name">Equipment Relocation</field>
+            <field name="code">equipment.relocation</field>
+            <field name="prefix">EQRL</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+    </data>
+</odoo>

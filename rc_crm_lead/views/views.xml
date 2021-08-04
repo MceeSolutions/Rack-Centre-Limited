@@ -17,7 +17,11 @@
                 <xpath expr="//group[@name='lead_info']//div[last()]" position="after">
                   <field name="industry_id"/>
                   <field name="interests"/>
-                  <field name="contact_name" invisible="0"/>
+                  <field name="contact_name" invisible="1"/>
+                  <field name="channel_partner"/>
+                  <field name="source_url"/>
+                  <field name="linkedin_connection_by_sales_team"/>
+                  <field name="leads_to_pipeline_conversion"/>
                 </xpath>
             </field>
         </record>

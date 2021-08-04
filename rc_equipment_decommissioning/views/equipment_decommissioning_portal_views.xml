@@ -1,0 +1,577 @@
+<odoo>
+    <data>
+
+        <record id="menu_equipment_decommissioning_form" model="website.menu">
+            <field name="name">Equipment Decommissioning</field>
+            <field name="url">/equipment_decommissioning</field>
+            <field name="parent_id" ref="website.main_menu"/>
+            <field name="sequence">55</field>
+        </record>
+
+        <template id="create_equipment_decommissioning" name="Equipment Decommissioning">
+          <t t-call="website.layout">
+            <div id="wrap">
+                <div class="oe_structure">
+                    <div class="container">
+                        <br/>
+                        <h2 class="text-center"> Channel Partner/Clients Equipment Decommissioning Form </h2>
+                        <form role="form" action="/create/equipment_decommissioning" method="POST" enctype="multipart/form-data">
+                            <div class="s_website_form_rows row s_col_no_bgcolor">
+
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <input type="hidden" name="partner_id" t-att-value="default_values.get('partner_id', '')" id="partner_id"/>
+                                <input type="hidden" name="user_id" t-att-value="default_values.get('user_id', '')" id="user_id"/>
+
+                                <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-6" data-type="char" data-name="Field">
+                                    <label class="s_website_form_label " style="width: 200px" for="name">
+                                        <span class="s_website_form_label_content">Subject</span>
+                                        <span class="s_website_form_mark" style="color:Red;">*</span>
+                                    </label>
+                                    <input type="text" class="form-control s_website_form_input" name="name" required="1" placeholder="Equipment Decommissioning For..." id="name"/>
+                                </div>
+
+                                <!-- <h6 class="text-center"> Contact Information </h6><br/> -->
+                                <!-- <span class="form-group">
+                                    <h4> Contact Information </h4>
+                                </span><br/> -->
+                                <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-6" data-type="char" data-name="Field">
+                                    <label class="s_website_form_label " style="width: 200px" for="company_name">
+                                        <span class="s_website_form_label_content">Company Name</span>
+                                        <span class="s_website_form_mark" style="color:Red;">*</span>
+                                    </label>
+                                    <input type="text" class="form-control s_website_form_input" name="company_name" t-att-value="default_values.get('company_name', '')" placeholder="" id="company_name"/>
+                                </div>
+
+                                <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-6" data-type="char" data-name="Field">
+                                    <label class="s_website_form_label " style="width: 200px" for="contact_name">
+                                        <span class="s_website_form_label_content">Contact Name</span>
+                                        <span class="s_website_form_mark" style="color:Red;">*</span>
+                                    </label>
+                                    <input type="text" class="form-control s_website_form_input" name="contact_name" t-att-value="default_values.get('name', '')" placeholder="" id="contact_name"/>
+                                </div>
+
+                                <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-6" data-type="char" data-name="Field">
+                                    <label class="s_website_form_label " style="width: 200px" for="contact_email">
+                                        <span class="s_website_form_label_content">Contact Email</span>
+                                        <span class="s_website_form_mark" style="color:Red;">*</span>
+                                    </label>
+                                    <input type="email" class="form-control s_website_form_input" name="contact_email" t-att-value="default_values.get('email', '')" placeholder="" id="contact_email"/>
+                                </div>
+
+                                <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-6" data-type="char" data-name="Field">
+                                    <label class="s_website_form_label " style="width: 200px" for="contact_work_phone">
+                                        <span class="s_website_form_label_content">Work Phone</span>
+                                        <span class="s_website_form_mark" style="color:Red;">*</span>
+                                    </label>
+                                    <input type="tel" class="form-control s_website_form_input" name="contact_work_phone" t-att-value="default_values.get('phone', '')" placeholder="" id="contact_work_phone"/>
+                                </div>
+
+                                <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-6" data-type="char" data-name="Field">
+                                    <label class="s_website_form_label " style="width: 200px" for="contact_position">
+                                        <span class="s_website_form_label_content">Position</span>
+                                        <span class="s_website_form_mark" style="color:Red;">*</span>
+                                    </label>
+                                    <input type="text" class="form-control s_website_form_input" name="contact_position" placeholder="" id="contact_position"/>
+                                </div>
+
+                                <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-6" data-type="char" data-name="Field">
+                                    <label class="s_website_form_label " style="width: 200px" for="contact_manager_name">
+                                        <span class="s_website_form_label_content">Manager's Name</span>
+                                        <span class="s_website_form_mark" style="color:Red;">*</span>
+                                    </label>
+                                    <input type="text" class="form-control s_website_form_input" name="contact_manager_name" placeholder="" id="contact_manager_name"/>
+                                </div>
+
+                                <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-6" data-type="char" data-name="Field">
+                                    <label class="s_website_form_label " style="width: 200px" for="contact_manager_phone">
+                                        <span class="s_website_form_label_content">Manager's Phone</span>
+                                        <span class="s_website_form_mark" style="color:Red;">*</span>
+                                    </label>
+                                    <input type="text" class="form-control s_website_form_input" name="contact_manager_phone" placeholder="" id="contact_manager_phone"/>
+                                </div>
+
+                                <div class="form-group">
+                                    <h4> Equipment information </h4>
+                                </div>
+                                <div class="form-group s_website_form_field col-12 s_website_form_custom s_website_form_required" data-type="char" data-name="Field">
+                                    <div class="row s_col_no_resize s_col_no_bgcolor">
+                                        <label class="col-form-label col-sm-auto s_website_form_label " style="width: 250px" for="equipment_contact_person">
+                                            <span class="s_website_form_label_content">Equipment contact person</span>
+                                            <span class="s_website_form_mark">*</span>
+                                        </label>
+                                        <div class="col-sm">
+                                            <input type="text" class="form-control s_website_form_input" name="equipment_contact_person" required="1" id="equipment_contact_person"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group s_website_form_field col-12 s_website_form_custom s_website_form_required" data-type="char" data-name="Field">
+                                    <div class="row s_col_no_resize s_col_no_bgcolor">
+                                        <label class="col-form-label col-sm-auto s_website_form_label " style="width: 250px" for="machine_name">
+                                            <span class="s_website_form_label_content">Machine Name</span>
+                                            <span class="s_website_form_mark" style="color:Red;">*</span>
+                                        </label>
+                                        <div class="col-sm">
+                                            <input type="text" class="form-control s_website_form_input" name="machine_name" required="1" id="machine_name"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group s_website_form_field col-12 s_website_form_custom s_website_form_required" data-type="char" data-name="Field">
+                                    <div class="row s_col_no_resize s_col_no_bgcolor">
+                                        <label class="col-form-label col-sm-auto s_website_form_label " style="width: 250px" for="serial_numbers">
+                                            <span class="s_website_form_label_content">Serial Number(s)</span>
+                                            <span class="s_website_form_mark" style="color:Red;">*</span>
+                                        </label>
+                                        <div class="col-sm">
+                                            <input type="text" class="form-control s_website_form_input" name="serial_numbers" required="1" id="serial_numbers"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group s_website_form_field col-12 s_website_form_custom s_website_form_required" data-type="char" data-name="Field">
+                                    <div class="row s_col_no_resize s_col_no_bgcolor">
+                                        <label class="col-form-label col-sm-auto s_website_form_label " style="width: 250px" for="manufacturer">
+                                            <span class="s_website_form_label_content">Manufacturer</span>
+                                            <span class="s_website_form_mark" style="color:Red;">*</span>
+                                        </label>
+                                        <div class="col-sm">
+                                            <input type="text" class="form-control s_website_form_input" name="manufacturer" required="1" id="manufacturer"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group s_website_form_field col-12 s_website_form_custom s_website_form_required" data-type="char" data-name="Field">
+                                    <div class="row s_col_no_resize s_col_no_bgcolor">
+                                        <label class="col-form-label col-sm-auto s_website_form_label " style="width: 250px" for="model">
+                                            <span class="s_website_form_label_content">Model</span>
+                                            <span class="s_website_form_mark" style="color:Red;">*</span>
+                                        </label>
+                                        <div class="col-sm">
+                                            <input type="text" class="form-control s_website_form_input" name="model" required="1" id="model"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group s_website_form_field col-12 s_website_form_custom s_website_form_required" data-type="char" data-name="Field">
+                                    <div class="row s_col_no_resize s_col_no_bgcolor">
+                                        <label class="col-form-label col-sm-auto s_website_form_label " style="width: 250px" for="operating_system">
+                                            <span class="s_website_form_label_content">Operating System</span>
+                                            <span class="s_website_form_mark" style="color:Red;">*</span>
+                                        </label>
+                                        <div class="col-sm">
+                                            <input type="text" class="form-control s_website_form_input" name="operating_system" required="1" id="operating_system"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group s_website_form_field col-12 s_website_form_custom s_website_form_required" data-type="char" data-name="Field">
+                                    <div class="row s_col_no_resize s_col_no_bgcolor">
+                                        <label class="col-form-label col-sm-auto s_website_form_label " style="width: 250px" for="ip_address">
+                                            <span class="s_website_form_label_content">IP Address</span>
+                                            <span class="s_website_form_mark" style="color:Red;">*</span>
+                                        </label>
+                                        <div class="col-sm">
+                                            <input type="text" class="form-control s_website_form_input" name="ip_address" required="1" id="ip_address"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <div class="form-group s_website_form_field col-12 s_website_form_custom s_website_form_required" data-type="char" data-name="Field">
+                                    <div class="row s_col_no_resize s_col_no_bgcolor">
+                                        <label class="col-form-label col-sm-auto s_website_form_label " style="width: 250px" for="currect_rack_location">
+                                            <span class="s_website_form_label_content">Current rack location and Rack Label</span>
+                                            <span class="s_website_form_mark" style="color:Red;">*</span>
+                                        </label>
+                                        <div class="col-sm">
+                                            <input type="text" class="form-control s_website_form_input" name="currect_rack_location" required="1" id="currect_rack_location"/>
+                                        </div>
+                                    </div>
+                                </div> -->
+                                <div class="form-group s_website_form_field col-12 s_website_form_custom s_website_form_required" data-type="char" data-name="Field">
+                                    <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                <label class="col-form-label col-sm-auto s_website_form_label " style="width: 200px" for="location_from">
+                                                    <span class="s_website_form_label_content">Current rack location</span>
+                                                    <span class="s_website_form_mark" style="color:Red;">*</span>
+                                                </label>
+                                                    <div class="form-group s_website_form_field s_website_form_required col-lg-2" data-type="char" data-name="Field">
+                                                        <label class="s_website_form_label " style="width: 250px" for="src_floor">
+                                                            <span class="s_website_form_label_content">Floor</span>
+                                                        </label>
+                                                        <select class="form-control o_website_form_input" name="src_floor" id="src_floor">
+                                                            <option value="1">Ground Floor</option>
+                                                            <option value="2">Top Floor</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-1" data-type="char" data-name="Field">
+                                                        <label class="s_website_form_label " style="width: 200px" for="src_it_room">
+                                                            <span class="s_website_form_label_content">IT Room</span>
+                                                        </label>
+                                                        <select class="form-control o_website_form_input" name="src_it_room" id="src_it_room">
+                                                            <option value="1">1</option>
+                                                            <option value="2">2</option>
+                                                            <option value="3">3</option>
+                                                            <option value="4">4</option>
+                                                            <option value="5">5</option>
+                                                            <option value="3">6</option>
+                                                            <option value="4">7</option>
+                                                            <option value="5">8</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-2" data-type="char" data-name="Field">
+                                                        <label class="s_website_form_label " style="width: 200px" for="src_rack_location">
+                                                            <span class="s_website_form_label_content">Rack Location</span>
+                                                        </label>
+                                                        <select class="form-control o_website_form_input" name="src_rack_location" id="src_rack_location">
+                                                            <option value="1">Left</option>
+                                                            <option value="2">Right</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-2" data-type="char" data-name="Field">
+                                                        <label class="s_website_form_label " style="width: 200px" for="src_rack_number">
+                                                            <span class="s_website_form_label_content">Rack Number</span>
+                                                        </label>
+                                                        <input type="text" class="form-control s_website_form_input" name="src_rack_number" placeholder="" id="src_rack_number"/>
+                                                    </div>
+
+                                                    <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-2" data-type="char" data-name="Field">
+                                                        <label class="s_website_form_label " style="width: 200px" for="src_uspace">
+                                                            <span class="s_website_form_label_content">U-Space</span>
+                                                        </label>
+                                                        <input type="text" class="form-control s_website_form_input" name="src_uspace" placeholder="" id="src_uspace"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                <div class="form-group s_website_form_field col-12 s_website_form_custom s_website_form_required" data-type="char" data-name="Field">
+                                    <div class="row s_col_no_resize s_col_no_bgcolor">
+                                        <label class="col-form-label col-sm-auto s_website_form_label " style="width: 250px" for="decommissioning_reason">
+                                            <span class="s_website_form_label_content">Reason you are decommissioning this equipment?</span>
+                                            <span class="s_website_form_mark" style="color:Red;">*</span>
+                                        </label>
+                                        <div class="col-sm">
+                                            <input type="text" class="form-control s_website_form_input" name="decommissioning_reason" required="1" id="decommissioning_reason"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group s_website_form_field col-12 s_website_form_custom s_website_form_required" data-type="char" data-name="Field">
+                                    <div class="row s_col_no_resize s_col_no_bgcolor">
+                                        <label class="col-form-label col-sm-auto s_website_form_label " style="width: 250px" for="plan_to_return">
+                                            <span class="s_website_form_label_content">Is there a plan to return the equipment?</span>
+                                            <span class="s_website_form_mark" style="color:Red;">*</span>
+                                        </label>
+                                        <div class="radio col-sm">
+                                            <div class="radio s_col_no_resize s_col_no_bgcolor s_website_form_multiple col-12 col-lg-4 col-md-6" data-display="horizontal">
+                                                <div class="form-check">
+                                                    <input type="radio" class="s_website_form_input form-check-input" id="plan_to_return" name="plan_to_return" value="yes"/>
+                                                    <label class="form-check-label s_website_form_check_label" for="plan_to_return">
+                                                        Yes
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input type="radio" class="s_website_form_input form-check-input" id="plan_to_return" name="plan_to_return" value="no"/>
+                                                    <label class="form-check-label s_website_form_check_label" for="plan_to_return">
+                                                        No
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group s_website_form_field col-12 s_website_form_custom s_website_form_required" data-type="date" data-name="Field">
+                                    <div class="row s_col_no_resize s_col_no_bgcolor">
+                                        <label class="col-form-label col-sm-auto s_website_form_label " style="width: 250px" for="expected_return_date">
+                                            <span class="s_website_form_label_content">Expected return date</span>
+                                            <span class="s_website_form_mark" style="color:Red;">*</span>
+                                        </label>
+                                        <div class="col-sm">
+                                            <input type="date" class="form-control s_website_form_input" name="expected_return_date" required="1" id="expected_return_date"/>
+                                        </div>
+                                    </div>
+                                </div>
+          
+                                <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-12" data-type="char" data-name="Field">
+                                    <label class="s_website_form_label " style="width: 200px" for="additional_info">
+                                        <span class="s_website_form_label_content">Comment/Additional information:</span>
+                                    </label>
+                                    <textarea id="additional_info" class="form-control s_website_form_input" name="additional_info" rows="3"/>
+                                </div>
+
+                                <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-12" data-type="binary" data-name="Field">
+                                    <label class="s_website_form_label " style="width: 300px" for="topology_planning_form">
+                                        <span class="s_website_form_label_content">Upload Rack Topology Planning Form</span>
+                                        <span class="s_website_form_mark" style="color:Red;">*</span>
+                                        <a class="fa fa-download" href="/download_rack_topology_planning_form"> Download Template</a>
+                                    </label>
+                                    <input type="file" class="form-control-file s_website_form_input" required="1" name="topology_planning_form" />
+                                </div>
+
+                            </div>
+
+                            <h4>Project Implementation Plan</h4>
+                            <div class="tasks">
+                                <div class="row">
+                                    <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-3" data-type="char" data-name="Field">
+                                        <label class="s_website_form_label " style="width: 200px" for="task_name">
+                                            <span class="s_website_form_label_content">Task</span>
+                                        </label>
+                                        <input type="text" class="form-control s_website_form_input" name="task_name"/>
+                                    </div>
+                                    <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-3" data-type="char" data-name="Field">
+                                        <label class="s_website_form_label " style="width: 200px" for="task_start_date">
+                                            <span class="s_website_form_label_content">Start Date &amp; Time</span>
+                                        </label>
+                                        <input type="datetime-local" class="form-control s_website_form_input" name="task_start_date"/>
+                                    </div>
+                                    <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-3" data-type="char" data-name="Field">
+                                        <label class="s_website_form_label " style="width: 200px" for="task_end_date">
+                                            <span class="s_website_form_label_content">End Date &amp; Time</span>
+                                        </label>
+                                        <input type="datetime-local" class="form-control s_website_form_input" name="task_end_date"/>
+                                    </div>
+                                    <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-3" data-type="char" data-name="Field">
+                                        <label class="s_website_form_label " style="width: 200px" for="task_assigned_resource">
+                                            <span class="s_website_form_label_content">Assigned Resource(s)</span>
+                                        </label>
+                                        <input type="text" class="form-control s_website_form_input" name="task_assigned_resource"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <p><a id="add-more-tasks" href="#" class="pull-right">+ Add more</a></p>
+
+                            <div class="form-group col-12 text-center s_website_form_submit" data-name="Submit Button">
+                                <div style="width: 200px;" class="s_website_form_label"/>
+                                <button type="submit" href="#" role="button" class="btn btn-primary btn-lg s_website_form_send">Submit</button>
+                                <span id="s_website_form_result"></span>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+          </t>
+        </template>
+
+        <template id="portal_layout" name="Portal layout: equipment decommissioning menu entry" inherit_id="portal.portal_breadcrumbs" priority="60">
+            <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+                <li t-if="page_name == 'Equipment Decommissionings' or equipment_decommissioning" class="col-lg-2" t-attf-class="breadcrumb-item #{'active ' if not equipment_decommissioning else ''}">
+                    <a t-if="equipment_decommissioning" t-attf-href="/my/equipment_decommissionings?{{ keep_query() }}">Equipment Decommissioning</a>
+                    <t t-else="">Equipment Decommissionings</t>
+                </li>
+                <li t-if="equipment_decommissioning" class="breadcrumb-item active text-truncate col-8 col-lg-10">
+                    <t t-esc="equipment_decommissioning.name"/>
+                </li>
+            </xpath>
+        </template>
+
+        <template id="portal_my_home1" name="Show equipment decommissionings" customize_show="True" inherit_id="portal.portal_my_home" priority="60">
+            <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+                <t t-call="portal.portal_docs_entry">
+                    <t t-set="title">Equipment Decommissionings</t>
+                    <t t-set="url" t-value="'/my/equipment_decommissionings'"/>
+                    <t t-set="placeholder_count" t-value="'equipment_decommissioning_count'"/>
+                </t>
+            </xpath>
+        </template>
+
+        <template id="portal_my_equipment_decommissionings" name="My Equipment Decommissionings">
+            <t t-call="portal.portal_layout">
+                <t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+                <t t-call="portal.portal_searchbar">
+                    <t t-set="title">equipment Decommissionings</t>
+                </t>
+                <t t-if="not equipment_decommissionings">
+                    <div class="alert alert-warning mt8" role="alert">
+                        You have no equipment decommissioning(s). <a href="/equipment_decommissioning">click here</a> to create one.
+                    </div>
+                </t>
+                <t t-if="equipment_decommissionings" t-call="portal.portal_table">
+                    <tbody>
+                        <tr t-foreach="equipment_decommissionings" t-as="equipment_decommissioning">
+                            <td>
+                                <a t-attf-href="/my/equipment_decommissioning/#{equipment_decommissioning.id}?{{ keep_query() }}"><span t-field="equipment_decommissioning.name"/></a>
+                            </td>
+                            <td class="text-right">
+                                <span class="badge badge-pill badge-info" title="Current stage of the request" t-esc="equipment_decommissioning.state" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </t>
+                <br/>
+                <a href="/equipment_decommissioning" role="button" class="btn pull-right btn-primary">New Equipment Decommissioning Request</a>
+            </t>
+        </template>
+
+        <template id="portal_my_equipment_decommissioning" name="My Equipment Decommissioning">
+            <t t-call="portal.portal_layout">
+                <t t-set="o_portal_fullwidth_alert" groups="base.group_user">
+                    <t t-call="portal.portal_back_in_edit_mode">
+                        <t t-set="backend_url" t-value="'/web#model=equipment.decommissioning&amp;id=%s&amp;view_type=form' % (equipment_decommissioning.id)"/>
+                    </t>
+                </t>
+
+                <t t-call="portal.portal_record_layout">
+                    <t t-set="card_header">
+                        <div class="row no-gutters">
+                            <div class="col-12">
+                                <h5 class="d-flex mb-1 mb-md-0 row">
+                                    <span t-field="equipment_decommissioning.name" class="col-9 text-truncate"/>
+                                    <small class="text-muted d-none d-md-inline"> (#<span t-field="equipment_decommissioning.id"/>)</small>
+                                    <div class="col-3 col-md-2 text-right">
+                                        <small class="text-right">Status:</small>
+                                        <span t-field="equipment_decommissioning.state" class=" badge badge-pill badge-info" title="Current stage of this Request"/>
+                                    </div>
+                                </h5>
+                            </div>
+                        </div>
+                    </t>
+                    <t t-set="card_body">
+                        
+                        <!-- <div class="row">
+
+                            <div t-if="cross_connect.partner_id" class="col-12 col-md-12 mb-2 mb-md-0">
+                                <h6>Client Details</h6>
+                                <div class="row">
+                                    <div class="col flex-grow-0 pr-3">
+                                        <img t-if="cross_connect.partner_id.image_1024" class="rounded-circle mt-1 o_portal_contact_img" t-att-src="image_data_uri(cross_connect.partner_id.image_1024)" alt="Contact"/>
+                                        <img t-else="" class="rounded-circle mt-1 o_portal_contact_img" src="/web/static/src/img/user_menu_avatar.png" alt="Contact"/>
+                                    </div>
+                                    <div class="col pl-sm-0">
+                                        <address t-field="cross_connect.partner_id" t-options='{"widget": "contact", "fields": ["name", "email", "phone"]}'/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-6 mb-1">
+                                <h6> Client Category </h6>
+                                <strong>Client (Cl):</strong> <span t-field="cross_connect.client_cl"/>
+                            </div>
+
+                        </div> -->
+
+                        <div class="row mb-4">
+                            <!-- <strong>Contact Information:</strong> <br/> -->
+                            <div class="col-12 col-md-6 mb-1">
+                                <strong>Company's Name:</strong> <span t-field="equipment_decommissioning.company_name"/>
+                            </div>
+                            <div class="col-12 col-md-6 mb-1">
+                                <strong>CRQ No:</strong> <span t-field="equipment_decommissioning.ref"/>
+                            </div>
+                            <div class="col-12 col-md-6 mb-1">
+                                <strong>Name:</strong> <span t-field="equipment_decommissioning.contact_name"/>
+                            </div>
+                            <div class="col-12 col-md-6 mb-1">
+                                <strong>Position:</strong> <span t-field="equipment_decommissioning.contact_position"/>
+                            </div>
+                            <div class="col-12 col-md-6 mb-1">
+                                <strong>Email address:</strong> <span t-field="equipment_decommissioning.contact_email" />
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <strong>Work phone:</strong> <span t-field="equipment_decommissioning.contact_work_phone"/>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <strong>Manager’s Name:</strong> <span t-field="equipment_decommissioning.contact_manager_name"/>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <strong>Manager’s Phone:</strong> <span t-field="equipment_decommissioning.contact_manager_phone"/>
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <!-- <strong>Equipment information:</strong> <br/> -->
+                            <div class="col-12 col-md-12">
+                                <strong>Equipment contact person:</strong> <span t-field="equipment_decommissioning.equipment_contact_person"/>
+                            </div>
+                            <div class="col-12 col-md-12">
+                                <strong>Machine Name:</strong> <span t-field="equipment_decommissioning.machine_name"/>
+                            </div>
+                            <div class="col-12 col-md-12">
+                                <strong>Serial Number(s):</strong> <span t-field="equipment_decommissioning.serial_numbers"/>
+                            </div>
+                            <div class="col-12 col-md-12">
+                                <strong>Manufacturer:</strong> <span t-field="equipment_decommissioning.manufacturer"/>
+                            </div>
+                            <div class="col-12 col-md-12">
+                                <strong>Model:</strong> <span t-field="equipment_decommissioning.model"/>
+                            </div>
+                            <div class="col-12 col-md-12">
+                                <strong>Operating System:</strong> <span t-field="equipment_decommissioning.operating_system"/>
+                            </div>
+                            <div class="col-12 col-md-12">
+                                <strong>IP Address:</strong> <span t-field="equipment_decommissioning.ip_address"/>
+                            </div>
+                            <div class="col-12 col-md-12">
+                                <strong>Current rack location and Rack Label:</strong> <span t-field="equipment_decommissioning.currect_rack_location"/>
+                            </div>
+
+                            <div class="col-12 col-md-12">
+                                <strong>Why are you decommissioning this equipment?:</strong> <span t-field="equipment_decommissioning.decommissioning_reason"/>
+                            </div>
+                            <div class="col-12 col-md-12">
+                                <strong>Is there a plan to return the equipment?:</strong> <span t-field="equipment_decommissioning.plan_to_return"/>
+                            </div>
+                            <div class="col-12 col-md-12">
+                                <strong>Expected return date:</strong> <span t-field="equipment_decommissioning.expected_return_date"/>
+                            </div>
+
+                            <div class="col-12 col-md-12 mb-1">
+                                <br/>
+                                <h4>Project Implementation Plan</h4>
+                                <table class="table table-sm">
+                                    <thead class="bg-100">
+                                        <tr>
+                                            <th>Task</th>
+                                            <th>Start Date &amp; Time</th>
+                                            <th>End Date &amp; Time</th>
+                                            <th>Assigned Resource(s)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="equipment_decommissioning.project_plan_line_ids" t-as="ol">
+                                            <tr t-att-class="'bg-200 o_line_section'">
+                                                <t>
+                                                    <td>
+                                                        <span t-esc="ol.name"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="ol.start_date" t-options='{"widget": "datetime"}'/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-esc="ol.end_date" t-options='{"widget": "datetime"}'/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="ol.assigned_resource"/>
+                                                    </td>
+                                                </t>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
+
+
+                        </div>
+                        
+                        <div class="row" t-if="equipment_decommissioning.additional_info">
+                            <div>
+                                <hr class="mb-1"/>
+                                <div class="d-flex my-2">
+                                    <strong>Addittional Information</strong>
+                                </div>
+                                <div class="py-1 px-2 bg-100 small" t-field="equipment_decommissioning.additional_info"/>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+
+                <div class="mt32">
+                    <h4><strong>Message and communication history</strong></h4>
+                    <t t-call="portal.message_thread">
+                        <t t-set="object" t-value="equipment_decommissioning"/>
+                        <t t-set="pid" t-value="pid"/>
+                        <t t-set="hash" t-value="hash"/>
+                    </t>
+                </div>
+            </t>
+        </template>
+        
+    </data>
+</odoo>

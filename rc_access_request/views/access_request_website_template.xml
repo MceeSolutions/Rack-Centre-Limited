@@ -7,6 +7,12 @@
             <field name="parent_id" ref="website.main_menu"/>
             <field name="sequence">55</field>
         </record>
+
+        <template id="assets_backend" name="access request" inherit_id="web.assets_frontend">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/rc_access_request/static/src/js/main.js"></script>
+            </xpath>
+        </template>
     
         <template id="create_access_request" name="Access Request">
           <t t-call="website.layout">
@@ -15,11 +21,13 @@
                     <div class="container">
                         <br/>
                         <h2 class="text-center"> Access Request Form </h2>
-                        <form role="form" action="/create/webaccessrequest" method="POST">
+                        <form role="form" action="/create/webaccessrequest" method="POST" enctype="multipart/form-data">
                             <div class="s_website_form_rows row s_col_no_bgcolor">
 
                                 <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                                 <input type="hidden" name="partner_id" t-att-value="default_values.get('partner_id', '')" id="partner_id"/>
+                                <input type="hidden" name="user_id" t-att-value="default_values.get('user_id', '')" id="user_id"/>
+                                <input type="hidden" name="requested_for_id" t-att-value="default_values.get('requested_for_id', '')" id="requested_for_id"/>
                                 
                                 <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-6" data-type="char" data-name="Field">
                                     <label class="s_website_form_label " style="width: 200px" for="name">
@@ -50,15 +58,24 @@
                                         <span class="s_website_form_label_content">Purpose</span>
                                         <span class="s_website_form_mark" style="color:Red;">*</span>
                                     </label>
-                                    <input type="text" class="form-control s_website_form_input" name="purpose" required="1" placeholder="" id="purpose"/>
+                                    <select class="form-control o_website_form_input" name="purpose" id="purpose">
+                                        <option value="operational">Operational</option>
+                                        <option value="meeting">Meeting</option>
+                                        <option value="tour_access">Tour Access</option>
+                                        <option value="other">Others</option>
+                                    </select>
                                 </div>
 
                                 <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-6" data-type="char" data-name="Field">
-                                    <label class="s_website_form_label " style="width: 200px" for="access_category">
+                                    <label class="s_website_form_label " style="width: 200px" for="access_category_id">
                                         <span class="s_website_form_label_content">Access Category</span>
                                         <span class="s_website_form_mark" style="color:Red;">*</span>
                                     </label>
-                                    <input type="text" class="form-control s_website_form_input" name="access_category" required="1" placeholder="" id="access_category"/>
+                                    <select id="access_category_id" class="form-control" name="access_category_id" required="1">
+                                        <t t-foreach="access_category_id" t-as="access_category">
+                                            <option t-attf-value="#{access_category.id}"><t t-esc="access_category.name"/></option>
+                                        </t>
+                                    </select>
                                 </div>
 
                                 <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-6" data-type="char" data-name="Field">
@@ -97,12 +114,13 @@
 
                                             <div class="checkbox col-12 col-lg-4 col-md-6">
                                                 <div class="form-check">
-                                                    <input type="checkbox" class="s_website_form_input form-check-input" id="dc_surroundings" name="dc_surroundings" value="dc_surroundings"/>
-                                                    <label class="form-check-label s_website_form_check_label" for="dc_surroundings">
-                                                        DC Surroundings - RF shelter, teleport area, water chamber, etc.
+                                                    <input type="checkbox" class="s_website_form_input form-check-input" id="bcp_building" name="bcp_building" value="bcp_building"/>
+                                                    <label class="form-check-label s_website_form_check_label" for="bcp_building">
+                                                        BCP Building
                                                     </label>
                                                 </div>
                                             </div>
+
 
                                             <div class="checkbox col-12 col-lg-4 col-md-6">
                                                 <div class="form-check">
@@ -122,41 +140,68 @@
                                                 </div>
                                             </div>
 
+                                            <div class="checkbox col-12 col-lg-4 col-md-6">
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="s_website_form_input form-check-input" id="dc_surroundings" name="dc_surroundings" value="dc_surroundings"/>
+                                                    <label class="form-check-label s_website_form_check_label" for="dc_surroundings">
+                                                        DC Surroundings - RF shelter, teleport area, water chamber, etc.
+                                                    </label>
+                                                </div>
+                                            </div>
+
                                         </div>
                                 </div>
 
                                 <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-6" data-type="date" data-name="Field">
                                     <label class="s_website_form_label " style="width: 200px" for="start_date">
-                                        <span class="s_website_form_label_content">Start Date</span>
+                                        <span class="s_website_form_label_content">Start Date &amp; Time</span>
                                         <span class="s_website_form_mark" style="color:Red;">*</span>
                                     </label>
-                                    <input type="date" class="form-control s_website_form_input" name="start_date" required="1" placeholder="" id="start_date"/>
+                                    <input type="datetime-local" class="form-control s_website_form_input" name="start_date" required="1" placeholder="" id="start_date"/>
                                 </div>
 
                                 <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-6" data-type="char" data-name="Field">
                                     <label class="s_website_form_label " style="width: 200px" for="end_date">
-                                        <span class="s_website_form_label_content">End Date</span>
+                                        <span class="s_website_form_label_content">End Date &amp; Time</span>
                                         <span class="s_website_form_mark" style="color:Red;">*</span>
                                     </label>
-                                    <input type="date" class="form-control s_website_form_input" name="end_date" required="1" placeholder="" id="end_date"/>
+                                    <input type="datetime-local" class="form-control s_website_form_input" name="end_date" required="1" placeholder="" id="end_date"/>
                                 </div>
 
-                                <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-6" data-type="char" data-name="Field">
-                                    <label class="s_website_form_label " style="width: 200px" for="start_time">
-                                        <span class="s_website_form_label_content">Start Time</span>
+                                <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-12" data-type="binary" data-name="Field">
+                                    <label class="s_website_form_label " style="width: 400px" for="health_screening_form">
+                                        <span class="s_website_form_label_content">Upload Health screening Form for Visitors</span>
                                         <span class="s_website_form_mark" style="color:Red;">*</span>
+                                        <a class="fa fa-download" href="/download_health_screening_form"> Download Template</a>
                                     </label>
-                                    <input type="time" class="form-control s_website_form_input" name="start_time" required="1" placeholder="" id="start_time"/>
+                                    <input type="file" class="form-control-file s_website_form_input" required="1" name="health_screening_form" />
                                 </div>
 
-                                <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-6" data-type="char" data-name="Field">
-                                    <label class="s_website_form_label " style="width: 200px" for="end_time">
-                                        <span class="s_website_form_label_content">End TIme</span>
-                                        <span class="s_website_form_mark" style="color:Red;">*</span>
-                                    </label>
-                                    <input type="time" class="form-control s_website_form_input" name="end_time" required="1" placeholder="" id="end_time"/>
-                                </div>
+                            </div>
 
+                            <div class="attendees">
+                                <div class="row">
+                                    <div class="form-group col-12 col-sm col-lg-3">
+                                        <label for="visitor_name">Visitor's Name</label>
+                                        <input type="text" class="form-control" name="visitor_name" required="1" t-att-value="default_values.get('name', '')"/>
+                                    </div>
+                                    <div class="form-group col-12 col-sm col-lg-3">
+                                        <label for="visitor_designation">Designation</label>
+                                        <input type="text" class="form-control" name="visitor_designation" required="1"/>
+                                    </div>
+                                    <div class="form-group col-12 col-sm col-lg-3">
+                                        <label for="visitor_company">Company</label>
+                                        <input type="text" class="form-control" name="visitor_company" required="1" t-att-value="default_values.get('company_name', '')"/>
+                                    </div>
+                                    <div class="form-group col-12 col-sm col-lg-3">
+                                        <label for="visitor_phone">Phone No.</label>
+                                        <input type="text" class="form-control" name="visitor_phone" required="1"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <p><a id="add-more-attendees" href="#" class="pull-right">+ Add more</a></p>
+
+                            <div class="row">
                                 <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-12" data-type="char" data-name="Field">
                                     <label class="s_website_form_label " style="width: 200px" for="additional_info">
                                         <span class="s_website_form_label_content">Addittional Information?</span>
@@ -169,8 +214,8 @@
                                     <button type="submit" href="#" role="button" class="btn btn-primary btn-lg s_website_form_send">Submit</button>
                                     <span id="s_website_form_result"></span>
                                 </div>
-
                             </div>
+
                         </form>
                     </div>
                 </div>
@@ -265,21 +310,14 @@
                                 <strong>Purpose:</strong> <span t-field="access_request.purpose" />
                             </div>
                             <div class="col-12 col-md-6">
-                                <strong>Access Category:</strong> <span t-field="access_request.access_category"/>
+                                <strong>Access Category:</strong> <span t-field="access_request.access_category_id.name"/>
                             </div>
                            
                             <div class="col-12 col-md-6 mb-1">
-                                <strong>Start Date:</strong> <span t-field="access_request.start_date" t-options='{"widget": "date"}'/>
+                                <strong>Start Date &amp; Time:</strong> <span t-field="access_request.start_date" t-options='{"widget": "datetime"}'/>
                             </div>
                             <div class="col-12 col-md-6">
-                                <strong>End Date:</strong> <span t-field="access_request.end_date" t-options='{"widget": "date"}'/>
-                            </div>
-
-                            <div class="col-12 col-md-6 mb-1">
-                                <strong>Start Time:</strong> <span t-field="access_request.start_time" t-options='{"widget": "time"}'/>
-                            </div>
-                            <div class="col-12 col-md-6">
-                                <strong>End Time:</strong> <span t-field="access_request.end_time" t-options='{"widget": "time"}'/>
+                                <strong>End Date &amp; Time:</strong> <span t-field="access_request.end_date" t-options='{"widget": "datetime"}'/>
                             </div>
                             
                             <div class="col-12 col-md-6">
@@ -287,7 +325,7 @@
                                 <strong>Areas to be accessed:</strong> <br/>
                                 <ul>
                                     <div t-if="access_request.office_building == True"> 
-                                        <li>Office Building</li>
+                                        <li>Office Building</li> <br/>
                                     </div>
                                     <div t-if="access_request.data_centre == True"> 
                                         <li>Data Centre</li> <br/>
@@ -305,6 +343,41 @@
                                         <li>Diesel &amp; Generator Area</li> 
                                     </div>
                                 </ul>
+                            </div>
+
+                            <div class="col-12 col-md-12 mb-1">
+                                <br/>
+                                <h4>Visitors</h4>
+                                <table class="table table-sm">
+                                    <thead class="bg-100">
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Designation</th>
+                                            <th>Company</th>
+                                            <th>Phone</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="access_request.access_request_line_ids" t-as="ol">
+                                            <tr t-att-class="'bg-200 o_line_section'">
+                                                <t>
+                                                    <td>
+                                                        <span t-esc="ol.name"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="ol.designation"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-esc="ol.company" />
+                                                    </td>
+                                                    <td>
+                                                        <span t-esc="ol.phone" />
+                                                    </td>
+                                                </t>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
                             </div>
 
                         </div>

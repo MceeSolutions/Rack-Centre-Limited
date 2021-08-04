@@ -17,7 +17,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'rc_base', 'rc_service', 'website'],
+    'depends': ['base', 'rc_base', 'rc_service', 'website', 'hr'],
 
     # always loaded
     'data': [
@@ -26,6 +26,8 @@
         'data/sequence.xml',
         'data/cron.xml',
         'views/access_request_views.xml',
+        'views/access_category_views.xml',
+        'views/access_request_lines.xml',
         'views/access_request_website_template.xml',
     ],
 }

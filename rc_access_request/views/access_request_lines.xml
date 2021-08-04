@@ -1,0 +1,108 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+
+    <record model="ir.ui.view" id="rc_access_request_lines_list">
+      <field name="name">Visitors</field>
+      <field name="model">access.request.lines</field>
+      <field name="arch" type="xml">
+        <tree create="false">
+          <field name="name"/>
+          <field name="company"/>
+          <field name="designation"/>
+          <field name="phone"/>
+          <field name="start_date"/>
+          <field name="end_date"/>
+          <field name="check_in_status"/>
+        </tree>
+      </field>
+    </record>
+
+    <!-- explicit form view definition -->
+    <record model="ir.ui.view" id="rc_access_request_lines_view">
+        <field name="name">access.request.lines.view</field>
+        <field name="model">access.request.lines</field>
+        <field name="priority" eval="2"/>
+        <field name="arch" type="xml">
+            <form string="Viistors" create="false">
+                <header>
+                    <field name="check_in_status" invisible="1"/> 
+                    <!-- '|', ('parent.state', '!=', 'approved'), -->
+                    <button name="button_check_in" string="Check In" type="object" class="btn btn-primary" attrs="{'invisible': [('check_in_status', '=', 'checked_in')]}"/> 
+                    <button name="button_check_out" string="Check Out" type="object" class="btn btn-danger" attrs="{'invisible': [('check_in_status', '=', 'checked_out')]}"/>
+
+                    <field name="check_in_status" widget="statusbar" statusbar_visible="checked_in,checked_out" readonly="1"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Checked In" attrs="{'invisible': [('check_in_status', '!=', 'checked_in')]}"/>
+                    <widget name="web_ribbon" title="Checked Out" bg_color="bg-danger" attrs="{'invisible': [('check_in_status', '!=', 'checked_out')]}"/>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group col="4">
+
+                        <field name="company"/>
+                        <field name="designation"/>
+                        
+                    </group>
+
+                    <group string="Request Duration" col="4">
+                        <field name="start_date"/>
+                        <field name="end_date"/>
+                    </group>
+
+                    <!-- <group string="Areas to be Accessed" col="6">
+                        <field name="office_building"/>
+                        <field name="data_centre"/>
+                        <field name="dx_unit"/>
+                        <field name="dc_surroundings"/>
+                        <field name="staging_area"/>
+                        <field name="diesel_generator_area"/>
+                        <field name="bcp_building"/>
+                    </group> -->
+
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- actions opening views on models -->
+
+    <record model="ir.actions.act_window" id="rc_access_request_lines_action_window">
+      <field name="name">Visitors</field>
+      <field name="res_model">access.request.lines</field>
+      <field name="view_mode">tree,form,graph,pivot</field>
+      <field name="domain">[]</field>
+      <!-- <field name="search_view_id" ref="search_access_request_lines"/> -->
+      <field name="context">{}</field>
+    </record>
+
+    <!-- Search Views -->
+    <record id="search_access_request_lines" model="ir.ui.view">
+      <field name="name">search.access.request.lines</field>
+      <field name="model">access.request.lines</field>
+      <field name="arch" type="xml">
+        <search string="Visitors">
+          <field name="name"/>
+          <!-- <filter string="Expected Today" domain="[('start_date', '&gt;=', datetime.datetime.now().strftime('%Y-%m-%d 00:00:00')),('start_date', '&lt;=',datetime.datetime.now().strftime('%Y-%m-%d 23:23:59'))]"/> -->
+          <filter name="start_date" domain="['&amp;', ('start_date', '&gt;=', datetime.datetime.now().strftime('%Y-%m-%d 00:00:00')), '&amp;', ('start_date', '&lt;=', datetime.datetime.now().strftime('%Y-%m-%d 23:23:59')), ('check_in_status','not in',['checked_in'])]" string="Expected Today" />
+          <filter name="filter_unchecked" domain="[('check_in_status', 'not in', ['checked_in'])]" string="Unchecked" />
+          <filter name="filter_checked" domain="[('check_in_status', 'not in', ['checked_out'])]" string="Checked" />
+        </search>
+      </field>
+    </record>
+
+    <!-- Top menu item -->
+    <menuitem
+        name="Visitors"
+        parent="menu_rc_access_request"
+        id="menu_rc_access_request_lines" action="rc_access_request_lines_action_window" sequence="2"/>
+
+  </data>
+</odoo>
