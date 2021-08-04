@@ -20,10 +20,11 @@ class Lead(models.Model):
         ('others', 'Others')], string='Interested in',
         copy=False, tracking=True)
 
-    create_date = fields.Datetime(string='Created on', readonly=False)
+    creation_date = fields.Datetime(string='Creation Date', readonly=False)
 
     channel_partner = fields.Char(string='Channel Partner')
     source_url = fields.Char(string='Source URL')
+    lead_status = fields.Char(string='Lead Status')
     linkedin_connection_by_sales_team = fields.Char(string='LinkedIn Connection by Sales Team')
     leads_to_pipeline_conversion = fields.Char(string='Leads to Pipeline Conversion')
 
