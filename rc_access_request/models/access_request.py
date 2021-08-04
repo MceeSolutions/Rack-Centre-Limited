@@ -141,7 +141,7 @@ class AccessRequestLines(models.Model):
 
     check_in_status = fields.Selection([
         ('checked_in', 'Checked In'),
-        ('checked_out', 'Check Out'),
+        ('checked_out', 'Checked Out'),
         ],string='Check-In Status', tracking=True)
 
     checked_in = fields.Datetime(string='Check in date & time', tracking=True)

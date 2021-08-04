@@ -104,6 +104,56 @@
                         <field name="change_type"/>
                     </group>
 
+                    <notebook>
+                      <page string="Change Parameters">
+                        <group col="4">
+                            <field name="coordinator_group"/>
+                            <field name="service"/>
+                            <field name="summary"/>
+                            <field name="change_class"/>
+                            <field name="change_reason"/>
+                            <field name="target_date"/>
+                            <field name="impact"/>
+                            <field name="urgency"/>
+                            <field name="priority"/>
+                            <field name="change_type"/>
+                            <field name="risk_level"/>
+                            <field name="manager_group"/>
+                            <field name="scheduled_start_date"/>
+                            <field name="scheduled_end_date"/>
+                        </group>
+                      </page>
+                      <page string="Scope and Impact of Change">
+                        <group>
+                          <field name="scope_and_impact"/>
+                          <field name="docs_impacted"/>
+                          <field name="controls_required"/>
+                          <field name="financial_impact"/>
+                          <field name="risk_assessment"/>
+                        </group>
+                      </page>
+                      <page string="Business Justification for the Proposed Change">
+                        <group>
+                          <field name="business_case_benefits"/>
+                          <field name="technical_case"/>
+                          <field name="estimated_cost_resources_required"/>
+                        </group>
+                      </page>
+                      <!-- <page string="Tasks">
+                        <group string='Tasks'>
+                            <field name="tasks_line_ids" nolabel="1">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                    <field name="summary"/>
+                                    <field name="details"/>
+                                    <field name="start_date"/>
+                                    <field name="end_date"/>
+                                </tree>
+                            </field>
+                        </group>
+                      </page> -->
+                    </notebook>
+
                     <group string='Approval' col="4">
                         <field name="finance_manager_id"/>
                         <field name="finance_approval_date"/>

@@ -170,7 +170,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group s_website_form_field col-12 s_website_form_custom s_website_form_required" data-type="char" data-name="Field">
+                                <!-- <div class="form-group s_website_form_field col-12 s_website_form_custom s_website_form_required" data-type="char" data-name="Field">
                                     <div class="row s_col_no_resize s_col_no_bgcolor">
                                         <label class="col-form-label col-sm-auto s_website_form_label " style="width: 250px" for="currect_rack_location">
                                             <span class="s_website_form_label_content">Current rack location and Rack Label</span>
@@ -180,7 +180,64 @@
                                             <input type="text" class="form-control s_website_form_input" name="currect_rack_location" required="1" id="currect_rack_location"/>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
+                                <div class="form-group s_website_form_field col-12 s_website_form_custom s_website_form_required" data-type="char" data-name="Field">
+                                    <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                <label class="col-form-label col-sm-auto s_website_form_label " style="width: 200px" for="location_from">
+                                                    <span class="s_website_form_label_content">Current rack location</span>
+                                                    <span class="s_website_form_mark" style="color:Red;">*</span>
+                                                </label>
+                                                    <div class="form-group s_website_form_field s_website_form_required col-lg-2" data-type="char" data-name="Field">
+                                                        <label class="s_website_form_label " style="width: 250px" for="src_floor">
+                                                            <span class="s_website_form_label_content">Floor</span>
+                                                        </label>
+                                                        <select class="form-control o_website_form_input" name="src_floor" id="src_floor">
+                                                            <option value="1">Ground Floor</option>
+                                                            <option value="2">Top Floor</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-1" data-type="char" data-name="Field">
+                                                        <label class="s_website_form_label " style="width: 200px" for="src_it_room">
+                                                            <span class="s_website_form_label_content">IT Room</span>
+                                                        </label>
+                                                        <select class="form-control o_website_form_input" name="src_it_room" id="src_it_room">
+                                                            <option value="1">1</option>
+                                                            <option value="2">2</option>
+                                                            <option value="3">3</option>
+                                                            <option value="4">4</option>
+                                                            <option value="5">5</option>
+                                                            <option value="3">6</option>
+                                                            <option value="4">7</option>
+                                                            <option value="5">8</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-2" data-type="char" data-name="Field">
+                                                        <label class="s_website_form_label " style="width: 200px" for="src_rack_location">
+                                                            <span class="s_website_form_label_content">Rack Location</span>
+                                                        </label>
+                                                        <select class="form-control o_website_form_input" name="src_rack_location" id="src_rack_location">
+                                                            <option value="1">Left</option>
+                                                            <option value="2">Right</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-2" data-type="char" data-name="Field">
+                                                        <label class="s_website_form_label " style="width: 200px" for="src_rack_number">
+                                                            <span class="s_website_form_label_content">Rack Number</span>
+                                                        </label>
+                                                        <input type="text" class="form-control s_website_form_input" name="src_rack_number" placeholder="" id="src_rack_number"/>
+                                                    </div>
+
+                                                    <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-2" data-type="char" data-name="Field">
+                                                        <label class="s_website_form_label " style="width: 200px" for="src_uspace">
+                                                            <span class="s_website_form_label_content">U-Space</span>
+                                                        </label>
+                                                        <input type="text" class="form-control s_website_form_input" name="src_uspace" placeholder="" id="src_uspace"/>
+                                                    </div>
+                                                </div>
+                                            </div>
 
 
                                 <div class="form-group s_website_form_field col-12 s_website_form_custom s_website_form_required" data-type="char" data-name="Field">

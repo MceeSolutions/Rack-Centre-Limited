@@ -16,7 +16,29 @@ class CrossConnect(http.Controller):
 
     @http.route('/create/cross_connect', type="http", auth='user', website=True)
     def cross_connect(self, **kw):
-        request.env['cross.connect'].sudo().create(kw)
+
+        data = {
+            'name': kw['name'],
+            # 'partner_id': int(kw['partner_id']),
+
+            'new_installation': kw.get('new_installation'),
+            'decommissioning': kw.get('decommissioning'),
+            'relocation': kw.get('relocation'),
+            'fibre': kw.get('fibre'),
+            'cat6': kw.get('cat6'),
+            'number_of_xconnect': kw.get('number_of_xconnect'),
+
+            'billed_to_requester': kw.get('billed_to_requester'),
+            'billed_to_recipient': kw.get('billed_to_recipient'),
+
+            'location_from': kw['src_floor'] + '/' + kw['src_it_room'] + '/' + kw['src_rack_location'] + '/' + kw['src_rack_number'] + '/' + kw['src_uspace'],
+            'location_to': kw['dest_floor'] + '/' + kw['dest_it_room'] + '/' + kw['dest_rack_location'] + '/' + kw['dest_rack_number'] + '/' + kw['dest_uspace'],
+
+            # 'user_id': int(kw['user_id']),
+            'additional_info': kw['additional_info'],
+        }
+
+        cross_connect = request.env['cross.connect'].sudo().create(data)
         return http.request.render('rc_service.request_submited', {})
 
 class CustomerPortal(CustomerPortal):
