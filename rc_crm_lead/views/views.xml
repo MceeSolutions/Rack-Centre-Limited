@@ -21,6 +21,7 @@
                   <field name="channel_partner"/>
                   <field name="creation_date"/>
                   <field name="source_url"/>
+                  <field name="lead_source"/>
                   <field name="lead_status"/>
                   <field name="linkedin_connection_by_sales_team"/>
                   <field name="leads_to_pipeline_conversion"/>
