@@ -61,7 +61,7 @@ class EquipmentDecommissioning(http.Controller):
             'model': kw['model'],
             'operating_system': kw['operating_system'],
             'ip_address': kw['ip_address'],
-            'currect_rack_location': kw['currect_rack_location'],
+            # 'currect_rack_location': kw['currect_rack_location'],
 
             'decommissioning_reason': kw['decommissioning_reason'],
             'plan_to_return': kw['plan_to_return'],
