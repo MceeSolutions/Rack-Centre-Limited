@@ -7,7 +7,7 @@
             <field name="code">access.request</field>
             <!-- <field name="prefix">ACSRQ-%(year)s/%(month)s/%(day)s-</field> -->
             <field name="prefix">REQ</field>
-            <field name="padding">5</field>
+            <field name="padding">10</field>
             <field name="company_id" eval="False"/>
         </record>
 
