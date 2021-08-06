@@ -15,7 +15,7 @@ class SaleOrder(models.Model):
     def check_if_above_limit(self):
         discount_limit = self.env['ir.config_parameter'].get_param('rc_business_dev.discount_limit')
         if not discount_limit:
-            self.check_if_above_limit = False
+            self.discount_above_limit = False
             return
         self.discount_above_limit = any(float(discount) > float(discount_limit) for discount in self.order_line.mapped('discount'))
 
