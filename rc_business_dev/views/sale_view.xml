@@ -22,6 +22,15 @@
                     <button name="senior_manager_approve" string="Approve" type="object" class="oe_highlight" states="submit" groups="rc_business_dev.group_senior_sales_manager"/>
                     <button name="elt_approve" string="Approve" type="object" class="oe_highlight" states="approve" groups="rc_business_dev.group_elt"/>
                 </xpath>
+        	    <xpath expr="//field[@name='order_line']/tree/field[@name='price_unit']" position="after">
+                    <field name="price_monthly_recurring_charge"/>
+                    <field name="price_non_recurring_charge"/>
+                    <field name="start_date"/>
+                </xpath>
+                <field name="amount_untaxed" position="after">
+            	    <field name="amount_total_monthly_recurring_charge" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+            	    <field name="amount_total_yearly_recurring_charge" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                </field>
             </field>
         </record>
 

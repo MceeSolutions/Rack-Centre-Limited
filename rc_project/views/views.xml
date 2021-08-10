@@ -29,7 +29,7 @@
           <button name="create_wbs" string="Create WBS" type="object" invisible="1"/>
           <button name="commence_project" states="draft" string="Commence Project" type="object" class="btn btn-primary"/>
           <button name="approve_project" states="start" string="Approve Project" type="object" class="btn btn-primary" />
-          <field name="state" widget="statusbar" statusbar_visible="draft,start,approved"/>
+          <field name="state" widget="statusbar" statusbar_visible="draft,start,approved,close"/>
         </xpath>
         
         <xpath expr="//button[hasclass('oe_stat_button')] [last()]" position="after">

@@ -26,6 +26,21 @@
                   <field name="linkedin_connection_by_sales_team"/>
                   <field name="leads_to_pipeline_conversion"/>
                 </xpath>
+                <xpath expr="//group[@name='opportunity_info']" position="after">
+                    <group name="additional_info" attrs="{'invisible': [('type', '=', 'lead')]}">
+                        <field name="pal" required="1"/>
+                        <field name="cabinet" required="1"/>
+                        <field name="pal_currency" required="1"/>
+                        <field name="cabinet_currency" required="1"/>
+
+                        <field name="discount_cabinet"/>
+                        <field name="discount_pal"/>
+                        <field name="blended_rate"/>
+                        <field name="weighted_mrr"/>
+                        <field name="weighted_cabinet"/>
+                        <field name="weighted_pal"/>
+                    </group>
+                </xpath>
             </field>
         </record>
 
