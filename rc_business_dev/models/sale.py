@@ -11,6 +11,9 @@ class SaleOrder(models.Model):
     state = fields.Selection(selection_add=[('submit', "Senior Manager To Approve"), ('approve', "ELT To Approve"), ('sale',)])
     discount_above_limit = fields.Boolean(string="Discount Above Limit", compute="check_if_above_limit", copy=False)
 
+    amount_total_monthly_recurring_charge = fields.Monetary(string='Monthly Recurring Charge', store=True, readonly=True, compute='_amount_recurring_charges', tracking=4)
+    amount_total_yearly_recurring_charge = fields.Monetary(string='Yearly Recurring Charge:', store=True, readonly=True, compute='_amount_recurring_charges', tracking=4)
+
     @api.depends("order_line.discount")
     def check_if_above_limit(self):
         discount_limit = self.env['ir.config_parameter'].get_param('rc_business_dev.discount_limit')
@@ -71,3 +74,25 @@ class SaleOrder(models.Model):
         self.message_subscribe(partner_ids=partner_ids)
         self.message_post(subject=message, body=message, partner_ids=partner_ids)
         return True
+
+    @api.depends('order_line.price_total')
+    def _amount_recurring_charges(self):
+        for order in self:
+            monthly_recurring_charge = non_recurring_charge = 0.0
+            for line in order.order_line:
+                monthly_recurring_charge += line.price_monthly_recurring_charge
+                non_recurring_charge += line.price_non_recurring_charge
+            order.update({
+                'amount_total_monthly_recurring_charge': monthly_recurring_charge,
+                'amount_total_yearly_recurring_charge': monthly_recurring_charge * 12,
+            })
+
+
+class SaleOrderLine(models.Model):
+
+    _inherit = 'sale.order.line'
+
+    price_monthly_recurring_charge = fields.Float('Monthly Recurring Charge', default=0.0)
+    price_non_recurring_charge = fields.Float('Non-Recurring Charge (one-time)', default=0.0)
+
+    start_date = fields.Date('Start Date')
