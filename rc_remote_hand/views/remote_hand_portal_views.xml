@@ -117,7 +117,7 @@
                                 <a t-attf-href="/my/remote_hand/#{remote_hand.id}?{{ keep_query() }}"><span t-field="remote_hand.name"/></a>
                             </td>
                             <td class="text-right">
-                                <span class="badge badge-pill badge-info" title="Current stage of the request" t-esc="remote_hand.state" />
+                                <span class="badge badge-pill badge-info" title="Current stage of the request" t-esc="remote_hand.portal_state" />
                             </td>
                         </tr>
                     </tbody>
@@ -144,7 +144,7 @@
                                     <small class="text-muted d-none d-md-inline"> (#<span t-field="remote_hand.id"/>)</small>
                                     <div class="col-3 col-md-2 text-right">
                                         <small class="text-right">Status:</small>
-                                        <span t-field="remote_hand.state" class=" badge badge-pill badge-info" title="Current stage of this Request"/>
+                                        <span t-field="remote_hand.portal_state" class=" badge badge-pill badge-info" title="Current stage of this Request"/>
                                     </div>
                                 </h5>
                             </div>

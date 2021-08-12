@@ -26,11 +26,13 @@ class MaterialGatepass(http.Controller):
 
         material_description = request.httprequest.form.getlist('material_description')
         material_qty_request = request.httprequest.form.getlist('material_qty_request')
+        material_serial_no = request.httprequest.form.getlist('material_serial_no')
 
         lines = [(0, 0, {
             'description': material_description,
             'qty_request': material_qty_request,
-        }) for material_description, material_qty_request in zip(material_description, material_qty_request)]
+            'serial_no': material_serial_no,
+        }) for material_description, material_qty_request, material_serial_no in zip(material_description, material_qty_request, material_serial_no)]
 
         data = {
             'name': kw['name'],
