@@ -50,6 +50,7 @@
                     <field name="line_ids" nolabel="1">
 	                   <tree editable="bottom">
 	                        <field name="description"/>
+	                        <field name="serial_no"/>
                             <field name="qty_request"/>
                             <field name="qty_done"/>
                        </tree>

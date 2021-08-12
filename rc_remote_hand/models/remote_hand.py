@@ -19,6 +19,12 @@ class RemoteHand(models.Model):
         ('approved', 'Command Centre Approved'),
         ('reject', 'Rejected'),
         ], string='Approval Status', readonly=False, index=True, copy=False, default='draft', tracking=True)
+    
+    portal_state = fields.Selection([
+        ('New', 'New'),
+        ('In-Progress', 'In-Progress'),
+        ('Complete', 'Complete'),
+        ], string='Status', copy=False, compute='_compute_portal_state')
 
     ref = fields.Char(string='Service ID', readonly=True, required=True, index=True, copy=False, default='New')
     legend = fields.Char(string='Legend')
@@ -48,13 +54,13 @@ class RemoteHand(models.Model):
 
     #Approvals
     finance_manager_id = fields.Many2one(comodel_name="res.users", string='Finanace Manager', readonly=True)
-    finance_approval_date = fields.Date(string='Finanace Approval Date', readonly=True)
+    finance_approval_date = fields.Datetime(string='Finanace Approval Date', readonly=True)
 
     data_centre_manager_id = fields.Many2one(comodel_name="res.users", string='Data Centre Manager', readonly=True)
-    data_centre_approval_date = fields.Date(string='Data Centre Approval Date', readonly=True)
+    data_centre_approval_date = fields.Datetime(string='Data Centre Approval Date', readonly=True)
 
     command_centre_personnel_id = fields.Many2one(comodel_name="res.users", string='Coomand Centre', readonly=True)
-    command_centre_approval_date = fields.Date(string='Coomand Centre Approval Date', readonly=True)
+    command_centre_approval_date = fields.Datetime(string='Coomand Centre Approval Date', readonly=True)
     
     @api.model
     def create(self, vals):
@@ -124,7 +130,7 @@ class RemoteHand(models.Model):
 
         self.write({'state': 'finance_approved'})
         self.finance_manager_id = self.env.uid
-        self.finance_approval_date = date.today()
+        self.finance_approval_date = datetime.now()
         group_id = self.env['ir.model.data'].xmlid_to_object('rc_service.group_dc')
         partner_ids = []
         for user in group_id.users:
@@ -137,7 +143,7 @@ class RemoteHand(models.Model):
     def button_dc_approve(self):
         self.write({'state': 'dc_approved'})
         self.data_centre_manager_id = self.env.uid
-        self.data_centre_approval_date = date.today()
+        self.data_centre_approval_date = datetime.now()
 
         if not self.implemented_by:
             raise UserError("Please select Implementation Engineer!")
@@ -155,7 +161,7 @@ class RemoteHand(models.Model):
     def button_approve(self):
         self.write({'state': 'approved'})
         self.command_centre_personnel_id = self.env.uid
-        self.command_centre_approval_date = date.today()
+        self.command_centre_approval_date = datetime.now()
         subject = "Remote Hand Request for '{}', has been Approved by Service Delivery".format(self.name)
         partner_ids = []
         for partner in self.message_partner_ids:
@@ -212,3 +218,13 @@ class RemoteHand(models.Model):
         }
         
         return res
+
+    def _compute_portal_state(self):
+        for status in self:
+            if status.state in ('draft', 'submit'):
+                status.portal_state = 'New'
+            elif status.state in ('finance_approved', 'dc_approved'):
+                status.portal_state = 'In-Progress'
+            else:
+                if status.state == 'approved':
+                    status.portal_state = 'Complete'

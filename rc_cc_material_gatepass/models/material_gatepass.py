@@ -129,5 +129,6 @@ class MaterialGatepassLine(models.Model):
 
     gatepass_id = fields.Many2one(comodel_name='material.gatepass', string="material gatepass")
     description = fields.Char(string='Item Description')
+    serial_no = fields.Char(string='Serial Number')
     qty_request = fields.Float(string="Quantity")
     qty_done = fields.Float(string="Done")

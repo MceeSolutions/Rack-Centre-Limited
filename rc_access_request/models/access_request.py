@@ -158,6 +158,7 @@ class AccessRequestLines(models.Model):
     def button_check_in(self):
         self.write({'check_in_status': 'checked_in'})
         self.checked_in = datetime.today()
+        self.checked_out = False
     
     def button_check_out(self):
         self.write({'check_in_status': 'checked_out'})
