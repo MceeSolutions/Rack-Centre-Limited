@@ -1,0 +1,331 @@
+<odoo>
+    <data> 
+
+
+    <!-- This record will create the building block and its layout -->
+    <template id="s_title_references" name="References with title">
+        <section class="snippet_dashboard_home_page o_colored_level" data-snippet="snippet_dashboard_home_page" data-name="Dashboard Ninja">
+    <div class="ks_container_2 m-auto ks_dynamic_dashboard ks_dashboard_ninja d-flex flex-column ks_dashboard_identifier_1_user_data" data-snippet_type="0" data-id="1" data-selection="user_data" data-collection_name="Please select Data Fisrt" data-snippet_layout="0"><div class="ks_dashboard_header d-flex p-3 w-100 bg-white justify-content-between flex-column flex-lg-row">
+        <div id="ks_dashboard_title">
+                <span id="ks_dashboard_title_label" class="ks_am_element">
+                    My Dashboard
+                </span>
+            <input id="ks_dashboard_title_input" typ="text" maxlength="30" class="form-control form-control-lg ks_em_element ks_hide"/>
+        </div>
+    <div class="ks_dashboard_top_menu ks_select_none">
+
+        
+        
+    </div>
+
+        <div class="ks_dashboard_top_menu ks_select_none">
+
+            
+            <div class="ks_dashboard_link ks_am_content_element mr-4">
+                <div class="ks_date_filter_selection_input">
+                    <div class="ks_date_selection_box">
+                        <div class="btn-group ">
+                            <button class="o_dropdown_toggler_btn btn btn-secondary dropdown-toggle ks_date_filter_dropdown" data-toggle="dropdown" aria-expanded="false">
+                                <span class="fa fa-lg fa-calendar"></span>
+                                <span id="ks_date_filter_selection">All Time</span>
+                                <span class="caret"></span>
+                            </button>
+
+                            <ul id="ks_date_selector_container" class="dropdown-menu ks_date_filters_menu_drop_down ks_dashboard_custom_srollbar ks_date_filters_menu dropdown-max-height" role="menu">
+                                <li id="l_none" class="ks_date_filter_selected">
+                                    <span class="df_selection_text">All Time</span>
+                                </li>
+                                <li class="divider"></li>
+                                
+                                    <li id="l_day">
+                                        <span class="df_selection_text">
+                                            Today
+                                        </span>
+                                    </li>
+                                
+                                    <li id="t_week">
+                                        <span class="df_selection_text">
+                                            This Week
+                                        </span>
+                                    </li>
+                                
+                                    <li id="t_month">
+                                        <span class="df_selection_text">
+                                            This Month
+                                        </span>
+                                    </li>
+                                
+                                    <li id="t_quarter">
+                                        <span class="df_selection_text">
+                                            This Quarter
+                                        </span>
+                                    </li>
+                                
+                                    <li id="t_year">
+                                        <span class="df_selection_text">
+                                            This Year
+                                        </span>
+                                    </li>
+                                
+                                    <li id="n_day">
+                                        <span class="df_selection_text">
+                                            Next Day
+                                        </span>
+                                    </li>
+                                
+                                    <li id="n_week">
+                                        <span class="df_selection_text">
+                                            Next Week
+                                        </span>
+                                    </li>
+                                
+                                    <li id="n_month">
+                                        <span class="df_selection_text">
+                                            Next Month
+                                        </span>
+                                    </li>
+                                
+                                    <li id="n_quarter">
+                                        <span class="df_selection_text">
+                                            Next Quarter
+                                        </span>
+                                    </li>
+                                
+                                    <li id="n_year">
+                                        <span class="df_selection_text">
+                                            Next Year
+                                        </span>
+                                    </li>
+                                
+                                    <li id="ls_day">
+                                        <span class="df_selection_text">
+                                            Last Day
+                                        </span>
+                                    </li>
+                                
+                                    <li id="ls_week">
+                                        <span class="df_selection_text">
+                                            Last Week
+                                        </span>
+                                    </li>
+                                
+                                    <li id="ls_month">
+                                        <span class="df_selection_text">
+                                            Last Month
+                                        </span>
+                                    </li>
+                                
+                                    <li id="ls_quarter">
+                                        <span class="df_selection_text">
+                                            Last Quarter
+                                        </span>
+                                    </li>
+                                
+                                    <li id="ls_year">
+                                        <span class="df_selection_text">
+                                            Last Year
+                                        </span>
+                                    </li>
+                                
+                                    <li id="l_week">
+                                        <span class="df_selection_text">
+                                            Last 7 days
+                                        </span>
+                                    </li>
+                                
+                                    <li id="l_month">
+                                        <span class="df_selection_text">
+                                            Last 30 days
+                                        </span>
+                                    </li>
+                                
+                                    <li id="l_quarter">
+                                        <span class="df_selection_text">
+                                            Last 90 days
+                                        </span>
+                                    </li>
+                                
+                                    <li id="l_year">
+                                        <span class="df_selection_text">
+                                            Last 365 days
+                                        </span>
+                                    </li>
+                                
+                                    <li id="ls_past_until_now">
+                                        <span class="df_selection_text">
+                                            Past Till Now
+                                        </span>
+                                    </li>
+                                
+                                    <li id="ls_pastwithout_now">
+                                        <span class="df_selection_text">
+                                             Past Excluding Today
+                                        </span>
+                                    </li>
+                                
+                                    <li id="n_future_starting_now">
+                                        <span class="df_selection_text">
+                                            Future Starting Now
+                                        </span>
+                                    </li>
+                                
+                                    <li id="n_futurestarting_tomorrow">
+                                        <span class="df_selection_text">
+                                            Future Starting Tomorrow
+                                        </span>
+                                    </li>
+                                
+                                    <li id="l_custom">
+                                        <span class="df_selection_text">
+                                            Custom Filter
+                                        </span>
+                                    </li>
+                                
+                            </ul>
+                        </div>
+                    </div>
+
+                    
+                    <div class="ks_date_input_fields ks_hide">
+                    <input type="text" class="ks_wdn_start_date_picker hasDatepicker" placeholder="Start Date" id="dp1628691605223"/><input type="text" class="ks_wdn_end_date_picker hasDatepicker" placeholder="End Date" id="dp1628691605224"/></div>
+                </div>
+                <div class="ks_date_apply_clear_print">
+                    
+                    <button type="button" class="button btn btn-primary apply-dashboard-date-filter ks_hide">Apply
+                    </button>
+                    <button type="button" class="button btn btn-primary clear-dashboard-date-filter ks_hide">Clear
+                    </button>
+                    <button type="button" class="btn btn-primary d-none d-lg-block fa fa-print print-dashboard-btn m-1 ml-3 ks_pro_print_hide" title="Print"></button>
+                </div>
+            </div>
+
+            
+
+        </div>
+    </div><div class="ks_dashboard_main_content">
+        <div class="ks_dashboard_item_content grid-stack ks_dashboard_items_list m-3 grid-stack-instance-3676 grid-stack-static grid-stack-one-column-mode" data-gs-width="36" data-gs-current-height="4" style="height: 300px;"><div class="grid-stack-item ks_dashboarditem_id ui-draggable ui-resizable ui-resizable-autohide ui-draggable-disabled ui-resizable-disabled" id="116" data-gs-x="0" data-gs-y="0" data-gs-width="13" data-gs-height="4" data-gs-min-width="9" data-gs-min-height="3" data-gs-id="116">
+        <div class="grid-stack-item-content ks_list_view_container ks_dashboard_item_hover card shadow ui-draggable-handle">
+
+            <div class="p-3 py-3 d-flex flex-row align-items-center justify-content-between ">
+                <div class="d-flex align-items-center  w-50">
+                    <h6 class="m-0 font-weight-bold h3 mr-3 ks_list_view_heading" title="List View Un-Grouped">
+                        List View Un-Grouped
+                    </h6>
+                    <button class="ks_dashboard_item_drill_up d-none btn btn-primary" title="Drill Up" type="button" data-item-id="116">Drill Up
+                        <i class="fa fa-arrow-circle-up"></i>
+                    </button>
+                </div>
+                <div class="ks_pager_name">
+                    <div class="ks_pager d-none">
+    <span class="ks_counter">
+        <span class="ks_value">
+            1-0
+        </span>
+    </span>
+    <span class="btn-group" aria-atomic="true" data-next_offset="0" data-prev-offset="1">
+        <button type="button" class="fa fa-chevron-left btn  ks_load_previous ks_event_offer_list" data-item-id="116" title="Previous"></button>
+        <button type="button" class="fa fa-chevron-right btn ks_load_next ks_event_offer_list" data-item-id="116" title="Next"></button>
+    </span>
+</div>
+                </div>
+
+                
+            </div>
+            <div class="card-body table-responsive"><table id="ksListViewTable" class="table table-hover ks_list_view_layout_1" data-model="sale.order">
+            <thead>
+                
+    <tr>
+        
+            <th>
+                Order Reference
+            </th>
+        
+            <th>
+                Order Date
+            </th>
+        
+            <th>
+                Company
+            </th>
+        
+            <th>
+                Creation Date
+            </th>
+        
+            <th>
+                Total
+            </th>
+        
+        <th></th>
+    </tr>
+
+            </thead>
+            <tbody class="ks_table_body">
+
+            </tbody>
+        </table></div>
+        </div>
+    <div class="ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se" style="z-index: 90; display: none;"></div></div><div class="grid-stack-item ks_chart_container ks_dashboarditem_id ui-draggable ui-resizable ui-resizable-autohide ui-draggable-disabled ui-resizable-disabled" id="124" data-gs-x="13" data-gs-y="0" data-gs-width="13" data-gs-height="4" data-gs-min-width="11" data-gs-min-height="3" data-gs-id="124">
+        <div class="grid-stack-item-content ks_dashboarditem_chart_container ks_dashboard_item_hover card shadow ui-draggable-handle">
+
+            <div class="p-3 py-3 d-flex flex-row align-items-center justify-content-between ">
+                <div class="d-flex align-items-center w-50">
+                    <h6 class="m-0 font-weight-bold h3 ks_chart_heading mr-3" title="Bar">
+                        Bar
+                    </h6>
+                    
+                    <button class="ks_dashboard_item_drill_up d-none btn btn-primary" title="Drill Up" type="button" data-item-id="124">Drill Up
+                        <i class="fa fa-arrow-circle-up"></i>
+                    </button>
+                </div>
+                
+
+                
+                <div class="ks_dashboard_item_button_container ks_dropdown_container ks_dashboard_item_header ks_dashboard_item_header_hover chart_button_container d-flex" data-item_id="124">
+
+                    
+                </div>
+
+            </div>
+            <div class="card-body ks_chart_card_body"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div><canvas id="ks_chart_canvas_id" data-chart-id="124" style="display: block; width: 344px; height: 197px;" width="344" height="197" class="chartjs-render-monitor"></canvas></div>
+        </div>
+    <div class="ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se" style="z-index: 90; display: none;"></div></div><div class="ks_item_click grid-stack-item ui-draggable ui-resizable ui-resizable-autohide ui-draggable-disabled ui-resizable-disabled" data-gs-x="26" data-gs-y="0" data-gs-width="10" data-gs-height="2" data-gs-min-width="6" data-gs-min-height="2" data-gs-max-height="2" data-gs-id="120">
+        <div id="120" class="ks_dashboarditem_id ks_dashboard_item ks_dashboard_item_hover grid-stack-item-content ui-draggable-handle" style="background-color:rgba(255,255,255,0.99);color : rgba(0,0,0.99);">
+            <div class="ks_dashboard_item_button_container ks_dropdown_container ks_dashboard_item_header ks_dashboard_item_header_hover" data-item_id="120">
+                
+            </div>
+
+            <div class="ks_dashboard_item_main_body">
+                <div class="ks_dashboard_icon">
+                    
+                        <span style="color:rgba(0,0,0.99);" class="fa fa-bar-chart fa-4x"></span>
+                    
+                    
+                </div>
+                <div class="ks_dashboard_item_info">
+                    <div class="ks_dashboard_item_name" title="Tile Colom">
+                        Tile Colom
+                    </div>
+                    <div class="ks_dashboard_item_domain_count">
+                        0
+                    </div>
+                </div>
+            </div>
+        </div>
+    <div class="ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se" style="z-index: 90; display: none;"></div></div></div>
+    </div></div>
+  </section>
+    </template>
+
+    <!-- This record will create a preview of the building block in the left menu from where you choose the blocks -->
+    <template id="add_title_references_to_bar" inherit_id="website.snippets" name="Place into building blocks bar">
+        <xpath expr="//div[@id='snippet_structure']" position="inside">
+            <div class="o_panel_body">
+                <t t-snippet="rc_website_dashboard.s_title_references"
+                   t-thumbnail="/website/static/src/img/blocks/block_references.png"/>
+            </div>
+        </xpath>
+    </template>
+
+    </data>
+</odoo>
