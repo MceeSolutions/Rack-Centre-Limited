@@ -65,7 +65,7 @@ class AccessRequest(models.Model):
     approver_id = fields.Many2one(comodel_name="res.users", string='Approved By', readonly=True)
     approver_date = fields.Date(string='Approved Date', readonly=True)
 
-    access_request_line_ids = fields.One2many('access.request.lines', 'access_request_id', string="Visitors", ondelete='cascade', copy=True)
+    access_request_line_ids = fields.One2many('access.request.lines', 'access_request_id', string="Visitors", copy=True, auto_join=True)
 
     @api.model
     def create(self, vals):
@@ -128,7 +128,7 @@ class AccessRequestLines(models.Model):
     _inherit = ['mail.activity.mixin', 'mail.thread']
     _order = 'create_date DESC'
 
-    access_request_id = fields.Many2one(comodel_name="access.request", string='access request')
+    access_request_id = fields.Many2one(comodel_name="access.request", string='access request', ondelete='cascade', index=True)
 
     #visitors
     name = fields.Char(string='Visitor Name')

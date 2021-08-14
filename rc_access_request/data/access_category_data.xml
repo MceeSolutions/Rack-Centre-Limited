@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="access_category_long_term" model="access.category">
+            <field name="name">Long Term (90 Days Max.)</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="access_category_short_term" model="access.category">
+            <field name="name">Short Term (7 Days Max.)</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="access_category_escort_only" model="access.category">
+            <field name="name">Escort Only (Less than 1day)</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="access_category_tours_events" model="access.category">
+            <field name="name">Tours and Events</field>
+            <field name="active">True</field>
+        </record>
+
+    </data>
+</odoo>

@@ -21,10 +21,11 @@
 
     # always loaded
     'data': [
-        'security/ir.model.access.csv',
         'security/access_request_security.xml',
+        'security/ir.model.access.csv',
         'data/sequence.xml',
         'data/cron.xml',
+        'data/access_category_data.xml',
         'views/access_request_views.xml',
         'views/access_category_views.xml',
         'views/access_request_lines.xml',
