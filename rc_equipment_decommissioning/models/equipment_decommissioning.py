@@ -38,13 +38,13 @@ class EquipmentDecommissioning(models.Model):
     contact_manager_phone = fields.Char(string='Manager’s Phone')
 
     #Equipment Information
-    equipment_contact_person = fields.Char(string='Equipment contact person')
-    machine_name = fields.Char(string='Machine Name')
-    serial_numbers = fields.Char(string='Serial Number(s)')
-    manufacturer = fields.Char(string='Manufacturer')
-    model = fields.Char(string='Model')
-    operating_system = fields.Char(string='Operating System')
-    ip_address = fields.Char(string='IP Address')
+    # equipment_contact_person = fields.Char(string='Equipment contact person')
+    # machine_name = fields.Char(string='Machine Name')
+    # serial_numbers = fields.Char(string='Serial Number(s)')
+    # manufacturer = fields.Char(string='Manufacturer')
+    # model = fields.Char(string='Model')
+    # operating_system = fields.Char(string='Operating System')
+    # ip_address = fields.Char(string='IP Address')
     currect_rack_location = fields.Char(string='Current rack location and Rack Label')
     
     decommissioning_reason = fields.Char(string='Why are you decommissioning this equipment?')
@@ -81,6 +81,7 @@ class EquipmentDecommissioning(models.Model):
         ], string='Change Type', default='minor', tracking=True, compute='_compute_change_type')
 
     project_plan_line_ids = fields.One2many('equipment.decommissioning.project.plan', 'equipment_decommissioning_id', string="Project Implementation Plan", copy=True)
+    equipment_line_ids = fields.One2many('equipment.decommissioning.lines', 'equipment_decommissioning_id', string="Equipments", copy=True)
 
     @api.model
     def create(self, vals):
@@ -167,6 +168,21 @@ class EquipmentDecommissioning(models.Model):
     
     def button_reset(self):
         self.write({'state': 'new'})
+
+class EquipmentDecommissioningLines(models.Model):
+    _name = 'equipment.decommissioning.lines'
+    _description = 'Equipments'
+
+    equipment_decommissioning_id = fields.Many2one(comodel_name="equipment.decommissioning", string='Equipment Decommissioning')
+
+    #Equipment Information
+    # equipment_contact_person = fields.Char(string='Equipment contact person')
+    name = fields.Char(string='Machine Name')
+    serial_number = fields.Char(string='Serial Number')
+    manufacturer = fields.Char(string='Manufacturer')
+    model = fields.Char(string='Model')
+    operating_system = fields.Char(string='Operating System')
+    ip_address = fields.Char(string='IP Address')
 
 class EquipmentDecommissioningProjectPlan(models.Model):
     _name = 'equipment.decommissioning.project.plan'

@@ -55,16 +55,22 @@
                         <field name="contact_manager_phone" widget="phone"/>
                     </group>
 
-                    <group string='Equipment Information' col="4">
-                        <field name="equipment_contact_person"/>
-                        <field name="machine_name"/>
-                        <field name="serial_numbers"/>
-                        <field name="manufacturer"/>
-                        <field name="model"/>
-                        <field name="operating_system"/>
-                        <field name="ip_address"/>
-                        <field name="currect_rack_location"/>
+                    <group string='Equipment Information'>
+                        <field name="equipment_line_ids" nolabel="1">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                                <field name="serial_number"/>
+                                <field name="manufacturer"/>
+                                <field name="model"/>
+                                <field name="operating_system"/>
+                                <field name="ip_address"/>
+                            </tree>
+                        </field>
+                    </group>
 
+                    <group col="4">
+                        <!-- <field name="equipment_contact_person"/> -->
+                        <field name="currect_rack_location"/>
                         <field name="decommissioning_reason"/>
                         <field name="plan_to_return"/>
                         <field name="expected_return_date"/>
