@@ -68,8 +68,8 @@
                             <field name="checked_in"/>
                             <field name="checked_out"/>
                             <field name="check_in_status"/>
-                            <button name="button_check_in" type="object"  class="btn btn-primary" string="Check In"  attrs="{'invisible': ['|', ('parent.state', '!=', 'approved'), ('check_in_status', '=', 'checked_in')]}"/>
-                            <button name="button_check_out" type="object" class="btn btn-danger" string="Check Out" attrs="{'invisible': ['|', ('parent.state', '!=', 'approved'), ('check_in_status', '=', 'checked_out')]}"/>
+                            <!-- <button name="button_check_in" type="object"  class="btn btn-primary" string="Check In"  attrs="{'invisible': ['|', ('parent.state', '!=', 'approved'), ('check_in_status', '=', 'checked_in')]}"/>
+                            <button name="button_check_out" type="object" class="btn btn-danger" string="Check Out" attrs="{'invisible': ['|', ('parent.state', '!=', 'approved'), ('check_in_status', '=', 'checked_out')]}"/> -->
 	                   </tree>
 	               </field>
 
@@ -152,7 +152,7 @@
     <menuitem
         name="Requests"
         parent="menu_rc_access_request"
-        id="menu_rc_requests" action="rc_access_request_action_window" sequence="1"/>
+        id="menu_rc_requests" action="rc_access_request_action_window" sequence="1" groups="rc_access_request.group_access_request_user"/>
 
   </data>
 </odoo>

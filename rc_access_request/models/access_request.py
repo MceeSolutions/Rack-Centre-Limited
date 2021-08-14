@@ -3,14 +3,6 @@
 from odoo import models, fields, api
 from datetime import date, datetime
 
-TICKET_PRIORITY = [
-    ('0', 'All'),
-    ('1', 'Low'),
-    ('2', 'Medium'),
-    ('3', 'High'),
-    ('4', 'Critical'),
-]
-
 class AccessRequest(models.Model):
     _name = 'access.request'
     _description = 'Access Request'
@@ -156,15 +148,10 @@ class AccessRequestLines(models.Model):
     checked_out = fields.Datetime(string='Check out date & time', tracking=True)
 
     def button_check_in(self):
-        self.write({'check_in_status': 'checked_in'})
+        self.check_in_status = 'checked_in'
         self.checked_in = datetime.today()
         self.checked_out = False
     
     def button_check_out(self):
         self.write({'check_in_status': 'checked_out'})
         self.checked_out = datetime.today()
-
-class HelpdeskTicket(models.Model):
-    _inherit = 'helpdesk.ticket'
-
-    priority = fields.Selection(TICKET_PRIORITY, string='Priority', default='0')

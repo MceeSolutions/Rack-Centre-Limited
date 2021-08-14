@@ -1,8 +1,16 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_rc_access_request,access.request,model_access_request,base.group_user,1,1,1,1
-access_rc_access_request_portal,access.request,model_access_request,base.group_portal,1,1,1,0
-access_rc_access_category,access.category,model_access_category,base.group_user,1,1,1,1
-access_rc_access_category_portal,access.category,model_access_category,base.group_portal,1,1,1,0
 
-access_rc_access_request_lines,access.request.lines,model_access_request_lines,base.group_user,1,1,1,1
-access_rc_access_request_lines_portal,access.request.lines,model_access_request_lines,base.group_portal,1,1,1,0
+access_rc_access_request_security,access.request,model_access_request,rc_access_request.group_access_request_security,1,0,0,0
+access_rc_access_request_user,access.request,model_access_request,rc_access_request.group_access_request_user,1,1,1,0
+
+access_rc_access_request_portal,access.request,model_access_request,base.group_portal,1,0,1,0
+
+access_rc_access_category_security,access.category,model_access_category,rc_access_request.group_access_request_security,1,0,0,0
+access_rc_access_category_user,access.category,model_access_category,rc_access_request.group_access_request_user,1,0,0,0
+access_rc_access_category_officer,access.category,model_access_category,rc_access_request.group_access_request_officer,1,1,1,0
+access_rc_access_category_portal,access.category,model_access_category,base.group_portal,1,0,0,0
+
+access_rc_access_request_lines_security,access.request.lines,model_access_request_lines,rc_access_request.group_access_request_security,1,1,0,0
+access_rc_access_request_lines_user,access.request.lines,model_access_request_lines,rc_access_request.group_access_request_user,1,1,1,0
+
+access_rc_access_request_lines_portal,access.request.lines,model_access_request_lines,base.group_portal,1,0,1,0

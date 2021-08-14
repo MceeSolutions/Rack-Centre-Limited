@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "Rack Centre Equipment Relocation Module",
+    'name': "Rack Centre Equipment Decommissioning Module",
 
     'summary': """
-        Equipment Relocation Module""",
+        Equipment Decommissioning Module""",
 
     'description': """
         
