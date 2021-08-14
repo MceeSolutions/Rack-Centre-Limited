@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="cash_retirement_category" model="ir.module.category">
+            <field name="name">Cash retirements</field>
+        </record>
+
+        <record id="group_cash_retirement_user" model="res.groups">
+           <field name="name">User</field>
+           <field name="category_id" ref="rc_cash_retirement.cash_retirement_category" />
+           <field name="users" eval="[(4, ref('base.user_admin'))]" />
+           <field name="implied_ids" eval="[(4, ref('base.group_user'))]" />
+        </record>
+
+        <record id="group_cash_retirement_manager" model="res.groups">
+           <field name="name">Manager</field>
+           <field name="category_id" ref="rc_cash_retirement.cash_retirement_category" />
+           <field name="users" eval="[(4, ref('base.user_admin'))]" />
+           <field name="implied_ids" eval="[(4, ref('rc_cash_retirement.group_cash_retirement_user'))]" />
+        </record>
+
+        <record id="cash_retirement_multicompany_rule" model="ir.rule">
+            <field name="name">retirement Multicompany Rule</field>
+            <field name="model_id" ref="rc_cash_retirement.model_cash_retirement" />
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', '=', user.company_id.id)]</field>
+        </record>
+
+        <record id="cash_retirement_user_rule" model="ir.rule">
+            <field name="name">User retirement Rule</field>
+            <field name="model_id" ref="rc_cash_retirement.model_cash_retirement" />
+            <field name="groups" eval="[(4, ref('base.group_user'))]"></field>
+            <field name="domain_force">['|', ('user_id', '=', False), '|', ('user_id', '=', user.id), ('employee_id.parent_id.user_id', '=', user.id)]</field>
+        </record>
+
+        <record id="cash_retirement_accountant_rule" model="ir.rule">
+            <field name="name">Accountant retirement Rule</field>
+            <field name="model_id" ref="rc_cash_retirement.model_cash_retirement" />
+            <field name="groups" eval="[(4, ref('account.group_account_user'))]"></field>
+            <field name="domain_force">[(1, '=', 1)]</field>
+        </record>
+
+    </data>
+</odoo>

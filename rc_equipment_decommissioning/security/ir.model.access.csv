@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_rc_equipment_decommissioning,equipment.decommissioning,model_equipment_decommissioning,base.group_user,1,1,1,1
+access_rc_equipment_decommissioning_lines,equipment.decommissioning.lines,model_equipment_decommissioning_lines,base.group_user,1,1,1,1
+access_rc_equipment_decommissioning_portal,equipment.decommissioning,model_equipment_decommissioning,base.group_portal,1,1,1,0
+access_rc_equipment_decommissioning_project_plan,equipment.decommissioning.project.plan,model_equipment_decommissioning_project_plan,base.group_user,1,1,1,1
+access_rc_equipment_decommissioning_project_plan_portal,equipment.decommissioning.project.plan,model_equipment_decommissioning_project_plan,base.group_portal,1,1,1,0

@@ -1,0 +1,104 @@
+<odoo>
+    <data>
+
+        <record id="view_tree_material_gate_pass" model="ir.ui.view">
+            <field name="name">view.tree.material.gate.pass</field>
+            <field name="model">material.gate.pass</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" />
+                    <field name="partner_id" />
+                    <field name="date_request" />
+                    <field name="date_approve" />
+                    <field name="state" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_form_material_gate_pass" model="ir.ui.view">
+            <field name="name">view.form.material.gate.pass</field>
+            <field name="model">material.gate.pass</field>
+            <field name="arch" type="xml">
+                <form string="Material Gate Pass">
+                    <header>
+                        <button name="submit" string="Submit" type="object" class="oe_highlight" states="draft" />
+                        <button name="cancel" string="Cancel" type="object" class="oe_highlight" states="draft" />
+                        <button name="approve" string="Approve" type="object" class="oe_highlight" states="validate" />
+                        <button name="reject" string="Reject" type="object" class="btn-danger" states="open" />
+                        <button name="reset_to_draft" string="Set to Draft" type="" class="btn-primary" states="reject,cancel" />
+                        <field name="state" widget="statusbar" statusbar_visible="draft,submit,approve" />
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" />
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="user_id" />
+                                <field name="partner_id" />
+                                <field name="date_request" />
+                                <field name="date_last_maintenance" />
+                                <field name="date_approve" />
+                            </group>
+                        </group>
+                        <notebook>
+                                    <page string="MATERIAL DETAILS" name="tool_request_line">
+                                        <field name="line_ids" nolabel="1" context="{'default_gatepass_id': active_id}">
+                                            <tree editable="bottom">
+                                                <!-- <field name="tool_id" /> -->
+                                                <field name="description" />
+                                                <field name="qty_request" />
+                                                <field name="qty_done" />
+                                            </tree>
+                                            <form>
+                                                <group>
+                                                    <group>
+                                                        <field name="description" />
+                                                        <field name="qty_request" />
+                                                    </group>
+                                                    <group>
+                                                        <field name="qty_done" />
+                                                        <field name="gatepass_id" invisible="1" />
+                                                    </group>
+                                                </group>
+                                            </form>
+                                        </field>
+                                    </page>
+                                </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_search_material_gate_pass" model="ir.ui.view">
+            <field name="name">view.search.material.gate.pass</field>
+            <field name="model">material.gate.pass</field>
+            <field name="arch" type="xml">
+                <search string="Material Gate Pass">
+                    <field name="name" />
+                    <field name="user_id" />
+                    <field name="date_request"/>
+                    <field name="state"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="material_gate_pass_action" model="ir.actions.act_window">
+            <field name="name">Material Gate Pass</field>
+            <field name="res_model">material.gate.pass</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_no_content_create">Please click here to create a new Material Gate Pass request</p>
+            </field>
+        </record>
+
+        <menuitem id="menu_material_gate_pass" name="Material Gate Pass" parent="menu_data_centre" />
+        <menuitem id="menu_material_gate_pass_action" name="Material Gate Pass" parent="menu_material_gate_pass" action="material_gate_pass_action" />
+    </data>
+</odoo>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="rc_access_request_category" model="ir.module.category">
+            <field name="name">Access Request</field>
+        </record>
+
+        <record id="group_access_request_security" model="res.groups">
+            <field name="name">Security</field>
+            <field name="category_id" ref="rc_access_request.rc_access_request_category"></field>
+            <field name="users" eval="[(4, ref('base.user_admin'))]" />
+        </record>
+
+        <record id="group_access_request_user" model="res.groups">
+            <field name="name">User</field>
+            <field name="category_id" ref="rc_access_request.rc_access_request_category"></field>
+            <field name="users" eval="[(4, ref('base.user_admin'))]" />
+            <field name="implied_ids" eval="[(4, ref('rc_access_request.group_access_request_security'))]" />
+        </record>
+
+        <record id="group_access_request_officer" model="res.groups">
+            <field name="name">Officer</field>
+            <field name="category_id" ref="rc_access_request.rc_access_request_category"></field>
+            <field name="users" eval="[(4, ref('base.user_admin'))]" />
+            <field name="implied_ids" eval="[(4, ref('rc_access_request.group_access_request_user'))]" />
+        </record>
+
+        <record id="group_access_request_manager" model="res.groups">
+            <field name="name">Manager</field>
+            <field name="category_id" ref="rc_access_request.rc_access_request_category"></field>
+            <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+            <field name="implied_ids" eval="[(4, ref('rc_access_request.group_access_request_officer'))]" />
+        </record>
+
+        <!-- Portal Access Rules -->
+        <record id="access_request_rule_portal" model="ir.rule">
+            <field name="name">Portal Personal Access Request</field>
+            <field name="model_id" ref="rc_access_request.model_access_request"/>
+            <!-- <field name="domain_force">[('message_partner_ids','child_of',[user.commercial_partner_id.id])]</field> -->
+            <field name="domain_force">[('partner_id', 'child_of', user.partner_id.commercial_partner_id.id)]</field>
+            <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+            <field name="perm_unlink" eval="False"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_create" eval="True"/>
+        </record>
+
+    </data>
+</odoo>

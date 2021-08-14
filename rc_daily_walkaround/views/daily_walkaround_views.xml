@@ -1,0 +1,55 @@
+<odoo>
+  <data>
+
+    <record model="ir.ui.view" id="daily_walkaround_view_tree">
+      <field name="name">daily.walkaround.view.tree</field>
+      <field name="model">rc_daily_walkaround.walkaround</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="date"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="daily_walkaround_view_form">
+      <field name="name">daily.walkaround.view.form</field>
+      <field name="model">rc_daily_walkaround.walkaround</field>
+      <field name="arch" type="xml">
+        <form>
+          <group>
+            <group>
+              <field name="name"/>
+            </group>
+            <group>
+              <field name="date"/>
+            </group>
+          </group>
+          <div>
+            <label for="input_ids" />
+            <field name="input_ids" nolabel="1" context="{'default_walkaround_id': active_id}">
+              <tree editable="bottom">
+                <field name="name" />
+                <field name="section_id" />
+                <field name="question_id" />
+                <field name="answer_id" />
+                <field name="comment" />
+                <field name="walkaround_id" />
+              </tree>
+            </field>
+          </div>
+        </form>
+      </field>
+    </record>
+
+    <record id="daily_walkaround_action" model="ir.actions.act_window">
+      <field name="name">Daily Walkaround</field>
+      <field name="res_model">rc_daily_walkaround.walkaround</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="daily_walkaround_menu_root" name="Daily Walkaround" parent="rc_data_centre.menu_data_centre" />
+    <menuitem id="rc_daily_walkaround_menu" name="Daily WalkAround" parent="daily_walkaround_menu_root" action="rc_daily_walkaround.daily_walkaround_action"/>
+
+  </data>
+</odoo>

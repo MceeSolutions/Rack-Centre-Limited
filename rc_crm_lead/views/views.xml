@@ -1,0 +1,48 @@
+<odoo>
+  <data>
+
+    <record id="rc_crm_lead_view_form" model="ir.ui.view">
+            <field name="name">rc.crm.lead.form</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_lead_view_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='lead_info']//div[1]" position="replace">
+                    <div class="o_row">
+                      <field name="title" placeholder="Title" domain="[]" options="{&quot;no_open&quot;: True}"/>
+                      <field name="last_name" />
+                      <field name="first_name" />
+                      <field name="contact_name" invisible="1"/>
+                    </div>
+                </xpath>
+                <xpath expr="//group[@name='lead_info']//div[last()]" position="after">
+                  <field name="industry_id"/>
+                  <field name="interests"/>
+                  <field name="contact_name" invisible="1"/>
+                  <field name="channel_partner"/>
+                  <field name="creation_date"/>
+                  <field name="source_url"/>
+                  <field name="lead_source"/>
+                  <field name="lead_status"/>
+                  <field name="linkedin_connection_by_sales_team"/>
+                  <field name="leads_to_pipeline_conversion"/>
+                </xpath>
+                <xpath expr="//group[@name='opportunity_info']" position="after">
+                    <group name="additional_info" attrs="{'invisible': [('type', '=', 'lead')]}">
+                        <field name="pal" required="1"/>
+                        <field name="cabinet" required="1"/>
+                        <field name="pal_currency" required="1"/>
+                        <field name="cabinet_currency" required="1"/>
+
+                        <field name="discount_cabinet"/>
+                        <field name="discount_pal"/>
+                        <field name="blended_rate"/>
+                        <field name="weighted_mrr"/>
+                        <field name="weighted_cabinet"/>
+                        <field name="weighted_pal"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+  </data>
+</odoo>

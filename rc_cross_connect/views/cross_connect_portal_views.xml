@@ -1,0 +1,695 @@
+<odoo>
+    <data>
+
+        <record id="menu_cross_connect_form" model="website.menu">
+            <field name="name">Cross Connect</field>
+            <field name="url">/cross_connect</field>
+            <field name="parent_id" ref="website.main_menu"/>
+            <field name="sequence">75</field>
+        </record>
+
+        <template id="create_cross_connect" name="Cross Connect">
+          <t t-call="website.layout">
+            <div id="wrap">
+                <div class="oe_structure">
+                    <div class="container">
+                        <br/>
+                        <h2 class="text-center"> Cross-Connect Service Request Form </h2>
+                        <form role="form" action="/create/cross_connect" method="POST">
+                            <div class="s_website_form_rows row s_col_no_bgcolor">
+
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <!-- <input type="hidden" name="partner_id" t-att-value="default_values.get('partner_id', '')" id="partner_id"/> -->
+
+                                <div class="form-group s_website_form_field col-12 s_website_form_required" data-type="char" data-name="Field">
+                                    <label class="s_website_form_label " style="width: 200px" for="name">
+                                        <span class="s_website_form_label_content">Subject</span>
+                                        <span class="s_website_form_mark" style="color:Red;">*</span>
+                                    </label>
+                                    <input type="text" class="form-control s_website_form_input" name="name" required="1" placeholder="Cross Connect Request For..." id="name"/>
+                                </div>
+
+                                <!-- <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-6" data-type="char" data-name="Field">
+                                    <label class="s_website_form_label " style="width: 200px" for="company_name">
+                                        <span class="s_website_form_label_content">Company Name</span>
+                                        <span class="s_website_form_mark" style="color:Red;">*</span>
+                                    </label>
+                                    <input type="text" class="form-control s_website_form_input" name="company_name" t-att-value="default_values.get('company_name', '')" placeholder="" id="company_name"/>
+                                </div> -->
+
+                                <!-- <div class="form-group s_website_form_field col-12 s_website_form_required" data-type="char" data-name="Field">
+                                    <label class="s_website_form_label " style="width: 200px" for="client_category">
+                                        <span class="s_website_form_label_content">Client Category</span>
+                                        <span class="s_website_form_mark" style="color:Red;">*</span>
+                                    </label>
+                                        <div class="row s_col_no_resize s_col_no_bgcolor s_website_form_multiple" data-name="checkbox" data-display="horizontal">
+                                            
+                                            <div class="checkbox col-12 col-lg-6 col-md-6">
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="s_website_form_input form-check-input" id="client_cl" name="client_cl" value="client_cl"/>
+                                                    <label class="form-check-label s_website_form_check_label" for="client_cl">
+                                                        Client (Cl)
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="checkbox col-12 col-lg-6 col-md-6">
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="s_website_form_input form-check-input" id="carrier_ca" name="carrier_ca" value="carrier_ca"/>
+                                                    <label class="form-check-label s_website_form_check_label" for="carrier_ca">
+                                                        Carrier (Ca)
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="checkbox col-12 col-lg-6 col-md-6">
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="s_website_form_input form-check-input" id="indirect_client" name="indirect_client" value="indirect_client"/>
+                                                    <label class="form-check-label s_website_form_check_label" for="indirect_client">
+                                                        Indirect Client (IDC)
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="checkbox col-12 col-lg-6 col-md-6">
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="s_website_form_input form-check-input" id="ixpn" name="ixpn" value="ixpn"/>
+                                                    <label class="form-check-label s_website_form_check_label" for="ixpn">
+                                                        IXPN
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                </div> -->
+
+                                <div class="form-group s_website_form_field col-12 s_website_form_required" data-type="char" data-name="Field">
+                                    <label class="s_website_form_label " style="width: 200px" for="request_type">
+                                        <span class="s_website_form_label_content">Request Type</span>
+                                        <span class="s_website_form_mark" style="color:Red;">*</span>
+                                    </label>
+                                        <div class="row s_col_no_resize s_col_no_bgcolor s_website_form_multiple" data-name="checkbox" data-display="horizontal">
+                                            
+                                            <div class="checkbox col-12 col-lg-4 col-md-6">
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="s_website_form_input form-check-input" id="new_installation" name="new_installation" value="new_installation"/>
+                                                    <label class="form-check-label s_website_form_check_label" for="new_installation">
+                                                        New Installation
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="checkbox col-12 col-lg-4 col-md-6">
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="s_website_form_input form-check-input" id="decommissioning" name="decommissioning" value="decommissioning"/>
+                                                    <label class="form-check-label s_website_form_check_label" for="decommissioning">
+                                                        Decommissioning
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="checkbox col-12 col-lg-4 col-md-6">
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="s_website_form_input form-check-input" id="relocation" name="relocation" value="relocation"/>
+                                                    <label class="form-check-label s_website_form_check_label" for="relocation">
+                                                        Relocation
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                </div>
+
+                                <!-- <div class="form-group s_website_form_field col-12 s_website_form_required" data-type="char" data-name="Field">
+                                    <label class="s_website_form_label " style="width: 200px" for="service_options">
+                                        <span class="s_website_form_label_content">Service Options: </span>
+                                        <span class="s_website_form_mark" style="color:Red;">*</span>
+                                    </label>
+                                        <div class="row s_col_no_resize s_col_no_bgcolor s_website_form_multiple" data-name="checkbox" data-display="horizontal">
+                                            
+                                            <div class="checkbox col-12 col-lg-4 col-md-6">
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="s_website_form_input form-check-input" id="cl_ca" name="cl_ca" value="cl_ca"/>
+                                                    <label class="form-check-label s_website_form_check_label" for="cl_ca">
+                                                        (a) Cl-Ca
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="checkbox col-12 col-lg-4 col-md-6">
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="s_website_form_input form-check-input" id="ca_cl" name="ca_cl" value="ca_cl"/>
+                                                    <label class="form-check-label s_website_form_check_label" for="ca_cl">
+                                                        (b) Ca-Cl
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="checkbox col-12 col-lg-4 col-md-6">
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="s_website_form_input form-check-input" id="cl_cl" name="cl_cl" value="cl_cl"/>
+                                                    <label class="form-check-label s_website_form_check_label" for="cl_cl">
+                                                        (c) Cl-Cl
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="checkbox col-12 col-lg-4 col-md-6">
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="s_website_form_input form-check-input" id="ca_ca" name="ca_ca" value="ca_ca"/>
+                                                    <label class="form-check-label s_website_form_check_label" for="ca_ca">
+                                                        (a) Ca-Ca
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="checkbox col-12 col-lg-4 col-md-6">
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="s_website_form_input form-check-input" id="ca_ixpn" name="ca_ixpn" value="ca_ixpn"/>
+                                                    <label class="form-check-label s_website_form_check_label" for="ca_ixpn">
+                                                        (b) Ca-IXPN
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="checkbox col-12 col-lg-4 col-md-6">
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="s_website_form_input form-check-input" id="" name="" value=""/>
+                                                    <label class="form-check-label s_website_form_check_label" for="">
+                                                        (c) 
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="checkbox col-12 col-lg-4 col-md-6">
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="s_website_form_input form-check-input" id="cl_ixpn" name="cl_ixpn" value="cl_ixpn"/>
+                                                    <label class="form-check-label s_website_form_check_label" for="cl_ixpn">
+                                                        (a) Cl-IXPN
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="checkbox col-12 col-lg-4 col-md-6">
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="s_website_form_input form-check-input" id="ixpn_ca" name="ixpn_ca" value="ixpn_ca"/>
+                                                    <label class="form-check-label s_website_form_check_label" for="ixpn_ca">
+                                                        (b) IXPN-Ca
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="checkbox col-12 col-lg-4 col-md-6">
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="s_website_form_input form-check-input" id="ixpn_cl" name="ixpn_cl" value="ixpn_cl"/>
+                                                    <label class="form-check-label s_website_form_check_label" for="ixpn_cl">
+                                                        (c) IXPN-C
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                </div> -->
+
+                                <div class="form-group s_website_form_field col-12 s_website_form_required" data-type="char" data-name="Field">
+                                    <label class="s_website_form_label " style="width: 200px" for="technical_details">
+                                        <span class="s_website_form_label_content">Technical Details :</span>
+                                        <span class="s_website_form_mark" style="color:Red;">*</span>
+                                    </label>
+                                        <div class="row s_col_no_resize s_col_no_bgcolor s_website_form_multiple" data-name="checkbox" data-display="horizontal">
+                                            
+                                            <!-- <div class="checkbox col-12 col-lg-6 col-md-6">
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="s_website_form_input form-check-input" id="requester" name="requester" value="requester"/>
+                                                    <label class="form-check-label s_website_form_check_label" for="requester">
+                                                        Requester
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="checkbox col-12 col-lg-6 col-md-6">
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="s_website_form_input form-check-input" id="destination" name="destination" value="destination"/>
+                                                    <label class="form-check-label s_website_form_check_label" for="destination">
+                                                        Destination
+                                                    </label>
+                                                </div>
+                                            </div> -->
+
+                                            <div class="checkbox col-12 col-lg-6 col-md-6">
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="s_website_form_input form-check-input" id="fibre" name="fibre" value="fibre"/>
+                                                    <label class="form-check-label s_website_form_check_label" for="fibre">
+                                                        Fibre (MM/SMF)
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="checkbox col-12 col-lg-6 col-md-6">
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="s_website_form_input form-check-input" id="cat6" name="cat6" value="cat6"/>
+                                                    <label class="form-check-label s_website_form_check_label" for="cat6">
+                                                        CAT 6 (RJ45)
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-12" data-type="char" data-name="Field">
+                                                <label class="s_website_form_label " style="width: 200px" for="number_of_xconnect">
+                                                    <span class="s_website_form_label_content">Number of X-connect: </span>
+                                                </label>
+                                                <select class="form-control o_website_form_input" name="number_of_xconnect" id="number_of_xconnect">
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                    </select>
+                                            </div>
+
+                                            <!-- <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-6" data-type="char" data-name="Field">
+                                                <label class="s_website_form_label " style="width: 200px" for="location_from">
+                                                    <span class="s_website_form_label_content">Location (Source)</span>
+                                                </label>
+                                                <input type="text" class="form-control s_website_form_input" name="location_from" placeholder="" id="location_from"/>
+                                            </div>
+
+                                            <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-6" data-type="char" data-name="Field">
+                                                <label class="s_website_form_label " style="width: 200px" for="location_to">
+                                                    <span class="s_website_form_label_content">Location (Destination)</span>
+                                                </label>
+                                                <input type="text" class="form-control s_website_form_input" name="location_to" placeholder="" id="location_to"/>
+                                            </div> -->
+
+                                            <div class="form-group s_website_form_field col-12 s_website_form_custom s_website_form_required " data-type="char" data-name="Field">
+                                                <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                <label class="col-form-label col-sm-auto s_website_form_label " style="width: 200px" for="location_from">
+                                                    <span class="s_website_form_label_content">Location(Source)</span>
+                                                    <span class="s_website_form_mark" style="color:Red;">*</span>
+                                                </label>
+                                                    <div class="form-group s_website_form_field s_website_form_required col-lg-2" data-type="char" data-name="Field">
+                                                        <label class="s_website_form_label " style="width: 200px" for="src_floor">
+                                                            <span class="s_website_form_label_content">Floor</span>
+                                                        </label>
+                                                        <select class="form-control o_website_form_input" name="src_floor" id="src_floor">
+                                                            <option value="Ground Floor">Ground Floor</option>
+                                                            <option value="Top Floor">Top Floor</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-1" data-type="char" data-name="Field">
+                                                        <label class="s_website_form_label " style="width: 200px" for="src_it_room">
+                                                            <span class="s_website_form_label_content">IT Room</span>
+                                                        </label>
+                                                        <select class="form-control o_website_form_input" name="src_it_room" id="src_it_room">
+                                                            <option value="1">1</option>
+                                                            <option value="2">2</option>
+                                                            <option value="3">3</option>
+                                                            <option value="4">4</option>
+                                                            <option value="5">5</option>
+                                                            <option value="3">6</option>
+                                                            <option value="4">7</option>
+                                                            <option value="5">8</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-2" data-type="char" data-name="Field">
+                                                        <label class="s_website_form_label " style="width: 200px" for="src_rack_location">
+                                                            <span class="s_website_form_label_content">Rack Location</span>
+                                                        </label>
+                                                        <select class="form-control o_website_form_input" name="src_rack_location" id="src_rack_location">
+                                                            <option value="Left">Left</option>
+                                                            <option value="Right">Right</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-2" data-type="char" data-name="Field">
+                                                        <label class="s_website_form_label " style="width: 200px" for="src_rack_number">
+                                                            <span class="s_website_form_label_content">Rack Number</span>
+                                                        </label>
+                                                        <input type="number" class="form-control s_website_form_input" name="src_rack_number" placeholder="" id="src_rack_number"/>
+                                                    </div>
+
+                                                    <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-2" data-type="char" data-name="Field">
+                                                        <label class="s_website_form_label " style="width: 200px" for="src_uspace">
+                                                            <span class="s_website_form_label_content">U-Space</span>
+                                                        </label>
+                                                        <input type="number" class="form-control s_website_form_input" name="src_uspace" placeholder="" id="src_uspace"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group s_website_form_field col-12 s_website_form_custom s_website_form_required " data-type="char" data-name="Field">
+                                                <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                <label class="col-form-label col-sm-auto s_website_form_label " style="width: 200px" for="location_to">
+                                                    <span class="s_website_form_label_content">Location(Destination)</span>
+                                                    <span class="s_website_form_mark" style="color:Red;">*</span>
+                                                </label>
+                                                    <div class="form-group s_website_form_field s_website_form_required col-lg-2" data-type="char" data-name="Field">
+                                                        <label class="s_website_form_label " style="width: 200px" for="dest_floor">
+                                                            <span class="s_website_form_label_content">Floor</span>
+                                                        </label>
+                                                        <select class="form-control o_website_form_input" name="dest_floor" id="dest_floor">
+                                                            <option value="Ground Floor">Ground Floor</option>
+                                                            <option value="Top Floor">Top Floor</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-1" data-type="char" data-name="Field">
+                                                        <label class="s_website_form_label " style="width: 200px" for="dest_it_room">
+                                                            <span class="s_website_form_label_content">IT Room</span>
+                                                        </label>
+                                                        <select class="form-control o_website_form_input" name="dest_it_room" id="dest_it_room">
+                                                            <option value="1">1</option>
+                                                            <option value="2">2</option>
+                                                            <option value="3">3</option>
+                                                            <option value="4">4</option>
+                                                            <option value="5">5</option>
+                                                            <option value="3">6</option>
+                                                            <option value="4">7</option>
+                                                            <option value="5">8</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-2" data-type="char" data-name="Field">
+                                                        <label class="s_website_form_label " style="width: 200px" for="dest_rack_location">
+                                                            <span class="s_website_form_label_content">Rack Location</span>
+                                                        </label>
+                                                        <select class="form-control o_website_form_input" name="dest_rack_location" id="dest_rack_location">
+                                                            <option value="Left">Left</option>
+                                                            <option value="Right">Right</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-2" data-type="char" data-name="Field">
+                                                        <label class="s_website_form_label " style="width: 200px" for="dest_rack_number">
+                                                            <span class="s_website_form_label_content">Rack Number</span>
+                                                        </label>
+                                                        <input type="number" class="form-control s_website_form_input" name="dest_rack_number" placeholder="" id="dest_rack_number"/>
+                                                    </div>
+
+                                                    <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-2" data-type="char" data-name="Field">
+                                                        <label class="s_website_form_label " style="width: 200px" for="dest_uspace">
+                                                            <span class="s_website_form_label_content">U-Space</span>
+                                                        </label>
+                                                        <input type="number" class="form-control s_website_form_input" name="dest_uspace" placeholder="" id="dest_uspace"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                </div>
+
+                                <div class="form-group s_website_form_field col-12 s_website_form_required" data-type="char" data-name="Field">
+                                    <label class="s_website_form_label " style="width: 200px" for="billing_info">
+                                        <span class="s_website_form_label_content">Billing Information:</span>
+                                        <span class="s_website_form_mark" style="color:Red;">*</span>
+                                    </label>
+                                        <div class="row s_col_no_resize s_col_no_bgcolor s_website_form_multiple" data-name="checkbox" data-display="horizontal">
+                                            
+                                            <div class="checkbox col-12 col-lg-4 col-md-6">
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="s_website_form_input form-check-input" id="billed_to_requester" name="billed_to_requester" value="new_installation"/>
+                                                    <label class="form-check-label s_website_form_check_label" for="billed_to_requester">
+                                                        (a) Billed to Requester
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="checkbox col-12 col-lg-4 col-md-6">
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="s_website_form_input form-check-input" id="billed_to_recipient" name="billed_to_recipient" value="billed_to_recipient"/>
+                                                    <label class="form-check-label s_website_form_check_label" for="billed_to_recipient">
+                                                        (b) Billed to Recipient
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <!-- <div class="checkbox col-12 col-lg-4 col-md-6">
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="s_website_form_input form-check-input" id="waived" name="waived" value="waived"/>
+                                                    <label class="form-check-label s_website_form_check_label" for="waived">
+                                                        (c) Waived
+                                                    </label>
+                                                </div>
+                                            </div> -->
+
+                                        </div>
+                                </div>
+
+                                <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-12" data-type="char" data-name="Field">
+                                    <label class="s_website_form_label " style="width: 200px" for="additional_info">
+                                        <span class="s_website_form_label_content">Comment/Additional information:</span>
+                                    </label>
+                                    <textarea id="additional_info" class="form-control s_website_form_input" name="additional_info" rows="3"/>
+                                </div>
+
+                                <div class="form-group col-12 text-center s_website_form_submit" data-name="Submit Button">
+                                    <div style="width: 200px;" class="s_website_form_label"/>
+                                    <button type="submit" href="#" role="button" class="btn btn-primary btn-lg s_website_form_send">Submit</button>
+                                    <span id="s_website_form_result"></span>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+          </t>
+        </template>
+
+        <template id="portal_layout" name="Portal layout: project menu entry" inherit_id="portal.portal_breadcrumbs" priority="60">
+            <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+                <li t-if="page_name == 'Cross Connects' or cross_connect" class="col-lg-2" t-attf-class="breadcrumb-item #{'active ' if not cross_connect else ''}">
+                    <a t-if="cross_connect" t-attf-href="/my/cross_connects?{{ keep_query() }}">Cross Connects</a>
+                    <t t-else="">Cross Connects</t>
+                </li>
+                <li t-if="cross_connect" class="breadcrumb-item active text-truncate col-8 col-lg-10">
+                    <t t-esc="cross_connect.name"/>
+                </li>
+            </xpath>
+        </template>
+
+        <template id="portal_my_home" name="Show Cross Connects" customize_show="True" inherit_id="portal.portal_my_home" priority="60">
+            <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+                <t t-call="portal.portal_docs_entry">
+                    <t t-set="title">Cross Connects</t>
+                    <t t-set="url" t-value="'/my/cross_connects'"/>
+                    <t t-set="placeholder_count" t-value="'cross_connect_count'"/>
+                </t>
+            </xpath>
+        </template>
+
+        <template id="portal_my_cross_connects" name="My Cross Connects">
+            <t t-call="portal.portal_layout">
+                <t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+                <t t-call="portal.portal_searchbar">
+                    <t t-set="title">Cross Connects</t>
+                </t>
+                <t t-if="not cross_connects">
+                    <div class="alert alert-warning mt8" role="alert">
+                        There are no Cross Connects. <a href="/cross_connect">Click Here</a> To create one.
+                    </div>
+                </t>
+                <t t-if="cross_connects" t-call="portal.portal_table">
+                    <tbody>
+                        <tr t-foreach="cross_connects" t-as="cross_connect">
+                            <td>
+                                <a t-attf-href="/my/cross_connect/#{cross_connect.id}?{{ keep_query() }}"><span t-field="cross_connect.name"/></a>
+                            </td>
+                            <td class="text-right">
+                                <span class="badge badge-pill badge-info" title="Current stage of the request" t-esc="cross_connect.state" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </t>
+                <br/>
+                <a href="/cross_connect" role="button" class="btn pull-right btn-primary">New Cross Connect</a>
+            </t>
+        </template>
+
+        <template id="portal_my_cross_connect" name="My Cross Connect">
+            <t t-call="portal.portal_layout">
+                <t t-set="o_portal_fullwidth_alert" groups="base.group_user">
+                    <t t-call="portal.portal_back_in_edit_mode">
+                        <t t-set="backend_url" t-value="'/web#model=cross.connect&amp;id=%s&amp;view_type=form' % (cross_connect.id)"/>
+                    </t>
+                </t>
+
+                <t t-call="portal.portal_record_layout">
+                    <t t-set="card_header">
+                        <div class="row no-gutters">
+                            <div class="col-12">
+                                <h5 class="d-flex mb-1 mb-md-0 row">
+                                    <span t-field="cross_connect.name" class="col-9 text-truncate"/>
+                                    <small class="text-muted d-none d-md-inline"> (#<span t-field="cross_connect.id"/>)</small>
+                                    <div class="col-3 col-md-2 text-right">
+                                        <small class="text-right">Status:</small>
+                                        <span t-field="cross_connect.state" class=" badge badge-pill badge-info" title="Current stage of this Request"/>
+                                    </div>
+                                </h5>
+                            </div>
+                        </div>
+                    </t>
+                    <t t-set="card_body">
+                        
+                        <div class="row">
+
+                            <div t-if="cross_connect.partner_id" class="col-12 col-md-12 mb-2 mb-md-0">
+                                <h6>Client Details</h6>
+                                <div class="row">
+                                    <div class="col flex-grow-0 pr-3">
+                                        <img t-if="cross_connect.partner_id.image_1024" class="rounded-circle mt-1 o_portal_contact_img" t-att-src="image_data_uri(cross_connect.partner_id.image_1024)" alt="Contact"/>
+                                        <img t-else="" class="rounded-circle mt-1 o_portal_contact_img" src="/web/static/src/img/user_menu_avatar.png" alt="Contact"/>
+                                    </div>
+                                    <div class="col pl-sm-0">
+                                        <address t-field="cross_connect.partner_id" t-options='{"widget": "contact", "fields": ["name", "email", "phone"]}'/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- <div class="col-12 col-md-6 mb-1">
+                                <h6> Client Category </h6>
+                                <strong>Client (Cl):</strong> <span t-field="cross_connect.client_cl" t-options='{"widget": "checkbox"}'/>
+                            </div> -->
+
+                            <div class="col-12 col-md-6">
+                                <br/>
+                                <strong>Client Category:</strong> <br/>
+                                <ul>
+                                    <div t-if="cross_connect.client_cl == True"> 
+                                        <li>Client (Cl)</li>
+                                    </div>
+                                    <div t-if="cross_connect.carrier_ca == True"> 
+                                        <li>Carrier (Ca)</li>
+                                    </div>
+                                    <div t-if="cross_connect.indirect_client == True"> 
+                                        <li>Indirect Client (IDC)</li>
+                                    </div>
+                                    <div t-if="cross_connect.ixpn == True"> 
+                                        <li>IXPN</li>
+                                    </div>
+                                </ul>
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <br/>
+                                <strong>Request Type:</strong> <br/>
+                                <ul>
+                                    <div t-if="cross_connect.new_installation == True"> 
+                                        <li>New Installation</li>
+                                    </div>
+                                    <div t-if="cross_connect.decommissioning == True"> 
+                                        <li>Decommissioning</li>
+                                    </div>
+                                    <div t-if="cross_connect.relocation == True"> 
+                                        <li>Relocation</li>
+                                    </div>
+                                </ul>
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <br/>
+                                <strong>Service Options:</strong> <br/>
+                                <ul>
+                                    <div t-if="cross_connect.cl_ca == True"> 
+                                        <li>Cl-Ca</li>
+                                    </div>
+                                    <div t-if="cross_connect.ca_cl == True"> 
+                                        <li>Ca-Cl</li>
+                                    </div>
+                                    <div t-if="cross_connect.cl_cl == True"> 
+                                        <li>Cl-Cl</li>
+                                    </div>
+                                    <div t-if="cross_connect.ca_ca == True"> 
+                                        <li>Ca-Ca</li>
+                                    </div>
+                                    <div t-if="cross_connect.ca_ixpn == True"> 
+                                        <li>Ca-IXPN</li>
+                                    </div>
+                                    <div t-if="cross_connect.cl_ixpn == True"> 
+                                        <li>Cl-IXPN</li>
+                                    </div>
+                                    <div t-if="cross_connect.ixpn_ca == True"> 
+                                        <li>IXPN-CA</li>
+                                    </div>
+                                    <div t-if="cross_connect.ixpn_cl == True"> 
+                                        <li>IXPN-Cl</li>
+                                    </div>
+                                </ul>
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <br/>
+                                <strong>Technical Details:</strong> <br/>
+                                <ul>
+                                    <div t-if="cross_connect.requester == True"> 
+                                        <li>Requester</li>
+                                    </div>
+                                    <div t-if="cross_connect.destination == True"> 
+                                        <li>Destination</li>
+                                    </div>
+                                    <div t-if="cross_connect.fibre == True"> 
+                                        <li>Fibre (MM/SMF)</li>
+                                    </div>
+                                    <div t-if="cross_connect.cat6 == True"> 
+                                        <li>CAT 6 (RJ45)</li>
+                                    </div>
+                                    
+                                    <div t-if="cross_connect.number_of_xconnect"> 
+                                        <li><b>Number of X-connect: </b><span t-field="cross_connect.number_of_xconnect"/></li>
+                                    </div>
+                                    <div t-if="cross_connect.location_from"> 
+                                        <li><b>Location (From): </b><span t-field="cross_connect.location_from"/></li>
+                                    </div>
+                                    <div t-if="cross_connect.location_to"> 
+                                        <li><b>Location (To): </b><span t-field="cross_connect.location_to"/></li>
+                                    </div>
+                                </ul>
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <br/>
+                                <strong>Billing information:</strong> <br/>
+                                <ul>
+                                    <div t-if="cross_connect.billed_to_requester == True"> 
+                                        <li>Billed to Requester</li>
+                                    </div>
+                                    <div t-if="cross_connect.billed_to_recipient == True"> 
+                                        <li>Billed to Recipient</li>
+                                    </div>
+                                    <div t-if="cross_connect.waived == True"> 
+                                        <li>Waived</li>
+                                    </div>
+                                </ul>
+                            </div>
+
+                        </div>
+                        
+                        <div class="row" t-if="cross_connect.additional_info">
+                            <div>
+                                <hr class="mb-1"/>
+                                <div class="d-flex my-2">
+                                    <strong>Addittional Information</strong>
+                                </div>
+                                <div class="py-1 px-2 bg-100 small" t-field="cross_connect.additional_info"/>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+
+                <div class="mt32">
+                    <h4><strong>Message and communication history</strong></h4>
+                    <t t-call="portal.message_thread">
+                        <t t-set="object" t-value="cross_connect"/>
+                        <t t-set="pid" t-value="pid"/>
+                        <t t-set="hash" t-value="hash"/>
+                    </t>
+                </div>
+            </t>
+        </template>
+        
+    </data>
+</odoo>

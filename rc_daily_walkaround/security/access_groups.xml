@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="daily_workaround_category" model="ir.module.category">
+            <field name="name">Daily WalkAround</field>
+        </record>
+
+        <record id="group_daily_walkaround_user" model="res.groups">
+            <field name="name">User</field>
+            <field name="category_id" ref="rc_daily_walkaround.daily_workaround_category"></field>
+            <field name="users" eval="[(4, ref('base.user_admin'))]" />
+        </record>
+
+        <record id="group_daily_walkaround_manager" model="res.groups">
+            <field name="name">Manager</field>
+            <field name="category_id" ref="rc_daily_walkaround.daily_workaround_category"></field>
+            <field name="users" eval="[(4, ref('base.user_admin'))]" />
+            <field name="implied_ids" eval="[(4, ref('rc_daily_walkaround.group_daily_walkaround_user'))]" />
+        </record>
+    </data>
+</odoo>

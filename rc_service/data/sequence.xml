@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        
+        <record id="seq_change_request" model="ir.sequence">
+            <field name="name">Change Requests</field>
+            <field name="code">change.request</field>
+            <field name="prefix">CRQ</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+    </data>
+</odoo>

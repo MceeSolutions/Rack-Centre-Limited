@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<record id="material_requisition_submit" model="mail.template">
+			<field name="name">IR Confirmed Email to Manager</field>
+			<field name="email_from">${object.end_user.company_id.email}</field>
+			<field name="reply_to">${object.end_user.partner_id.email}</field>
+			<field name="subject">An Internal Requisition Has Been Created By ${object.end_user.name}</field>
+			<field name="email_to">${ctx.get('recipient')|safe}</field>
+			<field name="model_id" model="ir.model" search="[('model', '=', 'ir.request')]" />
+			<field name="auto_delete" eval="True"/>
+			<field name="body_html">
+				<![CDATA[
+				<p>Dear ${object.hod.name},</p>
+				<p>${object.end_user.name} created an Internal Requisition </p>
+				<p><a href="${ctx.get('url')}">Please follow the Link to See the Internal Requisition</a></p>
+				<p>Regards and Thanks</p>
+				<p>System auto generated email</p>
+				]]>
+			</field>
+		</record>
+
+		<record id="material_requisition_approval" model="mail.template">
+			<field name="name">IR Approval Email</field>
+			<field name="email_from">${user.company_id.email}</field>
+			<field name="reply_to">${user.partner_id.email}</field>
+			<field name="subject">An Internal Requisition Approval Email for ${object.end_user.name}</field>
+			<field name="email_to">${ctx.get('recipient')|safe}</field>
+			<field name="model_id" model="ir.model" search="[('model', '=', 'ir.request')]" />
+			<field name="auto_delete" eval="True"/>
+			<field name="body_html">
+				<![CDATA[
+				<p>Dear ${ctx.get('recipient')},</p>
+				<p>${user.partner_id.name} has approved this material request and waiting for your confirmation.</p> 
+				<p><a href="${ctx.get('url')}">Please follow the Link to See the Internal Requisition</a></p>
+				<p>Regards and Thanks,</p>
+				<p>System auto generated email</p>
+				]]>
+			</field>
+		</record>
+
+		<record id="material_requisition_transfer" model="mail.template">
+			<field name="name">Internal Requisition Transfer Email</field>
+			<field name="email_from">${user.company_id.email}</field>
+			<field name="reply_to">${user.partner_id.email}</field>
+			<field name="subject">An Internal Requisition Approval from </field>
+			<field name="email_to">${object.end_user.partner_id.email|safe}</field>
+			<field name="model_id" model="ir.model" search="[('model', '=', 'ir.request')]" />
+			<field name="auto_delete" eval="True"/>
+			<field name="body_html">
+				<![CDATA[
+				<p>Dear ${object.end_user.partner_id.name},</p>
+				<p>${object.end_user.partner_id.name} has been transfered.</p> 
+				<p><a href="${ctx.get('url')}">Please follow the Link to See the Internal Requisition</a></p>
+				<p>Regards and Thanks</p>
+				<p>System auto generated email</p>
+				]]>
+			</field>
+		</record>
+
+	</data>
+</odoo>
