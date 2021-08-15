@@ -8,4 +8,5 @@ class Partner(models.Model):
     lead_source = fields.Char(string='Lead Source')
     
     import_create_date = fields.Datetime('Creation Date', readonly=False, copy=False)
-    import_created_by = fields.Char('Created By', readonly=False, copy=False, index=True)
+    import_created_by = fields.Char('Created By', readonly=False, copy=False)
+
