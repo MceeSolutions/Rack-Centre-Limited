@@ -6,13 +6,10 @@
             <link rel="stylesheet" href="/ks_dashboard_ninja/static/src/css/ks_dashboard_ninja_item.css"/>
             <link rel="stylesheet" href="/ks_dashboard_ninja/static/src/css/ks_icon_container_modal.css"/>
             <link rel="stylesheet" href="/ks_dashboard_ninja/static/src/css/ks_dashboard_item_theme.css"/>
-            <link rel="stylesheet" href="/ks_dashboard_ninja/static/src/css/ks_dn_filter.css"/>
             <link rel="stylesheet" href="/ks_dashboard_ninja/static/src/css/ks_toggle_icon.css"/>
             <link rel="stylesheet" href="/ks_dashboard_ninja/static/src/css/ks_dashboard_options.css"/>
             <script type="text/javascript" src="/ks_dashboard_ninja/static/src/js/ks_global_functions.js"/>
             <script type="text/javascript" src="/ks_dashboard_ninja/static/src/js/ks_dashboard_ninja.js"/>
-            <script type="text/javascript" src="/ks_dashboard_ninja/static/src/js/ks_to_do_dashboard.js"/>
-            <script type="text/javascript" src="/ks_dashboard_ninja/static/src/js/ks_filter_props.js"/>
             <script type="text/javascript" src="/ks_dashboard_ninja/static/src/js/ks_color_picker.js"/>
             <script type="text/javascript" src="/ks_dashboard_ninja/static/src/js/ks_dashboard_ninja_item_preview.js"/>
             <script type="text/javascript" src="/ks_dashboard_ninja/static/src/js/ks_image_basic_widget.js"/>
@@ -27,14 +24,11 @@
             <link rel="stylesheet" href="/ks_dashboard_ninja/static/lib/css/gridstack.min.css"/>
             <link rel="stylesheet" href="/ks_dashboard_ninja/static/src/css/ks_dashboard_ninja_pro.css"/>
             <link rel="stylesheet" href="/ks_dashboard_ninja/static/src/css/ks_dashboard_gridstack.css"/>
-            <link rel="stylesheet" href="/ks_dashboard_ninja/static/src/css/ks_to_do_item.css"/>
             <link rel="stylesheet" type="text/scss" href="/ks_dashboard_ninja/static/src/scss/ks_dn_gridstack.scss"/>
             <script type="text/javascript"
                     src="/ks_dashboard_ninja/static/src/js/ks_dashboard_ninja_graph_preview.js"/>
             <script type="text/javascript"
                     src="/ks_dashboard_ninja/static/src/js/ks_dashboard_ninja_list_view_preview.js"/>
-            <script type="text/javascript"
-                    src="/ks_dashboard_ninja/static/src/js/ks_to_do_preview.js"/>
         </xpath>
     </template>
 </odoo>

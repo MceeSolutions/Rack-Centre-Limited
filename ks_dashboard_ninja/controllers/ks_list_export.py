@@ -1,12 +1,11 @@
 
 import re
+import datetime
 import io
 import json
 import operator
 
 from odoo.addons.web.controllers.main import ExportFormat,serialize_exception, ExportXlsxWriter
-from odoo.tools.misc import DEFAULT_SERVER_DATETIME_FORMAT, DEFAULT_SERVER_DATE_FORMAT
-import datetime
 from odoo.tools.translate import _
 from odoo import http
 from odoo.http import content_disposition, request
@@ -19,62 +18,8 @@ class KsListExport(ExportFormat, http.Controller):
 
     def base(self, data, token):
         params = json.loads(data)
-        # header,list_data = operator.itemgetter('header','chart_data')(params)
-        header, list_data, item_id, ks_export_boolean, context, params = operator.itemgetter('header', 'chart_data',
-                                                                                             'ks_item_id',
-                                                                                             'ks_export_boolean',
-                                                                                             'context', 'params')(
-            params)
+        header,list_data = operator.itemgetter('header','chart_data')(params)
         list_data = json.loads(list_data)
-        if ks_export_boolean:
-            item = request.env['ks_dashboard_ninja.item'].browse(int(item_id))
-            orderby = item.ks_sort_by_field.id
-            sort_order = item.ks_sort_by_order
-            ks_start_date = context.get('ksDateFilterStartDate', False)
-            ks_end_date = context.get('ksDateFilterEndDate', False)
-            ksDateFilterSelection = context.get('ksDateFilterSelection', False)
-            if context.get('allowed_company_ids', False):
-                item = item.with_context(allowed_company_ids=context.get('allowed_company_ids'))
-            if item.ks_data_calculation_type == 'query':
-                query_start_date = item.ks_query_start_date
-                query_end_date = item.ks_query_end_date
-                ks_query = str(item.ks_custom_query)
-            if ks_start_date and ks_end_date:
-                ks_start_date = datetime.datetime.strptime(ks_start_date,DEFAULT_SERVER_DATETIME_FORMAT)
-                ks_end_date = datetime.datetime.strptime(ks_end_date,DEFAULT_SERVER_DATETIME_FORMAT)
-            item = item.with_context(ksDateFilterStartDate=ks_start_date)
-            item = item.with_context(ksDateFilterEndDate=ks_end_date)
-            item = item.with_context(ksDateFilterSelection=ksDateFilterSelection)
-
-            if item._context.get('ksDateFilterSelection', False):
-                ks_date_filter_selection = item._context['ksDateFilterSelection']
-                if ks_date_filter_selection == 'l_custom':
-                    item = item.with_context(ksDateFilterStartDate=ks_start_date)
-                    item = item.with_context(ksDateFilterEndDate=ks_end_date)
-                    item = item.with_context(ksIsDefultCustomDateFilter=False)
-
-            else:
-                ks_date_filter_selection = item.ks_dashboard_ninja_board_id.ks_date_filter_selection
-                item = item.with_context(ksDateFilterStartDate=item.ks_dashboard_ninja_board_id.ks_dashboard_start_date)
-                item = item.with_context(ksDateFilterEndDate=item.ks_dashboard_ninja_board_id.ks_dashboard_end_date)
-                item = item.with_context(ksDateFilterSelection=ks_date_filter_selection)
-                item = item.with_context(ksIsDefultCustomDateFilter=True)
-
-            item_domain = params.get('ks_domain_1', [])
-            ks_chart_domain = item.ks_convert_into_proper_domain(item.ks_domain, item,item_domain)
-            # list_data = item.ks_fetch_list_view_data(item,ks_chart_domain, ks_export_all=
-            if list_data['type'] == 'ungrouped':
-                list_data = item.ks_fetch_list_view_data(item, ks_chart_domain, ks_export_all=True)
-            elif list_data['type'] == 'grouped':
-                list_data = item.get_list_view_record(orderby, sort_order, ks_chart_domain, ks_export_all=True)
-            elif item.ks_data_calculation_type == 'query':
-                if ks_start_date or ks_end_date:
-                    query_start_date = ks_start_date
-                    query_end_date = ks_end_date
-                ks_query_result = item.ks_get_list_query_result(ks_query, query_start_date, query_end_date, ks_offset=0,
-                                                                ks_export_all=True)
-                list_data = item.ks_format_query_result(ks_query_result)
-
         # chart_data['labels'].insert(0,'Measure')
         columns_headers = list_data['label']
         import_data = []

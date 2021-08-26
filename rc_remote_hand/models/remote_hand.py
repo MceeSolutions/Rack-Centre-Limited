@@ -26,7 +26,8 @@ class RemoteHand(models.Model):
         ('Complete', 'Complete'),
         ], string='Status', copy=False, compute='_compute_portal_state')
 
-    ref = fields.Char(string='Service ID', readonly=True, required=True, index=True, copy=False, default='New')
+    # ref = fields.Char(string='Service ID', readonly=True, required=True, index=True, copy=False, default='New')
+    ref = fields.Char(string='Service ID', copy=False, default='New')
     legend = fields.Char(string='Legend')
     description = fields.Char(string='Description')
     user_id = fields.Many2one(comodel_name="res.users", string='Requested By')
@@ -42,12 +43,15 @@ class RemoteHand(models.Model):
 
     partner_id = fields.Many2one(comodel_name="res.partner", string='Requested For')
     implemented_by = fields.Many2one(comodel_name="hr.employee", string='Implemented By')
+    
     request_start_datetime = fields.Datetime(string='RC Request Start Date & Time')
     resolution_date_time = fields.Datetime(string='RC Resolution Date & Time')
     total_duration = fields.Float(string='TOTAL DURATION (H:M)', compute='compute_time_difference')
     total_time_duration = fields.Float(string='TIME (H:M:S)')
 
     additional_info = fields.Char(string='Additional Information')
+
+    agreeded_in_min = fields.Float(string='Agreed in Mins', related='partner_id.free_remote_hands', index=True, readonly=True, store=True)
 
     #invoice
     invoices_count = fields.Integer(string="Invoices", compute="count_invoices")

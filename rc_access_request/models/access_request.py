@@ -26,7 +26,8 @@ class AccessRequest(models.Model):
         ('reject', 'Rejected'),
         ], string='Status', readonly=False, index=True, copy=False, default='draft', tracking=True)
 
-    ref = fields.Char(string='Order Reference', readonly=True, required=True, index=True, copy=False, default='New')
+    # ref = fields.Char(string='Order Reference', readonly=True, required=True, index=True, copy=False, default='New')
+    ref = fields.Char(string='Service Request ID', copy=False, default='New')
 
     name = fields.Char(string='Name', required=True)
     partner_id = fields.Many2one(comodel_name='res.partner', string='Company', domain=[('company_type', '=', 'company')])
@@ -53,10 +54,12 @@ class AccessRequest(models.Model):
     start_date = fields.Datetime(string='Start Date & Time')
     end_date = fields.Datetime(string='End Date & Time')
 
+    reason_for_visit = fields.Char(string='Reason For Visit')
     additional_info = fields.Text(string='Additional Information')
 
     employee_id = fields.Many2one(comodel_name='hr.employee', string='Employee', tracking=True, default=_default_employee, readonly=True, states={'draft': [('readonly', False)]})
     department_id = fields.Many2one(comodel_name='hr.department', string='Department', default=_default_department)
+
     user_id = fields.Many2one(comodel_name="res.users", string='Requested By', default=_default_user) 
     requested_for_id = fields.Many2one(comodel_name="res.partner", string='Requested for')
     request_date = fields.Date(string='Request Date', default=date.today())

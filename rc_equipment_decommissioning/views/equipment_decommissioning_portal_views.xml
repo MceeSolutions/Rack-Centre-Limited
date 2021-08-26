@@ -276,14 +276,14 @@
                                                         <label class="s_website_form_label " style="width: 200px" for="src_rack_number">
                                                             <span class="s_website_form_label_content">Rack Number</span>
                                                         </label>
-                                                        <input type="text" class="form-control s_website_form_input" name="src_rack_number" placeholder="" id="src_rack_number"/>
+                                                        <input type="number" class="form-control s_website_form_input" name="src_rack_number" placeholder="" id="src_rack_number"/>
                                                     </div>
 
                                                     <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-2" data-type="char" data-name="Field">
                                                         <label class="s_website_form_label " style="width: 200px" for="src_uspace">
                                                             <span class="s_website_form_label_content">U-Space</span>
                                                         </label>
-                                                        <input type="text" class="form-control s_website_form_input" name="src_uspace" placeholder="" id="src_uspace"/>
+                                                        <input type="number" class="form-control s_website_form_input" name="src_uspace" placeholder="" id="src_uspace"/>
                                                     </div>
                                                 </div>
                                             </div>
@@ -526,7 +526,7 @@
 
                         <div class="row mb-4">
                             <!-- <strong>Equipment information:</strong> <br/> -->
-                            <div class="col-12 col-md-12">
+                            <!-- <div class="col-12 col-md-12">
                                 <strong>Equipment contact person:</strong> <span t-field="equipment_decommissioning.equipment_contact_person"/>
                             </div>
                             <div class="col-12 col-md-12">
@@ -546,7 +546,51 @@
                             </div>
                             <div class="col-12 col-md-12">
                                 <strong>IP Address:</strong> <span t-field="equipment_decommissioning.ip_address"/>
+                            </div> -->
+
+                            <div class="col-12 col-md-12 mb-1">
+                                <br/>
+                                <h4>Equipment Information</h4>
+                                <table class="table table-sm">
+                                    <thead class="bg-100">
+                                        <tr>
+                                            <th>Machine Name</th>
+                                            <th>Serial Number</th>
+                                            <th>Manufacturer</th>
+                                            <th>Model</th>
+                                            <th>Operating System</th>
+                                            <th>IP Address</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="equipment_decommissioning.equipment_line_ids" t-as="ol">
+                                            <tr t-att-class="'bg-200 o_line_section'">
+                                                <t>
+                                                    <td>
+                                                        <span t-esc="ol.name"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="ol.serial_number"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-esc="ol.manufacturer"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="ol.model"/>
+                                                    </td>
+                                                     <td>
+                                                        <span t-field="ol.operating_system"/>
+                                                    </td>
+                                                     <td>
+                                                        <span t-field="ol.ip_address"/>
+                                                    </td>
+                                                </t>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
                             </div>
+
                             <div class="col-12 col-md-12">
                                 <strong>Current rack location and Rack Label:</strong> <span t-field="equipment_decommissioning.currect_rack_location"/>
                             </div>

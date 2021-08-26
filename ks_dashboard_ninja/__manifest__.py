@@ -66,16 +66,16 @@
     'author': "Ksolves India Ltd.",
     'license': 'OPL-1',
     'currency': 'EUR',
-    'price': 363.0,
+    'price': 279.0,
     'website': "https://www.ksolves.com",
     'maintainer': 'Ksolves India  Limited',
     'live_test_url': 'https://dashboardninja14.kappso.com/web/demo_login',
     'category': 'Tools',
-    'version': '14.0.1.2.2',
+    'version': '14.0.1.0.0',
     'support': 'sales@ksolves.com',
-    'images': ['static/description/dasboard_ninja.gif'],
+    'images': ['static/description/ks_dashboard_ninja.gif'],
 
-    'depends': ['base', 'web', 'base_setup', 'bus'],
+    'depends': ['base', 'web', 'base_setup'],
 
     'data': [
         'security/ir.model.access.csv',
@@ -88,7 +88,6 @@
     ],
 
     'qweb': [
-        'static/src/xml/ks_dn_global_filter.xml',
         'static/src/xml/ks_dashboard_ninja_templates.xml',
         'static/src/xml/ks_dashboard_ninja_item_templates.xml',
         'static/src/xml/ks_dashboard_ninja_item_theme.xml',
@@ -96,7 +95,6 @@
         'static/src/xml/ks_dashboard_pro.xml',
         'static/src/xml/ks_import_list_view_template.xml',
         'static/src/xml/ks_quick_edit_view.xml',
-        'static/src/xml/ks_to_do_template.xml',
     ],
 
     'demo': [

@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<odoo>
+  <data>
+
+    <menuitem id="helpdesk.menu_helpdesk_root" name="Incident Management"
+        sequence="25"
+        web_icon="helpdesk,static/description/icon.png"
+        groups="helpdesk.group_helpdesk_user"/>
+    
+    <record id="rc_helpdesk_ticket_view_form" model="ir.ui.view">
+        <field name="name">rc.helpdesk.ticket.form</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="inherit_id" ref="helpdesk.helpdesk_ticket_view_form" />
+        <field name="arch" type="xml">
+            <field name="priority" position="after">
+                <field name="impact"/>
+                <field name="service_target"/>
+                <field name="ref" readonly="1"/>
+            </field>
+            <field name="email_cc" position="after">
+                <field name="incident_time"/>
+                <field name="resolution"/>
+                <field name="incident_summary"/>
+            </field>
+        </field>
+    </record>
+
+  </data>
+</odoo>

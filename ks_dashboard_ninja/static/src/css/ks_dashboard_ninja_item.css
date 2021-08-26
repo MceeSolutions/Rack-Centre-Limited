@@ -68,7 +68,7 @@
 }
 
 
-.ks_dashboard_menu_container > li > button, .ks_dashboard_layout_dropdown_container > li > button{
+.ks_dashboard_menu_container > li > button{
     margin-top : 5px;
     margin-left: 2px;
     border-radius: 5px;

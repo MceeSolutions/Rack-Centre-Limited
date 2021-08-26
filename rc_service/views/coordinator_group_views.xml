@@ -1,0 +1,39 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+
+    <record model="ir.ui.view" id="rc_coordinator_group_list">
+      <field name="name">Co-Ordinator Group</field>
+      <field name="model">coordinator.group</field>
+      <field name="arch" type="xml">
+        <tree editable="bottom">
+          <field name="name"/>
+          <field name="user_id"/>
+          <field name="active"/>
+        </tree>
+      </field>
+    </record>
+
+    <!-- actions opening views on models -->
+
+    <record model="ir.actions.act_window" id="rc_coordinator_group_action_window">
+      <field name="name">Co-Ordinator Group</field>
+      <field name="res_model">coordinator.group</field>
+      <field name="view_mode">tree</field>
+      <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+            let's create a new Co-Ordinator Group.
+            </p>
+        </field>
+    </record>
+
+    <!-- Top menu item -->
+    <menuitem
+        name="Co-Ordinator Groups"
+        parent="rc_service.rc_service_menu_config"
+        id="menu_rc_coordinator_group" action="rc_coordinator_group_action_window" sequence="3"/>
+
+  </data>
+</odoo>

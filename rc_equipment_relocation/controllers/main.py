@@ -28,13 +28,30 @@ class EquipmentRelocation(http.Controller):
 
     @http.route('/create/equipment_relocation', type="http", auth='user', website=True)
     def equipment_relocation(self, **kw):
+        
+        machine_name = request.httprequest.form.getlist('machine_name')
+        serial_number = request.httprequest.form.getlist('serial_number')
+        manufacturer = request.httprequest.form.getlist('manufacturer')
+        model = request.httprequest.form.getlist('model')
+        operating_system = request.httprequest.form.getlist('operating_system')
+        ip_address = request.httprequest.form.getlist('ip_address')
+
+        equipment_lines = [(0, 0, {
+            'name': machine_name,
+            'serial_number': serial_number,
+            'manufacturer': manufacturer,
+            'model': model,
+            'operating_system': operating_system,
+            'ip_address': ip_address,
+        }) for machine_name, serial_number, manufacturer, model, operating_system, ip_address in zip(machine_name, serial_number, manufacturer, model, operating_system, ip_address)]
+        
 
         task_name = request.httprequest.form.getlist('task_name')
         task_start_date = request.httprequest.form.getlist('task_start_date')
         task_end_date = request.httprequest.form.getlist('task_end_date')
         task_assigned_resource = request.httprequest.form.getlist('task_assigned_resource')
 
-        lines = [(0, 0, {
+        project_plan_lines = [(0, 0, {
             'name': task_name,
             'start_date': datetime.fromisoformat(task_start_date),
             'end_date': datetime.fromisoformat(task_end_date),
@@ -53,22 +70,26 @@ class EquipmentRelocation(http.Controller):
             'contact_manager_name': kw['contact_manager_name'],
             'contact_manager_phone': kw['contact_manager_phone'],
             
-            'equipment_contact_person': kw['equipment_contact_person'],
-            'machine_name': kw['machine_name'],
-            'serial_numbers': kw['serial_numbers'],
-            'manufacturer': kw['manufacturer'],
-            'model': kw['model'],
-            'operating_system': kw['operating_system'],
-            'ip_address': kw['ip_address'],
-            # 'currect_rack_location': kw['currect_rack_location'],
-            # 'new_rack_location': kw['new_rack_location'],
+            # 'equipment_contact_person': kw['equipment_contact_person'],
+            # 'machine_name': kw['machine_name'],
+            # 'serial_numbers': kw['serial_numbers'],
+            # 'manufacturer': kw['manufacturer'],
+            # 'model': kw['model'],
+            # 'operating_system': kw['operating_system'],
+            # 'ip_address': kw['ip_address'],
+
+            'currect_rack_location': '(Floor):' + kw['src_floor'] + '/' + '(IT Room):' + kw['src_it_room'] + '/' + '(Rack Location):' + kw['src_rack_location'] + '/' + '(Rack Number):' + kw['src_rack_number'] + '/' + '(U-Space):' + kw['src_uspace'],
+            'new_rack_location': '(Floor):' + kw['dest_floor'] + '/' + '(IT Room):' + kw['dest_it_room'] + '/' + '(Rack Location):' + kw['dest_rack_location'] + '/' + '(Rack Number):' + kw['dest_rack_number'] + '/' + '(U-Space):' + kw['dest_uspace'],
+            
             'relocation_date': kw['relocation_date'],
             'reason': kw['reason'],
             'relocation_temporary': kw['relocation_temporary'],
             'expected_return_date': kw['expected_return_date'],
 
             'additional_info': kw['additional_info'],
-            'project_plan_line_ids': lines,
+
+            'equipment_line_ids': equipment_lines,
+            'project_plan_line_ids': project_plan_lines,
         }
 
         equipment_relocation = request.env['equipment.relocation'].sudo().create(data)

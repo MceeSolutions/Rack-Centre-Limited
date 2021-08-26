@@ -19,7 +19,7 @@ odoo.define('ks_dashboard_ninja.domain_fix', function(require) {
             if (record._changes && record._changes[fieldName]) {
                 if (record._changes[fieldName].includes("%UID") || record._changes[fieldName].includes("%MYCOMPANY")) {
                     fieldName_temp = fieldName + '_temp';
-                    record._changes[fieldName_temp] = record._changes[fieldName]
+                    record._changes[fieldName_temp] = record._changes[fieldName] 
                     if (record._changes[fieldName_temp].includes("%UID")){
                         record._changes[fieldName_temp] = record._changes[fieldName_temp].replace('"%UID"', record.getContext().uid);
                     }
@@ -27,7 +27,7 @@ odoo.define('ks_dashboard_ninja.domain_fix', function(require) {
                         record._changes[fieldName_temp] = record._changes[fieldName_temp].replace('"%MYCOMPANY"', this.getSession().company_id)
                     }
                 }
-
+    
             } else if (record.data[fieldName] && (record.data[fieldName].includes("%UID") || record.data[fieldName].includes("%MYCOMPANY"))) {
                 fieldName_temp = fieldName + '_temp';
                 record.data[fieldName_temp] = record.data[fieldName];

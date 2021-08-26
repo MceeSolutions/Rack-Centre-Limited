@@ -58,7 +58,7 @@ odoo.define('ks_dashboard_ninja_list.ks_labels', function (require) {
 
             if(field.ks_query_result){
                 var ks_query_result = JSON.parse(field.ks_query_result);
-                if (ks_query_result.records.length){
+                if (ks_query_result.header.length){
                     self.ks_check_for_labels();
                     var $view = $(QWeb.render('ks_select_labels',{
                         ks_columns_list: self.ks_columns,

@@ -37,13 +37,15 @@ class EquipmentRelocation(models.Model):
     contact_manager_phone = fields.Char(string='Manager’s Phone')
 
     #Equipment Information
-    equipment_contact_person = fields.Char(string='Equipment contact person')
-    machine_name = fields.Char(string='Machine Name')
-    serial_numbers = fields.Char(string='Serial Number(s)')
-    manufacturer = fields.Char(string='Manufacturer')
-    model = fields.Char(string='Model')
-    operating_system = fields.Char(string='Operating System')
-    ip_address = fields.Char(string='IP Address')
+    equipment_line_ids = fields.One2many('equipment.relocation.lines', 'equipment_decommissioning_id', string="Equipments", copy=True)
+    # equipment_contact_person = fields.Char(string='Equipment contact person')
+    # machine_name = fields.Char(string='Machine Name')
+    # serial_numbers = fields.Char(string='Serial Number(s)')
+    # manufacturer = fields.Char(string='Manufacturer')
+    # model = fields.Char(string='Model')
+    # operating_system = fields.Char(string='Operating System')
+    # ip_address = fields.Char(string='IP Address')
+
     currect_rack_location = fields.Char(string='Current rack location and Rack Label')
     new_rack_location = fields.Char(string='New rack location and Rack Label')
     relocation_date = fields.Date(string='Relocation date')
@@ -79,14 +81,70 @@ class EquipmentRelocation(models.Model):
 
     project_plan_line_ids = fields.One2many('equipment.relocation.project.plan', 'equipment_relocation_id', string="Project Implementation Plan", copy=True)
 
+    coordinator_group_id = fields.Many2one(comodel_name="coordinator.group", string='Coordinator Group')
+    manager_group_id = fields.Many2one(comodel_name="res.users", string='Manager Group')
+
+    service = fields.Char(string='Service')
+    summary = fields.Char(string='Summary')
+    change_class = fields.Char(string='Class')
+    change_reason = fields.Char(string='Change Reason')
+    target_date = fields.Date(string='Target date')
+    impact = fields.Selection([
+        ('minor', 'Minor/Localized'),
+        ('major', 'Major'),
+        ], string='Impact', tracking=True)
+    urgency = fields.Selection([
+        ('low', 'Low'),
+        ('mid', 'Medium'),
+        ('high', 'Hign'),
+        ], string='Urgency', tracking=True)
+
+    risk_level = fields.Char(string='Risk Level')
+
+    scheduled_start_date = fields.Date(string='Scheduled Start Date & Time')
+    scheduled_end_date = fields.Date(string='Scheduled End Date & time')
+
+    scope_and_impact = fields.Text(string='Scope and Impact of Change')
+    docs_impacted = fields.Char(string='Documents Impacted')
+
+    controls_required = fields.Text(string='Controls required')
+    financial_impact = fields.Text(string='Financial Impact')
+    risk_assessment = fields.Text(string='Risk assessment')
+
+    #Business Justification for the Proposed Change
+    business_case_benefits = fields.Text(string='Business Case / Benefits')
+    technical_case = fields.Text(string='Technical case, for and against the Change')
+    estimated_cost_resources_required = fields.Text(string='Estimated Cost / Resources required for the change.')
+
     @api.model
     def create(self, vals):
         if vals.get('ref', 'New') == 'New':
             vals['ref'] = self.env['ir.sequence'].next_by_code('change.request') or '/'
         res = super(EquipmentRelocation, self).create(vals)
         res.action_alert_manager()
+        res.create_change_summary()
         return res 
     
+    def create_change_summary(self):
+        val = {
+            'name': self.name,
+            'ref': self.ref,
+            'change_type': self.change_type,
+            'change_category': 'relocation',
+            'partner_id': self.partner_id.id,
+            # 'actual_start_date': self.scheduled_start_date,
+            # 'actual_end_date': self.scheduled_end_date,
+            # 'closure_date_time': self.create_date,
+            # 'coordinator_group_id': self.coordinator_group_id.id,
+            'submit_date': self.create_date,
+            'priority': self.priority,
+        }
+        self.env['change.summary'].sudo().create(val) 
+        
+    @api.onchange('coordinator_group_id')
+    def _onchange_partner_id(self):
+        self.manager_group_id = self.coordinator_group_id.user_id
+
     #alerts cc
     def action_alert_manager(self):
         group_id = self.env['ir.model.data'].xmlid_to_object('rc_service.group_ccm')
@@ -170,6 +228,21 @@ class EquipmentRelocation(models.Model):
     
     def button_reset(self):
         self.write({'state': 'new'})
+
+class EquipmentDecommissioningLines(models.Model):
+    _name = 'equipment.relocation.lines'
+    _description = 'Relocation Equipments'
+
+    equipment_decommissioning_id = fields.Many2one(comodel_name="equipment.decommissioning", string='Equipment Decommissioning')
+
+    #Equipment Information
+    # equipment_contact_person = fields.Char(string='Equipment contact person')
+    name = fields.Char(string='Machine Name')
+    serial_number = fields.Char(string='Serial Number')
+    manufacturer = fields.Char(string='Manufacturer')
+    model = fields.Char(string='Model')
+    operating_system = fields.Char(string='Operating System')
+    ip_address = fields.Char(string='IP Address')
 
 class EquipmentRelocationProjectPlan(models.Model):
     _name = 'equipment.relocation.project.plan'
