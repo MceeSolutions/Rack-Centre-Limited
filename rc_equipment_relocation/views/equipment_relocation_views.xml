@@ -50,14 +50,20 @@
                         <field name="contact_manager_phone"/>
                     </group>
 
-                    <group string='Equipment Information' col="4">
-                        <field name="equipment_contact_person"/>
-                        <field name="machine_name"/>
-                        <field name="serial_numbers"/>
-                        <field name="manufacturer"/>
-                        <field name="model"/>
-                        <field name="operating_system"/>
-                        <field name="ip_address"/>
+                    <group string='Equipment Information'>
+                        <field name="equipment_line_ids" nolabel="1">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                                <field name="serial_number"/>
+                                <field name="manufacturer"/>
+                                <field name="model"/>
+                                <field name="operating_system"/>
+                                <field name="ip_address"/>
+                            </tree>
+                        </field>
+                    </group>
+
+                    <group col="4">
                         <field name="currect_rack_location"/>
                         <field name="new_rack_location"/>
                         <field name="relocation_date"/>
@@ -66,16 +72,52 @@
                         <field name="expected_return_date"/>
                     </group>
 
-                    <group string='Project Implementation Plan'>
-                        <field name="project_plan_line_ids" nolabel="1">
-                            <tree editable="bottom">
-                                    <field name="name"/>
-                                    <field name="start_date"/>
-                                    <field name="end_date"/>
-                                    <field name="assigned_resource"/>
-                            </tree>
-                        </field>
-                    </group>
+                    <notebook>
+                      <page string="Change Parameters">
+                        <group col="4">
+                            <field name="coordinator_group_id"/>
+                            <field name="manager_group_id"/>
+                            <field name="service"/>
+                            <field name="summary"/>
+                            <field name="change_class"/>
+                            <field name="change_reason"/>
+                            <field name="target_date"/>
+                            <field name="impact"/>
+                            <field name="urgency"/>
+                            <field name="risk_level"/>
+                            <field name="scheduled_start_date"/>
+                            <field name="scheduled_end_date"/>
+                        </group>
+                      </page>
+                      <page string="Scope and Impact of Change">
+                        <group>
+                          <field name="scope_and_impact"/>
+                          <field name="docs_impacted"/>
+                          <field name="controls_required"/>
+                          <field name="financial_impact"/>
+                          <field name="risk_assessment"/>
+                        </group>
+                      </page>
+                      <page string="Business Justification for the Proposed Change">
+                        <group>
+                          <field name="business_case_benefits"/>
+                          <field name="technical_case"/>
+                          <field name="estimated_cost_resources_required"/>
+                        </group>
+                      </page>
+                      <page string="Tasks">
+                        <group string='Project Implementation Plan'>
+                            <field name="project_plan_line_ids" nolabel="1">
+                                <tree editable="bottom">
+                                        <field name="name"/>
+                                        <field name="start_date"/>
+                                        <field name="end_date"/>
+                                        <field name="assigned_resource"/>
+                                </tree>
+                            </field>
+                        </group>
+                      </page>
+                    </notebook>
 
                     <group string='Notes'>
                         <field name="additional_info" nolabel="1"/>

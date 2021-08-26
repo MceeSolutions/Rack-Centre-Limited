@@ -13,7 +13,7 @@
     'website': "http://www.mceesolutions.com",
 
     'category': 'Uncategorized',
-    'version': '0.1.1',
+    'version': '0.1.6',
 
     'depends': [
         'stock',

@@ -17,8 +17,8 @@ class KsDashboardNinjaAdvance(models.Model):
                                           ('60000', '1 minute'),
                                           ], string="Slide Interval", default = '5000')
 
-    def ks_fetch_item_data(self, rec, params={}):
-         item = super(KsDashboardNinjaAdvance, self).ks_fetch_item_data(rec, params)
+    def ks_fetch_item_data(self, rec):
+         item = super(KsDashboardNinjaAdvance, self).ks_fetch_item_data(rec)
 
          item["ks_data_calculation_type"] = rec.ks_data_calculation_type
          item['ks_list_view_layout'] = rec.ks_list_view_layout
@@ -52,7 +52,7 @@ class KsDashboardNinjaAdvance(models.Model):
         if item.get('ks_data_calculation_type', False) == 'custom':
             model = self.env['ir.model'].search([('model', '=', item['ks_model_id'])])
 
-            if not model and not item['ks_dashboard_item_type'] == 'ks_to_do':
+            if not model:
                 raise ValidationError(_(
                     "Please Install the Module which contains the following Model : %s " % item['ks_model_id']))
 
@@ -61,8 +61,6 @@ class KsDashboardNinjaAdvance(models.Model):
 
         ks_goal_lines = item['ks_goal_liness'].copy() if item.get('ks_goal_liness', False) else False
         ks_action_lines = item['ks_action_liness'].copy() if item.get('ks_action_liness', False) else False
-        ks_dn_header_line = item['ks_dn_header_line'].copy() if item.get('ks_dn_header_line', False) else False
-        ks_multiplier_lines = item['ks_multiplier_lines'].copy() if item.get('ks_multiplier_lines', False) else False
 
         # Creating dashboard items
         item = self.ks_prepare_item(item)
@@ -76,11 +74,6 @@ class KsDashboardNinjaAdvance(models.Model):
         if 'ks_icon' in item:
             item['ks_icon_select'] = "Default"
             item['ks_icon'] = False
-        if 'ks_dn_header_line' in item:
-            del item['ks_dn_header_line']
-        if 'ks_multiplier_lines' in item:
-            del item['ks_multiplier_lines']
-
 
         ks_item = self.env['ks_dashboard_ninja.item'].create(item)
 
@@ -90,17 +83,6 @@ class KsDashboardNinjaAdvance(models.Model):
                                                                   '%Y-%m-%d')
                 line['ks_dashboard_item'] = ks_item.id
                 self.env['ks_dashboard_ninja.item_goal'].create(line)
-
-        if ks_dn_header_line and len(ks_dn_header_line) != 0:
-            for line in ks_dn_header_line:
-                ks_line = {}
-                ks_line['ks_to_do_header'] = line.get('ks_to_do_header')
-                ks_line['ks_dn_item_id'] = ks_item.id
-                ks_dn_header_id = self.env['ks_to.do.headers'].create(ks_line)
-                if line.get(line.get('ks_to_do_header'), False):
-                    for ks_task in line.get(line.get('ks_to_do_header')):
-                        ks_task['ks_to_do_header_id'] = ks_dn_header_id.id
-                        self.env['ks_to.do.description'].create(ks_task)
 
         if ks_action_lines and len(ks_action_lines) != 0:
 
@@ -121,14 +103,6 @@ class KsDashboardNinjaAdvance(models.Model):
                         line['ks_item_action_field'] = ks_record_id.id
                         line['ks_dashboard_item_id'] = ks_item.id
                         self.env['ks_dashboard_ninja.item_action'].create(line)
-        if ks_multiplier_lines and len(ks_multiplier_lines) != 0:
-            for rec in ks_multiplier_lines:
-                ks_multiplier_field = rec['ks_multiplier_fields']
-                ks_multiplier_field_id = self.env['ir.model.fields'].search([('model', '=', ks_model_name), ('id', '=', ks_multiplier_field)])
-                if ks_multiplier_field:
-                    rec['ks_multiplier_fields'] = ks_multiplier_field_id.id
-                    rec['ks_dashboard_item_id'] = ks_item.id
-                    self.env['ks_dashboard_item.multiplier'].create(rec)
 
         return ks_item
 
@@ -188,7 +162,6 @@ class KsDashboardNinjaAdvance(models.Model):
             if data['ks_item_data']:
                 # Fetching dashboard item info
                 for item in data['ks_item_data']:
-                    item['ks_company_id'] =False
                     if not all(key in item for key in ks_dashboard_item_key):
                         raise ValidationError(
                             _("Current Json File is not properly formatted according to Dashboard Ninja Model."))

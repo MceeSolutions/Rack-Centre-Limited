@@ -21,8 +21,8 @@
 
     # always loaded
     'data': [
-        'security/ir.model.access.csv',
         'security/portal_material_gatepass.xml',
+        'security/ir.model.access.csv',
         'views/material_gatepass_views.xml',
         'views/portal_material_gatepass_views.xml',
     ],

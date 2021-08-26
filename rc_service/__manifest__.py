@@ -22,10 +22,13 @@
 
     # always loaded
     'data': [
+        'security/ir.model.access.csv',
         'security/user_groups.xml',
         'data/files_data.xml',
         'data/sequence.xml',
+        'data/coordinator_group_data.xml',
         'views/main_menuitems.xml',
+        'views/coordinator_group_views.xml',
         'views/templates.xml',
     ],
 }

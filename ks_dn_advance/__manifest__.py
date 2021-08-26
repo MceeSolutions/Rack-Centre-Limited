@@ -76,9 +76,9 @@
         Inventory Report
         Inventory Valuation
         Inventory Quantities
-        V13 Dashboard
-        Dashboard v13.0,
-        Odoo Dashboard v13.0
+        V14 Dashboard
+        Dashboard v14.0,
+        Odoo Dashboard v14.0
         New Odoo Dashboard Apps
         Dashboard Ninja Advance
 
@@ -89,10 +89,10 @@
     'currency': 'EUR',
     'price': 149,
     'website': "https://www.ksolves.com",
-    'maintainer': 'Ksolves India Ltd.',
-    'live_test_url': 'https://dashboardninja.kappso.com/web/demo_login',
+    'maintainer': 'Ksolves India Limited',
+    'live_test_url': 'https://dashboardninja14.kappso.com/web/demo_login',
     'category': 'Tools',
-    'version': '13.0.1.2.1',
+    'version': '14.0.1.0.1',
     'support': 'sales@ksolves.com',
     'images': ['static/description/banner.gif'],
 
@@ -101,15 +101,12 @@
     'data': [
         'views/ks_dashboard_tv_assets.xml',
         'views/ks_dashboard_ninja_item_view_inherit.xml',
-        'views/ks_dashboard_form_view_inherit.xml',
     ],
 
     'qweb': [
         'static/src/xml/ks_dashboard_tv_ninja.xml',
         'static/src/xml/ks_query_templates.xml',
-        'static/src/xml/ks_dna_to_template.xml',
     ],
-    'uninstall_hook': 'ks_dna_uninstall_hook',
 
 
 }

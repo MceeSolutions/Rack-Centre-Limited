@@ -118,7 +118,8 @@
                                 <div class="equipments">
                                     <h4>Equipment Description</h4>
                                     <div class="row">
-                                        <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-3" data-type="char" data-name="Field" data-display="horizontal">
+
+                                        <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-2" data-type="char" data-name="Field" data-display="horizontal">
                                             <label class="s_website_form_label " style="width: 200px" for="equipment_manufacturer">
                                                 <span class="s_website_form_label_content">Manufacturer</span>
                                             </label>
@@ -137,44 +138,23 @@
                                             <input type="text" class="form-control s_website_form_input" name="equipment_serial_numbers"/>
                                         </div>
 
-                                        <div class="form-group s_website_form_field col-12 s_website_form_custom col-lg-3" data-type="selection" data-name="Field">
+                                        <div class="form-group s_website_form_field col-12 s_website_form_custom col-lg-2" data-type="selection" data-name="Field">
                                             <label class="s_website_form_label" for="equipment_power_requirements">
-                                                <span class="s_website_form_label_content">Power Requirements AC/DC Voltage</span>
+                                                <span class="s_website_form_label_content">Power Requirements</span>
                                             </label>
-                                            <div class="row s_col_no_resize s_col_no_bgcolor s_website_form_multiple" data-display="vertical">
-                                                <div class="radio col-12 ">
-                                                    <div class="form-check">
-                                                        <input type="radio" class="s_website_form_input form-check-input" value="ac_single_phase" name="equipment_power_requirements"/>
-                                                        <label class="form-check-label s_website_form_check_label" for="equipment_power_requirements">
-                                                            AC: Single Phase
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="radio col-12 ">
-                                                    <div class="form-check">
-                                                        <input type="radio" class="s_website_form_input form-check-input" value="three_phase" name="equipment_power_requirements"/>
-                                                        <label class="form-check-label s_website_form_check_label" for="equipment_power_requirements">
-                                                            Three Phase
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="radio col-12 ">
-                                                    <div class="form-check">
-                                                        <input type="radio" class="s_website_form_input form-check-input" value="dc_voltage" name="equipment_power_requirements"/>
-                                                        <label class="form-check-label s_website_form_check_label" for="equipment_power_requirements">
-                                                            DC: Voltage
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <select class="form-control o_website_form_input" name="equipment_power_requirements" id="equipment_power_requirements">
+                                                <option value="ac_single_phase">AC: Single Phase</option>
+                                                <option value="three_phase">Three Phase</option>
+                                                <option value="dc_voltage">DC: Voltage</option>
+                                            </select>
                                         </div>
                                         
-                                        <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-2" data-type="char" data-name="Field">
+                                        <!-- <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-1" data-type="char" data-name="Field">
                                             <label class="s_website_form_label " style="width: 200px" for="equipment_power">
                                                 <span class="s_website_form_label_content">Power (w)</span>
                                             </label>
                                             <input type="text" class="form-control s_website_form_input" name="equipment_power"/>
-                                        </div>
+                                        </div> -->
                                         <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-2" data-type="char" data-name="Field">
                                             <label class="s_website_form_label " style="width: 200px" for="equipment_u_space">
                                                 <span class="s_website_form_label_content">U-Space</span>
@@ -182,63 +162,40 @@
                                             <input type="text" class="form-control s_website_form_input" name="equipment_u_space"/>
                                         </div>
                                         
-                                        <div class="form-group s_website_form_field col-12 s_website_form_custom col-lg-3" data-type="selection" data-name="Field">
+                                        <div class="form-group s_website_form_field col-12 s_website_form_custom col-lg-2" data-type="selection" data-name="Field">
                                             <label class="s_website_form_label " for="equipment_power_redendancy">
-                                                <span class="s_website_form_label_content">Power Redundancy Y/N</span>
+                                                <span class="s_website_form_label_content">Power Redundancy</span>
                                             </label>
-                                            <div class="row s_col_no_resize s_col_no_bgcolor s_website_form_multiple" data-display="vertical">
-                                                <div class="radio col-12 ">
-                                                    <div class="form-check">
-                                                        <input type="radio" id="equipment_power_redendancy" class="s_website_form_input form-check-input" value="single" name="equipment_power_redendancy"/>
-                                                        <label class="form-check-label s_website_form_check_label" for="equipment_power_redendancy">
-                                                            Single
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="radio col-12 ">
-                                                    <div class="form-check">
-                                                        <input type="radio" class="s_website_form_input form-check-input" value="dual" name="equipment_power_redendancy"/>
-                                                        <label class="form-check-label s_website_form_check_label" for="equipment_power_redendancy">
-                                                            Dual
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <select class="form-control o_website_form_input" name="equipment_power_requirements" id="equipment_power_requirements">
+                                                <option value="single">Single</option>
+                                                <option value="dual">Dual</option>
+                                            </select>
                                         </div>
-                                        <div class="form-group s_website_form_field col-12 s_website_form_custom col-lg-3" data-type="selection" data-name="Field">
+
+                                        <!-- <div class="form-group s_website_form_field col-12 s_website_form_custom col-lg-2" data-type="selection" data-name="Field">
                                             <label class="s_website_form_label " for="equipment_type_of_airflow">
                                                 <span class="s_website_form_label_content">Type of Airflow</span>
                                             </label>
-                                            <div class="row s_col_no_resize s_col_no_bgcolor s_website_form_multiple" data-display="vertical">
-                                                <div class="radio col-12 ">
-                                                    <div class="form-check">
-                                                        <input type="radio" class="s_website_form_input form-check-input" value="front_to_back" name="equipment_type_of_airflow"/>
-                                                        <label class="form-check-label s_website_form_check_label" for="equipment_type_of_airflow">
-                                                            Airflow:  Front to Back
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="radio col-12 ">
-                                                    <div class="form-check">
-                                                        <input type="radio" class="s_website_form_input form-check-input" value="others" name="equipment_type_of_airflow"/>
-                                                        <label class="form-check-label s_website_form_check_label" for="equipment_type_of_airflow">
-                                                            Specify others
-                                                        </label>
-                                                        <!-- <input type="text" class="form-control s_website_form_input" name="equipment_airflow_others"/> -->
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <select class="form-control o_website_form_input" name="equipment_type_of_airflow" id="equipment_type_of_airflow">
+                                                <option value="front_to_back">Airflow:  Front to Back</option>
+                                                <option value="others">Specify others</option>
+                                            </select>
                                         </div>
                                         
-                                        <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-4" data-type="char" data-name="Field">
+                                        <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-2" data-type="char" data-name="Field">
                                             <label class="s_website_form_label " for="equipment_rack_mountkits_avilable">
-                                                <span class="s_website_form_label_content">Rack Rails / mount / Rack Conversion Kit &amp; IEC C13 - C14 / C19 - C20 Cables Available</span>
+                                                <span class="s_website_form_label_content">Rack Conversion Kit &amp; IEC C13 - C14 / C19 - C20 Cables</span>
                                             </label>
+                                            <select class="form-control o_website_form_input" name="equipment_rack_mountkits_avilable" id="equipment_rack_mountkits_avilable">
+                                                <option value="yes">Yes</option>
+                                                <option value="no">No</option>
+                                            </select>
                                             <input type="text" class="form-control s_website_form_input" name="equipment_rack_mountkits_avilable"/>
-                                        </div>
+                                        </div> -->
+
                                     </div>
                                 </div>
-                                <p><a id="add-more-equipments" href="#" class="pull-left">+ Add more</a></p>
+                                <p><a id="add-onboarding-equipments" href="#" class="pull-left">+ Add more</a></p>
           
                                 <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-12" data-type="char" data-name="Field">
                                     <label class="s_website_form_label " style="width: 200px" for="additional_info">

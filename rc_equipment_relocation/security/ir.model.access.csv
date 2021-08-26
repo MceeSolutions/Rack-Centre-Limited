@@ -1,5 +1,6 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_rc_equipment_relocation,equipment.relocation,model_equipment_relocation,base.group_user,1,1,1,1
+access_rc_equipment_relocation_lines,equipment.relocation.lines,model_equipment_relocation_lines,base.group_user,1,1,1,
 access_rc_equipment_relocation_portal,equipment.relocation,model_equipment_relocation,base.group_portal,1,1,1,0
 access_rc_equipment_relocation_project_plan,equipment.relocation.project.plan,model_equipment_relocation_project_plan,base.group_user,1,1,1,1
 access_rc_equipment_relocation_project_plan_portal,equipment.relocation.project.plan,model_equipment_relocation_project_plan,base.group_portal,1,1,1,0
