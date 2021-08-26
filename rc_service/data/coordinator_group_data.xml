@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data noupdate="1">
+
+        <!-- Data Centre Group -->
+        <record id="data_centre_coordinator_group" model="coordinator.group">
+            <field name="name">Data Centre</field>
+        </record>
+
+        <!-- Command Centre Group -->
+        <record id="command_centre_coordinator_group" model="coordinator.group">
+            <field name="name">Command Centre</field>
+        </record>
+
+        <!-- Governance Risk & Compliance Group -->
+        <record id="governance_risk_compliance_coordinator_group" model="coordinator.group">
+            <field name="name">Governance Risk &amp; Compliance</field>
+        </record>
+
+        <!-- Project Management Office Group -->
+        <record id="project_management_office_coordinator_group" model="coordinator.group">
+            <field name="name">Project Management Office</field>
+        </record>
+
+        <!-- Service delivery Group -->
+        <record id="service_delivery_coordinator_group" model="coordinator.group">
+            <field name="name">Service delivery</field>
+        </record>
+
+        <!-- Facility Group -->
+        <record id="facility_coordinator_group" model="coordinator.group">
+            <field name="name">Facility</field>
+        </record>
+
+    </data>
+</odoo>

@@ -12,8 +12,7 @@ from datetime import datetime
 from dateutil import relativedelta
 from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError, UserError
-from odoo.addons.ks_dashboard_ninja.lib.ks_date_filter_selections import ks_get_date, ks_convert_into_utc, \
-    ks_convert_into_local
+from odoo.addons.ks_dashboard_ninja.lib.ks_date_filter_selections import ks_get_date
 
 # TODO : Check all imports if needed
 
@@ -154,44 +153,39 @@ class KsDashboardNinjaItems(models.Model):
     _name = 'ks_dashboard_ninja.item'
     _description = 'Dashboard Ninja items'
 
-    name = fields.Char(string="Name", size=256, help="The item will be represented by this unique name.")
+    name = fields.Char(string="Name", size=256)
     ks_model_id = fields.Many2one('ir.model', string='Model',
                                   domain="[('access_ids','!=',False),('transient','=',False),"
                                          "('model','not ilike','base_import%'),('model','not ilike','ir.%'),"
                                          "('model','not ilike','web_editor.%'),('model','not ilike','web_tour.%'),"
-                                         "('model','!=','mail.thread'),('model','not ilike','ks_dash%'),('model','not ilike','ks_to%')]",
-                                  help="Data source to fetch and read the data for the creation of dashboard items. ")
-    ks_dashboard_board_template_id = fields.Many2one('ks_dashboard_ninja.board_template', string="Dashboard Template")
-    ks_domain = fields.Char(string="Domain", help="Define conditions for filter. ")
+                                         "('model','!=','mail.thread'),('model','not ilike','ks_dash%')]")
+    ks_domain = fields.Char(string="Domain")
 
     ks_model_id_2 = fields.Many2one('ir.model', string='Kpi Model',
                                     domain="[('access_ids','!=',False),('transient','=',False),"
                                            "('model','not ilike','base_import%'),('model','not ilike','ir.%'),"
                                            "('model','not ilike','web_editor.%'),('model','not ilike','web_tour.%'),"
-                                           "('model','!=','mail.thread'),('model','not ilike','ks_dash%'), ('model','not ilike','ks_to%')]")
+                                           "('model','!=','mail.thread'),('model','not ilike','ks_dash%')]")
 
     ks_model_name_2 = fields.Char(related='ks_model_id_2.model', string="Kpi Model Name")
 
     # This field main purpose is to store %UID as current user id. Mainly used in JS file as container.
     ks_domain_temp = fields.Char(string="Domain Substitute")
     ks_background_color = fields.Char(string="Background Color",
-                                      default="#ffffff,0.99", help=' Select the background color with transparency. ')
+                                      default="#ffffff,0.99")
     ks_icon = fields.Binary(string="Upload Icon", attachment=True)
-    ks_default_icon = fields.Char(string="Icon", default="bar-chart", help='Select the icon to be displayed. ')
-    ks_default_icon_color = fields.Char(default="#ffffff,0.99", string="Icon Color",
-                                        help='Select the icon to be displayed. ')
-    ks_icon_select = fields.Char(string="Icon Option", default="Default", help='Choose the Icon option. ')
-    ks_font_color = fields.Char(default="#ffffff,0.99", string="Font Color", help='Select the font color. ')
-    ks_dashboard_item_theme = fields.Char(string="Theme", default="white",
-                                          help='Select the color theme for the display. ')
+    ks_default_icon = fields.Char(string="Icon", default="bar-chart")
+    ks_default_icon_color = fields.Char(default="#ffffff,0.99", string="Icon Color")
+    ks_icon_select = fields.Char(string="Icon Option", default="Default")
+    ks_font_color = fields.Char(default="#ffffff,0.99", string="Font Color")
+    ks_dashboard_item_theme = fields.Char(string="Theme", default="white")
     ks_layout = fields.Selection([('layout1', 'Layout 1'),
                                   ('layout2', 'Layout 2'),
                                   ('layout3', 'Layout 3'),
                                   ('layout4', 'Layout 4'),
                                   ('layout5', 'Layout 5'),
                                   ('layout6', 'Layout 6'),
-                                  ], default=('layout1'), required=True, string="Layout",
-                                 help=' Select the layout to display records. ')
+                                  ], default=('layout1'), required=True, string="Layout")
     ks_preview = fields.Integer(default=1, string="Preview")
     ks_model_name = fields.Char(related='ks_model_id.model', string="Model Name")
 
@@ -207,8 +201,7 @@ class KsDashboardNinjaItems(models.Model):
                                      compute_sudo=False)
     ks_record_count_type = fields.Selection([('count', 'Count'),
                                              ('sum', 'Sum'),
-                                             ('average', 'Average')], string="Record Type", default="count",
-                                            help="Type of record how record will show as count,sum and average of the record")
+                                             ('average', 'Average')], string="Record Type", default="count")
     ks_record_count = fields.Float(string="Record Count", compute='ks_get_record_count', readonly=True,
                                    compute_sudo=False)
     ks_record_field = fields.Many2one('ir.model.fields',
@@ -216,8 +209,6 @@ class KsDashboardNinjaItems(models.Model):
                                              "'|',('ttype','=','integer'),('ttype','=','float'),"
                                              "('ttype','=','monetary')]",
                                       string="Record Field")
-    ks_record_data_limit_visibility = fields.Boolean(string="Record Limit Data Visibility",
-                                                     help="To enable the record data limit field")
 
     # Date Filter Fields
     # Condition to tell if date filter is applied or not
@@ -250,13 +241,11 @@ class KsDashboardNinjaItems(models.Model):
         ('n_future_starting_now', 'Future Starting Now'),
         ('n_futurestarting_tomorrow', 'Future Starting Tomorrow'),
         ('l_custom', 'Custom Filter'),
-    ], string="Date Filter Selection", default="l_none", required=True,
-        help='Select interval of the records to be displayed. ')
+    ], string="Date Filter Selection", default="l_none", required=True)
     ks_date_filter_field = fields.Many2one('ir.model.fields',
                                            domain="[('model_id','=',ks_model_id),('store','=',True),'|',('ttype','=','date'),"
                                                   "('ttype','=','datetime')]",
-                                           string="Date Filter Field",
-                                           help='Select the field for which Date Filter should be applicable.')
+                                           string="Date Filter Field")
 
     ks_item_start_date = fields.Datetime(string="Start Date")
     ks_item_end_date = fields.Datetime(string="End Date")
@@ -300,7 +289,7 @@ class KsDashboardNinjaItems(models.Model):
         ('l_custom', 'Custom Filter'),
     ], string="Kpi Date Filter Selection", required=True, default='l_none')
 
-    ks_previous_period = fields.Boolean(string=" Compare With Previous Period ", help='Checkbox to show comparison between the data of present day and the previous selected period. ')
+    ks_previous_period = fields.Boolean(string="Previous Period")
 
     # ------------------------ Pro Fields --------------------
     ks_dashboard_ninja_board_id = fields.Many2one('ks_dashboard_ninja.board', string="Dashboard",
@@ -318,25 +307,22 @@ class KsDashboardNinjaItems(models.Model):
                                                ('ks_doughnut_chart', 'Doughnut Chart'),
                                                ('ks_polarArea_chart', 'Polar Area Chart'),
                                                ('ks_list_view', 'List View'),
-                                               ('ks_kpi', 'KPI'),
-                                               ('ks_to_do', 'To Do')
+                                               ('ks_kpi', 'KPI')
                                                ], default=lambda self: self._context.get('ks_dashboard_item_type',
                                                                                          'ks_tile'), required=True,
-                                              string="Dashboard Item Type",
-                                              help="Select the required type of dashboard to display. ")
+                                              string="Dashboard Item Type")
     ks_chart_groupby_type = fields.Char(compute='get_chart_groupby_type', compute_sudo=False)
     ks_chart_sub_groupby_type = fields.Char(compute='get_chart_sub_groupby_type', compute_sudo=False)
     ks_chart_relation_groupby = fields.Many2one('ir.model.fields',
                                                 domain="[('model_id','=',ks_model_id),('name','!=','id'),('name','!=','sequence'),"
                                                        "('store','=',True),('ttype','!=','binary'),"
                                                        "('ttype','!=','many2many'), ('ttype','!=','one2many')]",
-                                                string="Group By", help=' Define the x-axis of the graph. ')
+                                                string="Group By")
     ks_chart_relation_sub_groupby = fields.Many2one('ir.model.fields',
                                                     domain="[('model_id','=',ks_model_id),('name','!=','id'),('name','!=','sequence'),"
                                                            "('store','=',True),('ttype','!=','binary'),"
                                                            "('ttype','!=','many2many'), ('ttype','!=','one2many')]",
-                                                    string=" Sub Group By",
-                                                    help='Select the second level of grouping. ')
+                                                    string=" Sub Group By")
     ks_chart_date_groupby = fields.Selection([('minute', 'Minute'),
                                               ('hour', 'Hour'),
                                               ('day', 'Day'),
@@ -364,31 +350,27 @@ class KsDashboardNinjaItems(models.Model):
                                                      "('store','=',True),'|','|',"
                                                      "('ttype','=','integer'),('ttype','=','float'),"
                                                      "('ttype','=','monetary')]",
-                                              string="Measure 1", help='Data points to be selected.')
+                                              string="Measure 1")
 
-    ks_chart_cumulative_field = fields.Many2one('ir.model.fields',
-                                                string="Cumulative Field", help='Data points to be selected.')
-    ks_chart_cumulative = fields.Boolean("Cumulative As Line")
     ks_chart_measure_field_2 = fields.Many2many('ir.model.fields', 'ks_dn_measure_field_rel_2', 'measure_field_id_2',
                                                 'field_id',
                                                 domain="[('model_id','=',ks_model_id),('name','!=','id'),('name','!=','sequence'),"
                                                        "('store','=',True),'|','|',"
                                                        "('ttype','=','integer'),('ttype','=','float'),"
                                                        "('ttype','=','monetary')]",
-                                                string="Line Measure",
-                                                help='Data Points displayed with a line in the graph. ')
+                                                string="Line Measure")
 
-    ks_bar_chart_stacked = fields.Boolean(string="Stacked Bar Chart", help='Stack the columns of the same record. ')
+    ks_bar_chart_stacked = fields.Boolean(string="Stacked Bar Chart")
 
     ks_semi_circle_chart = fields.Boolean(string="Semi Circle Chart")
 
     ks_sort_by_field = fields.Many2one('ir.model.fields',
                                        domain="[('model_id','=',ks_model_id),('name','!=','id'),('name','!=','sequence'),('store','=',True),"
                                               "('ttype','!=','one2many'),('ttype','!=','binary')]",
-                                       string="Sort By Field", help='Select the desired sorting preference. ')
+                                       string="Sort By Field")
     ks_sort_by_order = fields.Selection([('ASC', 'Ascending'), ('DESC', 'Descending')],
-                                        string="Sort Order", help=' Select the order of the sorting. ')
-    ks_record_data_limit = fields.Integer(string="Record Limit", help=' Records to be displayed on the graph')
+                                        string="Sort Order")
+    ks_record_data_limit = fields.Integer(string="Record Limit")
 
     ks_list_view_preview = fields.Char(string="List View Preview", default="List View Preview")
 
@@ -399,7 +381,7 @@ class KsDashboardNinjaItems(models.Model):
         ('layout_2', 'Data Comparison'),
     ], string="Kpi Layout", default="layout_1")
 
-    ks_target_view = fields.Char(string="View", default="Number", help=' Select the view to compare target with data.')
+    ks_target_view = fields.Char(string="View", default="Number")
 
     ks_data_comparison = fields.Char(string="Kpi Data Type", default="None")
 
@@ -407,21 +389,16 @@ class KsDashboardNinjaItems(models.Model):
 
     ks_chart_item_color = fields.Selection(
         [('default', 'Default'), ('cool', 'Cool'), ('warm', 'Warm'), ('neon', 'Neon')],
-        string="Chart Color Palette", default="default", help='Select the display preference. ')
+        string="Chart Color Palette", default="default")
 
     # ------------------------ List View Fields ------------------------------
 
     ks_list_view_type = fields.Selection([('ungrouped', 'Un-Grouped'), ('grouped', 'Grouped')], default="ungrouped",
-                                         string="List View Type", required=True,
-                                         help='Select the desired list view type. ')
+                                         string="List View Type", required=True)
     ks_list_view_fields = fields.Many2many('ir.model.fields', 'ks_dn_list_field_rel', 'list_field_id', 'field_id',
                                            domain="[('model_id','=',ks_model_id),('ttype','!=','one2many'),"
                                                   "('ttype','!=','many2many'),('ttype','!=','binary')]",
-                                           string="Fields to show in list",
-                                           help=' Select the fields you want to display in the list.  ')
-
-    ks_export_all_records = fields.Boolean(string="Export All Records", default=True,
-                                           help="when click on boolean button, all the records will be downloaded which are present in entire list")
+                                           string="Fields to show in list")
 
     ks_list_view_group_fields = fields.Many2many('ir.model.fields', 'ks_dn_list_group_field_rel', 'list_field_id',
                                                  'field_id',
@@ -435,13 +412,12 @@ class KsDashboardNinjaItems(models.Model):
                                     compute_sudo=False)
 
     # -------------------- Multi Company Feature ---------------------
-    ks_company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.user.company_id,
-                                    help='Name of the company for which analytics will be displayed in the dashboard. ')
+    ks_company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.user.company_id)
 
     # -------------------- Target Company Feature ---------------------
-    ks_goal_enable = fields.Boolean(string="Enable Target", help='Show the set target.')
+    ks_goal_enable = fields.Boolean(string="Enable Target")
     ks_goal_bar_line = fields.Boolean(string="Show Target As Line")
-    ks_standard_goal_value = fields.Float(string="Standard Target", help='Show the set target')
+    ks_standard_goal_value = fields.Float(string="Standard Target")
     ks_goal_lines = fields.One2many('ks_dashboard_ninja.item_goal', 'ks_dashboard_item', string="Target Lines")
 
     ks_list_target_deviation_field = fields.Many2one('ir.model.fields', 'list_field_id',
@@ -454,17 +430,15 @@ class KsDashboardNinjaItems(models.Model):
     ks_many2many_field_ordering = fields.Char()
 
     # TODO : Merge all these fields into one and show a widget to get output for these fields from JS
-    ks_show_data_value = fields.Boolean(string="Show Data Value", help=' Display value on the graph. . ')
+    ks_show_data_value = fields.Boolean(string="Show Data Value")
 
     ks_action_lines = fields.One2many('ks_dashboard_ninja.item_action', 'ks_dashboard_item_id', string="Action Lines")
 
     ks_actions = fields.Many2one('ir.actions.act_window', domain="[('res_model','=',ks_model_name)]",
-                                 string="Actions", help="Redirects you to the selected view. ")
+                                 string="Actions", help="This Action will be Performed at the end of Drill Down Action")
 
-    ks_compare_period = fields.Integer(string="Include Period",
-                                       help=' Provide the number of Date Filter Selection you want to include while displaying the record.')
-    ks_year_period = fields.Integer(string="Same Period Previous Years",
-                                    help=' Display the record for the same Date field for the last year. ')
+    ks_compare_period = fields.Integer(string="Include Period")
+    ks_year_period = fields.Integer(string="Same Period Previous Years")
     ks_compare_period_2 = fields.Integer(string="KPI Include Period")
     ks_year_period_2 = fields.Integer(string="KPI Same Period Previous Years")
 
@@ -477,15 +451,14 @@ class KsDashboardNinjaItems(models.Model):
         ('120000', '2 minute'),
         ('300000', '5 minute'),
         ('600000', '10 minute'),
-    ], string="Item Update Interval", default=lambda self: self._context.get('ks_set_interval', False),
-        help=" Data will be refreshed after the selected interval.")
+    ], string="Item Update Interval", default=lambda self: self._context.get('ks_set_interval', False))
 
     # User can select custom units for measure
-    ks_unit = fields.Boolean(string="Show Custom Unit", default=False, help='Display the unit of the data.')
+    ks_unit = fields.Boolean(string="Show Custom Unit", default=False)
     ks_unit_selection = fields.Selection([
         ('monetary', 'Monetary'),
         ('custom', 'Custom'),
-    ], string="Select Unit Type", help='Select the unit to be assigned to the value. ')
+    ], string="Select Unit Type")
     ks_chart_unit = fields.Char(string="Enter Unit", size=5, default="",
                                 help="Maximum limit 5 characters, for ex: km, m")
 
@@ -496,79 +469,12 @@ class KsDashboardNinjaItems(models.Model):
     #  Field for fill temp data
     ks_fill_temporal = fields.Boolean('Fill Temporal Value')
     # Domain Extension field
-    ks_domain_extension = fields.Char('Domain Extension', help="Define conditions for filter to write manually")
+    ks_domain_extension = fields.Char('Domain Extension')
     ks_domain_extension_2 = fields.Char('KPI Domain Extension')
     # hide legend
     ks_hide_legend = fields.Boolean('Show Legend', help="Hide all legend from the chart item", default=True)
-    ks_data_calculation_type = fields.Selection([('custom', 'Default Query'),
-                                                 ('query', 'Custom Query')], string="Data Calculation Type",
-                                                default="custom",
-                                                help='Select the type of calculation you want to perform on the data.')
-
-    # to show the Global / Indian / Exact Number Format
-    ks_data_format = fields.Selection([
-        ('global', 'English Format'),
-        ('indian', 'Indian Format'),
-        ('colombian', 'Colombian Peso Format'),
-        ('exact', 'Exact Value')],
-        string='Number System',
-        default='global',
-        help="To Change the number format showing in chart to given option")
-    ks_button_color = fields.Char(string="Top Button Color",
-                                  default="#ffffff,0.99")
-    ks_auto_update_type = fields.Selection(
-        [('ks_live_update', 'Update at every instance.'), ('ks_update_interval', ' Update after the selected interval')],
-        string='Auto Update Type',
-        default=lambda self: 'ks_update_interval' if self._context.get('ks_set_interval', False) else False,
-        help='Select the update type.')
-    ks_show_live_pop_up = fields.Boolean(string='Show Live Update Pop Up', help='Checkbox to enable notification after every update. ')
-
-    ks_is_client_action = fields.Boolean('Client Action', default=False)
-    ks_client_action = fields.Many2one('ir.actions.client',
-                                       string="Client Item Action",
-                                       help="This Action will be Performed at the end of Drill Down Action")
-    ks_pagination_limit = fields.Integer('Pagination Limit', default=15)
-
-    @api.onchange('ks_goal_lines')
-    def ks_is_goal_lines(self):
-        for rec in self:
-            if rec.ks_goal_enable and rec.ks_goal_lines:
-                rec.ks_pagination_limit = 0
-            elif rec.ks_goal_enable and not rec.ks_goal_lines:
-                rec.ks_pagination_limit = 15
-
-
-    @api.onchange('ks_goal_enable')
-    def ks_is_goal_enable(self):
-        for rec in self:
-            if not rec.ks_goal_enable :
-                rec.ks_goal_lines = False
-                rec.ks_pagination_limit = 15
-            elif rec.ks_goal_enable and not rec.ks_goal_lines:
-                rec.ks_pagination_limit = 15
-
-
-    @api.onchange('ks_pagination_limit')
-    def ks_on_negativ_limit(self):
-        for rec in self:
-            if rec.ks_pagination_limit > 0:
-                rec.ks_pagination_limit = rec.ks_pagination_limit
-            elif not rec.ks_goal_lines and rec.ks_pagination_limit <= 0:
-                raise ValidationError(_("Pagination limit value cannot be Negative or Zero"))
-            if rec.ks_goal_lines and rec.ks_pagination_limit > 0 or rec.ks_pagination_limit < 0:
-                raise ValidationError(_("if target lines is selected then cannot be set pagination value"))
-
-    @api.onchange('ks_is_client_action')
-    def ks_on_change_item_action_to_client(self):
-        for rec in self:
-            if rec.ks_is_client_action:
-                rec.ks_actions = False
-
-    @api.onchange('ks_record_data_limit_visibility')
-    def ks_on_change_record_data_visibility(self):
-        for rec in self:
-            if not rec.ks_record_data_limit_visibility:
-                rec.ks_record_data_limit = 0
+    ks_data_calculation_type = fields.Selection([('custom', 'Custom'),
+                                                 ('query', 'Query')], string="Data Calculation Type", default="custom")
 
     @api.onchange('ks_fill_temporal')
     def ks_onchange_fill_temporal(self):
@@ -599,13 +505,6 @@ class KsDashboardNinjaItems(models.Model):
                 raise ValidationError(_(
                     "Cannot set aggregation having Date time (Hour, Minute) when target lines per date are being used."
                     " To proceed this, first delete target lines"))
-            if rec.ks_chart_relation_groupby.ttype == 'date' and rec.ks_chart_date_groupby in ('minute', 'hour'):
-                raise ValidationError(_('Groupby field: {} cannot be aggregated by {}').format(
-                    rec.ks_chart_relation_groupby.display_name, rec.ks_chart_date_groupby))
-            if rec.ks_chart_relation_sub_groupby.ttype == 'date' and rec.ks_chart_date_sub_groupby in (
-                    'minute', 'hour'):
-                raise ValidationError(_('Groupby field: {} cannot be aggregated by {}').format(
-                    rec.ks_chart_relation_sub_groupby.display_name, rec.ks_chart_date_sub_groupby))
 
     def copy_data(self, default=None):
         if default is None:
@@ -617,27 +516,6 @@ class KsDashboardNinjaItems(models.Model):
             default['ks_goal_lines'] = [(0, 0, line.copy_data()[0]) for line in self.ks_goal_lines]
 
         return super(KsDashboardNinjaItems, self).copy_data(default)
-
-    def copy(self, default=None):
-        default = default or {}
-        res = super(KsDashboardNinjaItems, self).copy(default)
-
-        if self.ks_dn_header_lines:
-            for line in self.ks_dn_header_lines:
-                ks_line = {}
-                ks_line['ks_to_do_header'] = line.ks_to_do_header
-                ks_line['ks_dn_item_id'] = res.id
-                ks_dn_header_id = self.env['ks_to.do.headers'].create(ks_line)
-                if line.ks_to_do_description_lines:
-                    for ks_task in line.ks_to_do_description_lines:
-                        ks_task_line = {
-                            'ks_to_do_header_id': ks_dn_header_id.id,
-                            'ks_description': ks_task.ks_description,
-                            'ks_active': ks_task.ks_active
-                        }
-
-                        self.env['ks_to.do.description'].create(ks_task_line)
-        return res
 
     def name_get(self):
         res = []
@@ -757,32 +635,26 @@ class KsDashboardNinjaItems(models.Model):
             self.ks_background_color = "#d9534f,0.99"
             self.ks_default_icon_color = "#ffffff,0.99"
             self.ks_font_color = "#ffffff,0.99"
-            self.ks_button_color = "#ffffff,0.99"
         elif self.ks_dashboard_item_theme == "blue":
             self.ks_background_color = "#337ab7,0.99"
             self.ks_default_icon_color = "#ffffff,0.99"
             self.ks_font_color = "#ffffff,0.99"
-            self.ks_button_color = "#ffffff,0.99"
         elif self.ks_dashboard_item_theme == "yellow":
             self.ks_background_color = "#f0ad4e,0.99"
             self.ks_default_icon_color = "#ffffff,0.99"
             self.ks_font_color = "#ffffff,0.99"
-            self.ks_button_color = "#ffffff,0.99"
         elif self.ks_dashboard_item_theme == "green":
             self.ks_background_color = "#5cb85c,0.99"
             self.ks_default_icon_color = "#ffffff,0.99"
             self.ks_font_color = "#ffffff,0.99"
-            self.ks_button_color = "#ffffff,0.99"
         elif self.ks_dashboard_item_theme == "white":
             if self.ks_layout == 'layout4':
                 self.ks_background_color = "#00000,0.99"
                 self.ks_default_icon_color = "#ffffff,0.99"
-                self.ks_button_color = "#ffffff,0.99"
             else:
                 self.ks_background_color = "#ffffff,0.99"
                 self.ks_default_icon_color = "#000000,0.99"
                 self.ks_font_color = "#000000,0.99"
-                self.ks_button_color = "#000000,0.99"
 
         if self.ks_layout == 'layout4':
             self.ks_font_color = self.ks_background_color
@@ -795,50 +667,44 @@ class KsDashboardNinjaItems(models.Model):
 
     @api.depends('ks_record_count_type', 'ks_model_id', 'ks_domain', 'ks_record_field', 'ks_date_filter_field',
                  'ks_item_end_date', 'ks_item_start_date', 'ks_compare_period', 'ks_year_period',
-                 'ks_dashboard_item_type', 'ks_domain_extension', 'ks_data_format')
+                 'ks_dashboard_item_type', 'ks_domain_extension')
     def ks_get_record_count(self):
         for rec in self:
-            rec.ks_record_count = rec._ksGetRecordCount(domain=[])
-
-    def _ksGetRecordCount(self, domain=[]):
-        rec = self
-        if rec.ks_record_count_type == 'count' or rec.ks_dashboard_item_type == 'ks_list_view':
-            ks_record_count = rec.ks_fetch_model_data(rec.ks_model_name, rec.ks_domain, 'search_count', rec, domain)
-        elif rec.ks_record_count_type in ['sum',
-                                          'average'] and rec.ks_record_field and rec.ks_dashboard_item_type != 'ks_list_view':
-            ks_records_grouped_data = rec.ks_fetch_model_data(rec.ks_model_name, rec.ks_domain, 'read_group', rec,
-                                                              domain)
-            if ks_records_grouped_data and len(ks_records_grouped_data) > 0:
-                ks_records_grouped_data = ks_records_grouped_data[0]
-                if rec.ks_record_count_type == 'sum' and ks_records_grouped_data.get('__count', False) and (
-                        ks_records_grouped_data.get(rec.ks_record_field.name)):
-                    ks_record_count = ks_records_grouped_data.get(rec.ks_record_field.name, 0)
-                elif rec.ks_record_count_type == 'average' and ks_records_grouped_data.get(
-                        '__count', False) and (ks_records_grouped_data.get(rec.ks_record_field.name)):
-                    ks_record_count = ks_records_grouped_data.get(rec.ks_record_field.name,
-                                                                  0) / ks_records_grouped_data.get('__count',
-                                                                                                   1)
+            if rec.ks_record_count_type == 'count' or rec.ks_dashboard_item_type == 'ks_list_view':
+                rec.ks_record_count = rec.ks_fetch_model_data(rec.ks_model_name, rec.ks_domain, 'search_count', rec)
+            elif rec.ks_record_count_type in ['sum',
+                                              'average'] and rec.ks_record_field and rec.ks_dashboard_item_type != 'ks_list_view':
+                ks_records_grouped_data = rec.ks_fetch_model_data(rec.ks_model_name, rec.ks_domain, 'read_group', rec)
+                if ks_records_grouped_data and len(ks_records_grouped_data) > 0:
+                    ks_records_grouped_data = ks_records_grouped_data[0]
+                    if rec.ks_record_count_type == 'sum' and ks_records_grouped_data.get('__count', False) and (
+                            ks_records_grouped_data.get(rec.ks_record_field.name)):
+                        rec.ks_record_count = ks_records_grouped_data.get(rec.ks_record_field.name, 0)
+                    elif rec.ks_record_count_type == 'average' and ks_records_grouped_data.get(
+                            '__count', False) and (ks_records_grouped_data.get(rec.ks_record_field.name)):
+                        rec.ks_record_count = ks_records_grouped_data.get(rec.ks_record_field.name,
+                                                                          0) / ks_records_grouped_data.get('__count',
+                                                                                                           1)
+                    else:
+                        rec.ks_record_count = 0
                 else:
-                    ks_record_count = 0
+                    rec.ks_record_count = 0
             else:
-                ks_record_count = 0
-        else:
-            ks_record_count = 0
-        return ks_record_count
+                rec.ks_record_count = 0
 
     # Writing separate function to fetch dashboard item data
-    def ks_fetch_model_data(self, ks_model_name, ks_domain, ks_func, rec, domain=[]):
+    def ks_fetch_model_data(self, ks_model_name, ks_domain, ks_func, rec):
         data = 0
         try:
             if ks_domain and ks_domain != '[]' and ks_model_name:
-                proper_domain = self.ks_convert_into_proper_domain(ks_domain, rec, domain)
+                proper_domain = self.ks_convert_into_proper_domain(ks_domain, rec)
                 if ks_func == 'search_count':
                     data = self.env[ks_model_name].search_count(proper_domain)
                 elif ks_func == 'read_group':
                     data = self.env[ks_model_name].read_group(proper_domain, [rec.ks_record_field.name], [], lazy=False)
             elif ks_model_name:
                 # Have to put extra if condition here because on load,model giving False value
-                proper_domain = self.ks_convert_into_proper_domain(False, rec, domain)
+                proper_domain = self.ks_convert_into_proper_domain(False, rec)
                 if ks_func == 'search_count':
                     data = self.env[ks_model_name].search_count(proper_domain)
 
@@ -847,10 +713,10 @@ class KsDashboardNinjaItems(models.Model):
             else:
                 return []
         except Exception as e:
-            return 0
+            return []
         return data
 
-    def ks_convert_into_proper_domain(self, ks_domain, rec, domain=[]):
+    def ks_convert_into_proper_domain(self, ks_domain, rec):
         if ks_domain and "%UID" in ks_domain:
             ks_domain = ks_domain.replace('"%UID"', str(self.env.user.id))
 
@@ -862,22 +728,6 @@ class KsDashboardNinjaItems(models.Model):
             if not rec.ks_date_filter_selection or rec.ks_date_filter_selection == "l_none":
                 selected_start_date = self._context.get('ksDateFilterStartDate', False)
                 selected_end_date = self._context.get('ksDateFilterEndDate', False)
-                ks_is_def_custom_filter = self._context.get('ksIsDefultCustomDateFilter', False)
-                ks_timezone = self._context.get('tz') or self.env.user.tz
-                if selected_start_date and selected_end_date and rec.ks_date_filter_field.ttype == 'datetime' and not ks_is_def_custom_filter:
-                    selected_start_date = ks_convert_into_utc(selected_start_date, ks_timezone)
-                    selected_end_date = ks_convert_into_utc(selected_end_date, ks_timezone)
-                if selected_start_date and selected_end_date and rec.ks_date_filter_field.ttype == 'date' and ks_is_def_custom_filter:
-                    selected_start_date = ks_convert_into_local(selected_start_date, ks_timezone)
-                    selected_end_date = ks_convert_into_local(selected_end_date, ks_timezone)
-
-                if self._context.get('ksDateFilterSelection', False) and self._context['ksDateFilterSelection'] not in [
-                    'l_none', 'l_custom']:
-                    ks_date_data = ks_get_date(self._context.get('ksDateFilterSelection'), self,
-                                               rec.ks_date_filter_field.ttype)
-                    selected_start_date = ks_date_data["selected_start_date"]
-                    selected_end_date = ks_date_data["selected_end_date"]
-
                 if selected_end_date and not selected_start_date:
                     ks_date_domain = [
                         (rec.ks_date_filter_field.name, "<=",
@@ -896,19 +746,13 @@ class KsDashboardNinjaItems(models.Model):
 
             else:
                 if rec.ks_date_filter_selection and rec.ks_date_filter_selection != 'l_custom':
-                    ks_date_data = ks_get_date(rec.ks_date_filter_selection, self, rec.ks_date_filter_field.ttype)
+                    ks_date_data = ks_get_date(rec.ks_date_filter_selection, self)
                     selected_start_date = ks_date_data["selected_start_date"]
                     selected_end_date = ks_date_data["selected_end_date"]
                 else:
-                    selected_start_date = False
-                    selected_end_date = False
                     if rec.ks_item_start_date or rec.ks_item_end_date:
                         selected_start_date = rec.ks_item_start_date
                         selected_end_date = rec.ks_item_end_date
-                        if rec.ks_date_filter_field.ttype == 'date' and rec.ks_item_start_date and rec.ks_item_end_date:
-                            ks_timezone = self._context.get('tz') or self.env.user.tz
-                            selected_start_date = ks_convert_into_local(rec.ks_item_start_date, ks_timezone)
-                            selected_end_date = ks_convert_into_local(rec.ks_item_end_date, ks_timezone)
 
                 if selected_start_date and selected_end_date:
                     if rec.ks_compare_period:
@@ -964,8 +808,6 @@ class KsDashboardNinjaItems(models.Model):
         if rec.ks_domain_extension:
             ks_domain_extension = rec.ks_convert_domain_extension(rec.ks_domain_extension, rec)
             proper_domain.extend(ks_domain_extension)
-        if domain:
-            proper_domain.extend(domain)
 
         return proper_domain
 
@@ -980,6 +822,7 @@ class KsDashboardNinjaItems(models.Model):
             ks_extensiom_domain = ks_extensiom_domain.replace('"%MYCOMPANY"', str(self.env.user.company_id.id))
             if "%MYCOMPANY" in ks_extensiom_domain:
                 ks_extensiom_domain = ks_extensiom_domain.replace("'%MYCOMPANY'", str(self.env.user.company_id.id))
+
 
         ks_domain = eval(ks_extensiom_domain)
         return ks_domain
@@ -1073,9 +916,7 @@ class KsDashboardNinjaItems(models.Model):
         for rec in self:
             if rec.ks_chart_relation_sub_groupby or rec.ks_fill_temporal or rec.ks_goal_lines:
                 rec.ks_record_data_limit = 0
-            if rec.ks_chart_relation_sub_groupby:
-                rec.ks_chart_cumulative_field = False
-                rec.ks_fill_temporal = False
+
 
     @api.depends('ks_chart_relation_sub_groupby')
     def get_chart_sub_groupby_type(self):
@@ -1092,8 +933,7 @@ class KsDashboardNinjaItems(models.Model):
             else:
                 rec.ks_chart_sub_groupby_type = 'other'
 
-    @api.depends('ks_chart_measure_field', 'ks_chart_cumulative_field', 'ks_chart_relation_groupby',
-                 'ks_chart_date_groupby', 'ks_domain',
+    @api.depends('ks_chart_measure_field', 'ks_chart_relation_groupby', 'ks_chart_date_groupby', 'ks_domain',
                  'ks_dashboard_item_type', 'ks_model_id', 'ks_sort_by_field', 'ks_sort_by_order',
                  'ks_record_data_limit', 'ks_chart_data_count_type', 'ks_chart_measure_field_2', 'ks_goal_enable',
                  'ks_standard_goal_value', 'ks_goal_bar_line', 'ks_chart_relation_sub_groupby',
@@ -1102,629 +942,596 @@ class KsDashboardNinjaItems(models.Model):
                  'ks_fill_temporal', 'ks_domain_extension')
     def ks_get_chart_data(self):
         for rec in self:
-            rec.ks_chart_data = rec._ks_get_chart_data(domain=[])
 
-    def _ks_get_chart_data(self, domain=[]):
-        rec = self
-        if rec.ks_dashboard_item_type and rec.ks_dashboard_item_type != 'ks_tile' and \
-                rec.ks_dashboard_item_type != 'ks_list_view' and rec.ks_model_id and rec.ks_chart_data_count_type:
-            ks_chart_data = {'labels': [], 'datasets': [], 'ks_currency': 0, 'ks_field': "", 'ks_selection': "",
-                             'ks_show_second_y_scale': False, 'domains': [], }
-            ks_chart_measure_field = []
-            ks_chart_measure_field_with_type = []
-            ks_chart_measure_field_ids = []
-            ks_chart_measure_field_2 = []
-            ks_chart_measure_field_with_type_2 = []
-            ks_chart_measure_field_2_ids = []
+            if rec.ks_dashboard_item_type and rec.ks_dashboard_item_type != 'ks_tile' and \
+                    rec.ks_dashboard_item_type != 'ks_list_view' and rec.ks_model_id and rec.ks_chart_data_count_type:
+                ks_chart_data = {'labels': [], 'datasets': [], 'ks_currency': 0, 'ks_field': "", 'ks_selection': "",
+                                 'ks_show_second_y_scale': False, 'domains': [], }
+                ks_chart_measure_field = []
+                ks_chart_measure_field_with_type = []
+                ks_chart_measure_field_ids = []
+                ks_chart_measure_field_2 = []
+                ks_chart_measure_field_with_type_2 = []
+                ks_chart_measure_field_2_ids = []
 
-            if rec.ks_unit and rec.ks_unit_selection == 'monetary':
-                ks_chart_data['ks_selection'] += rec.ks_unit_selection
-                ks_chart_data['ks_currency'] += rec.env.user.company_id.currency_id.id
-            elif rec.ks_unit and rec.ks_unit_selection == 'custom':
-                ks_chart_data['ks_selection'] += rec.ks_unit_selection
-                if rec.ks_chart_unit:
-                    ks_chart_data['ks_field'] += rec.ks_chart_unit
+                if rec.ks_unit and rec.ks_unit_selection == 'monetary':
+                    ks_chart_data['ks_selection'] += rec.ks_unit_selection
+                    ks_chart_data['ks_currency'] += rec.env.user.company_id.currency_id.id
+                elif rec.ks_unit and rec.ks_unit_selection == 'custom':
+                    ks_chart_data['ks_selection'] += rec.ks_unit_selection
+                    if rec.ks_chart_unit:
+                        ks_chart_data['ks_field'] += rec.ks_chart_unit
 
-            # If count chart data type:
-            if rec.ks_chart_data_count_type == "count":
-                rec.ks_chart_measure_field = False
-                rec.ks_chart_measure_field_2 = False
-                ks_chart_measure_field_with_type.append('count:count(id)')
-                ks_chart_data['datasets'].append({'data': [], 'label': "Count"})
-            else:
-                if rec.ks_dashboard_item_type == 'ks_bar_chart':
-                    if rec.ks_chart_measure_field_2:
-                        ks_chart_data['ks_show_second_y_scale'] = True
+                # If count chart data type:
+                if rec.ks_chart_data_count_type == "count":
+                    rec.ks_chart_measure_field = False
+                    rec.ks_chart_measure_field_2 = False
+                    ks_chart_measure_field_with_type.append('count:count(id)')
+                    ks_chart_data['datasets'].append({'data': [], 'label': "Count"})
+                else:
+                    if rec.ks_dashboard_item_type == 'ks_bar_chart':
+                        if rec.ks_chart_measure_field_2:
+                            ks_chart_data['ks_show_second_y_scale'] = True
 
-                    for res in rec.ks_chart_measure_field_2:
+                        for res in rec.ks_chart_measure_field_2:
+                            if rec.ks_chart_data_count_type == 'sum':
+                                ks_data_count_type = 'sum'
+                            elif rec.ks_chart_data_count_type == 'average':
+                                ks_data_count_type = 'avg'
+                            else:
+                                raise ValidationError(_('Please chose any Data Type!'))
+                            ks_chart_measure_field_2.append(res.name)
+                            ks_chart_measure_field_with_type_2.append(res.name + ':' + ks_data_count_type)
+                            ks_chart_measure_field_2_ids.append(res.id)
+                            ks_chart_data['datasets'].append(
+                                {'data': [], 'label': res.field_description, 'type': 'line', 'yAxisID': 'y-axis-1'})
+
+                    for res in rec.ks_chart_measure_field:
                         if rec.ks_chart_data_count_type == 'sum':
                             ks_data_count_type = 'sum'
                         elif rec.ks_chart_data_count_type == 'average':
                             ks_data_count_type = 'avg'
                         else:
                             raise ValidationError(_('Please chose any Data Type!'))
-                        ks_chart_measure_field_2.append(res.name)
-                        ks_chart_measure_field_with_type_2.append(res.name + ':' + ks_data_count_type)
-                        ks_chart_measure_field_2_ids.append(res.id)
-                        ks_chart_data['datasets'].append(
-                            {'data': [], 'label': res.field_description, 'type': 'line', 'yAxisID': 'y-axis-1'})
+                        ks_chart_measure_field_with_type.append(res.name + ':' + ks_data_count_type)
+                        ks_chart_measure_field.append(res.name)
+                        ks_chart_measure_field_ids.append(res.ids[0])
+                        ks_chart_data['datasets'].append({'data': [], 'label': res.field_description})
 
-                for res in rec.ks_chart_measure_field:
-                    if rec.ks_chart_data_count_type == 'sum':
-                        ks_data_count_type = 'sum'
-                    elif rec.ks_chart_data_count_type == 'average':
-                        ks_data_count_type = 'avg'
-                    else:
-                        raise ValidationError(_('Please chose any Data Type!'))
-                    ks_chart_measure_field_with_type.append(res.name + ':' + ks_data_count_type)
-                    ks_chart_measure_field.append(res.name)
-                    ks_chart_measure_field_ids.append(res.ids[0])
-
-                    if rec.ks_chart_cumulative_field and rec.ks_chart_cumulative_field.name == res.name:
-                        ks_chart_data['datasets'].append(
-                            {'data': [], 'label': res.field_description, 'ks_chart_cumulative_field': True})
-                    else:
-                        ks_chart_data['datasets'].append(
-                            {'data': [], 'label': res.field_description, 'ks_chart_cumulative_field': False})
-
-            # ks_chart_measure_field = [res.name for res in rec.ks_chart_measure_field]
-            ks_chart_groupby_relation_field = rec.ks_chart_relation_groupby.name
-            ks_chart_domain = self.ks_convert_into_proper_domain(rec.ks_domain, rec, domain)
-            ks_chart_data['previous_domain'] = ks_chart_domain
-            if rec.ks_chart_data_count_type == "count" and not self.ks_fill_temporal and not rec.ks_sort_by_field:
-                orderby = 'count'
-            else:
-                orderby = rec.ks_sort_by_field.name if rec.ks_sort_by_field else "id"
-            if rec.ks_sort_by_order:
-                orderby = orderby + " " + rec.ks_sort_by_order
-            limit = rec.ks_record_data_limit if rec.ks_record_data_limit and rec.ks_record_data_limit > 0 else 5000
-
-            if ((rec.ks_chart_data_count_type != "count" and ks_chart_measure_field) or (
-                    rec.ks_chart_data_count_type == "count" and not ks_chart_measure_field)) \
-                    and not rec.ks_chart_relation_sub_groupby:
-                if rec.ks_chart_relation_groupby.ttype == 'date' and rec.ks_chart_date_groupby in (
-                        'minute', 'hour'):
-                    raise ValidationError(_('Groupby field: {} cannot be aggregated by {}').format(
-                        rec.ks_chart_relation_groupby.display_name, rec.ks_chart_date_groupby))
-                    ks_chart_date_groupby = 'day'
-                elif rec.ks_chart_date_groupby == 'month_year':
-                    ks_chart_date_groupby = 'month'
+                # ks_chart_measure_field = [res.name for res in rec.ks_chart_measure_field]
+                ks_chart_groupby_relation_field = rec.ks_chart_relation_groupby.name
+                ks_chart_domain = self.ks_convert_into_proper_domain(rec.ks_domain, rec)
+                ks_chart_data['previous_domain'] = ks_chart_domain
+                if not rec.ks_sort_by_field and (rec.ks_chart_data_count_type == "count" and not self.ks_fill_temporal):
+                    orderby = 'count'
                 else:
-                    ks_chart_date_groupby = rec.ks_chart_date_groupby
+                    orderby = rec.ks_sort_by_field.name if rec.ks_sort_by_field else "id"
+                if rec.ks_sort_by_order:
+                    orderby = orderby + " " + rec.ks_sort_by_order
+                limit = rec.ks_record_data_limit if rec.ks_record_data_limit and rec.ks_record_data_limit > 0 else False
 
-                if (rec.ks_chart_groupby_type == 'date_type' and rec.ks_chart_date_groupby) or \
-                        rec.ks_chart_groupby_type != 'date_type':
-                    ks_chart_data = rec.ks_fetch_chart_data(rec.ks_model_name, ks_chart_domain,
-                                                            ks_chart_measure_field_with_type,
-                                                            ks_chart_measure_field_with_type_2,
-                                                            ks_chart_measure_field,
-                                                            ks_chart_measure_field_2,
-                                                            ks_chart_groupby_relation_field,
-                                                            ks_chart_date_groupby,
-                                                            rec.ks_chart_groupby_type, orderby, limit,
-                                                            rec.ks_chart_data_count_type,
-                                                            ks_chart_measure_field_ids,
-                                                            ks_chart_measure_field_2_ids,
-                                                            rec.ks_chart_relation_groupby.id, ks_chart_data)
+                if ((rec.ks_chart_data_count_type != "count" and ks_chart_measure_field) or (
+                        rec.ks_chart_data_count_type == "count" and not ks_chart_measure_field)) \
+                        and not rec.ks_chart_relation_sub_groupby:
+                    if rec.ks_chart_relation_groupby.ttype == 'date' and rec.ks_chart_date_groupby in (
+                            'minute', 'hour'):
+                        raise ValidationError(_('Groupby field: {} cannot be aggregated by {}').format(
+                            rec.ks_chart_relation_groupby.display_name, rec.ks_chart_date_groupby))
+                        ks_chart_date_groupby = 'day'
+                    elif rec.ks_chart_date_groupby == 'month_year':
+                            ks_chart_date_groupby = 'month'
+                    else:
+                        ks_chart_date_groupby = rec.ks_chart_date_groupby
 
-                    if rec.ks_chart_groupby_type == 'date_type' and rec.ks_goal_enable and rec.ks_dashboard_item_type in [
-                        'ks_bar_chart', 'ks_horizontalBar_chart', 'ks_line_chart',
-                        'ks_area_chart'] and rec.ks_chart_groupby_type == "date_type":
+                    if (rec.ks_chart_groupby_type == 'date_type' and rec.ks_chart_date_groupby) or\
+                            rec.ks_chart_groupby_type != 'date_type':
+                        ks_chart_data = rec.ks_fetch_chart_data(rec.ks_model_name, ks_chart_domain, ks_chart_measure_field_with_type, ks_chart_measure_field_with_type_2,
+                                                                ks_chart_measure_field,
+                                                                ks_chart_measure_field_2,
+                                                                ks_chart_groupby_relation_field,
+                                                                ks_chart_date_groupby,
+                                                                rec.ks_chart_groupby_type, orderby, limit,
+                                                                rec.ks_chart_data_count_type,
+                                                                ks_chart_measure_field_ids,
+                                                                ks_chart_measure_field_2_ids,
+                                                                rec.ks_chart_relation_groupby.id, ks_chart_data)
 
-                        if rec._context.get('current_id', False):
-                            ks_item_id = rec._context['current_id']
-                        else:
-                            ks_item_id = rec.id
+                        if rec.ks_chart_groupby_type == 'date_type' and rec.ks_goal_enable and rec.ks_dashboard_item_type in [
+                            'ks_bar_chart', 'ks_horizontalBar_chart', 'ks_line_chart',
+                            'ks_area_chart'] and rec.ks_chart_groupby_type == "date_type":
 
-                        if rec.ks_date_filter_selection == "l_none":
-                            selected_start_date = rec._context.get('ksDateFilterStartDate', False)
-                            selected_end_date = rec._context.get('ksDateFilterEndDate', False)
-
-                        else:
-                            if rec.ks_date_filter_selection == "l_custom":
-                                selected_start_date = rec.ks_item_start_date
-                                selected_end_date = rec.ks_item_start_date
+                            if rec._context.get('current_id', False):
+                                ks_item_id = rec._context['current_id']
                             else:
-                                ks_date_data = ks_get_date(rec.ks_date_filter_selection, self,
-                                                           rec.ks_date_filter_field.ttype)
-                                selected_start_date = ks_date_data["selected_start_date"]
-                                selected_end_date = ks_date_data["selected_end_date"]
+                                ks_item_id = rec.id
 
-                        if selected_start_date and selected_end_date:
-                            selected_start_date = selected_start_date.strftime('%Y-%m-%d')
-                            selected_end_date = selected_end_date.strftime('%Y-%m-%d')
-                        ks_goal_domain = [('ks_dashboard_item', '=', ks_item_id)]
+                            if rec.ks_date_filter_selection == "l_none":
+                                selected_start_date = rec._context.get('ksDateFilterStartDate', False)
+                                selected_end_date = rec._context.get('ksDateFilterEndDate', False)
 
-                        if selected_start_date and selected_end_date:
-                            ks_goal_domain.extend([('ks_goal_date', '>=', selected_start_date.split(" ")[0]),
-                                                   ('ks_goal_date', '<=', selected_end_date.split(" ")[0])])
+                            else:
+                                if rec.ks_date_filter_selection == "l_custom":
+                                    selected_start_date  = rec.ks_item_start_date
+                                    selected_end_date = rec.ks_item_start_date
+                                else:
+                                    ks_date_data = ks_get_date(rec.ks_date_filter_selection, self)
+                                    selected_start_date = ks_date_data["selected_start_date"]
+                                    selected_end_date = ks_date_data["selected_end_date"]
 
-                        ks_date_data = rec.ks_get_start_end_date(rec.ks_model_name, ks_chart_groupby_relation_field,
-                                                                 rec.ks_chart_relation_groupby.ttype,
-                                                                 ks_chart_domain,
-                                                                 ks_goal_domain)
+                            if selected_start_date and selected_end_date:
+                                selected_start_date = selected_start_date.strftime('%Y-%m-%d')
+                                selected_end_date = selected_end_date.strftime('%Y-%m-%d')
+                            ks_goal_domain = [('ks_dashboard_item', '=', ks_item_id)]
 
-                        labels = []
+                            if selected_start_date and selected_end_date:
+                                ks_goal_domain.extend([('ks_goal_date', '>=', selected_start_date.split(" ")[0]),
+                                                       ('ks_goal_date', '<=', selected_end_date.split(" ")[0])])
+
+                            ks_date_data = rec.ks_get_start_end_date(rec.ks_model_name, ks_chart_groupby_relation_field,
+                                                                     rec.ks_chart_relation_groupby.ttype,
+                                                                     ks_chart_domain,
+                                                                     ks_goal_domain)
+
+                            labels = []
+                            if rec.ks_chart_date_groupby == 'month_year':
+                                ks_chart_date_groupby =  'month'
+                            else:
+                                ks_chart_date_groupby = rec.ks_chart_date_groupby
+                            if ks_date_data['start_date'] and ks_date_data['end_date'] and rec.ks_goal_lines:
+                                labels = self.generate_timeserise(ks_date_data['start_date'], ks_date_data['end_date'],
+                                                                  ks_chart_date_groupby)
+
+                            ks_goal_records = self.env['ks_dashboard_ninja.item_goal'].read_group(
+                                ks_goal_domain, ['ks_goal_value'],
+                                ['ks_goal_date' + ":" + ks_chart_date_groupby], lazy=False)
+                            ks_goal_labels = []
+                            ks_goal_dataset = []
+                            goal_dataset = []
+
+                            if rec.ks_goal_lines and len(rec.ks_goal_lines) != 0:
+                                ks_goal_domains = {}
+                                for res in ks_goal_records:
+                                    if res['ks_goal_date' + ":" + ks_chart_date_groupby]:
+                                        ks_goal_labels.append(res['ks_goal_date' + ":" + ks_chart_date_groupby])
+                                        ks_goal_dataset.append(res['ks_goal_value'])
+                                        ks_goal_domains[res['ks_goal_date' + ":" + ks_chart_date_groupby]] = res['__domain']
+
+                                for goal_domain in ks_goal_domains.keys():
+                                    ks_goal_doamins = []
+                                    for item in ks_goal_domains[goal_domain]:
+
+                                        if 'ks_goal_date' in item:
+                                            domain = list(item)
+                                            domain[0] = ks_chart_groupby_relation_field
+                                            domain = tuple(domain)
+                                            ks_goal_doamins.append(domain)
+                                    ks_goal_doamins.insert(0, '&')
+                                    ks_goal_domains[goal_domain] = ks_goal_doamins
+
+                                domains = {}
+                                counter = 0
+                                for label in ks_chart_data['labels']:
+                                    domains[label] = ks_chart_data['domains'][counter]
+                                    counter += 1
+
+                                ks_chart_records_dates = ks_chart_data['labels'] + list(
+                                    set(ks_goal_labels) - set(ks_chart_data['labels']))
+
+                                ks_chart_records = []
+                                for label in labels:
+                                    if label in ks_chart_records_dates:
+                                        ks_chart_records.append(label)
+
+                                ks_chart_data['domains'].clear()
+                                datasets = []
+                                for dataset in ks_chart_data['datasets']:
+                                    datasets.append(dataset['data'].copy())
+
+                                for dataset in ks_chart_data['datasets']:
+                                    dataset['data'].clear()
+
+                                for label in ks_chart_records:
+                                    domain = domains.get(label, False)
+                                    if domain:
+                                        ks_chart_data['domains'].append(domain)
+                                    else:
+                                        ks_chart_data['domains'].append(ks_goal_domains.get(label, []))
+                                    counterr = 0
+                                    if label in ks_chart_data['labels']:
+                                        index = ks_chart_data['labels'].index(label)
+
+                                        for dataset in ks_chart_data['datasets']:
+                                            dataset['data'].append(datasets[counterr][index])
+                                            counterr += 1
+
+                                    else:
+                                        for dataset in ks_chart_data['datasets']:
+                                            dataset['data'].append(0.00)
+
+                                    if label in ks_goal_labels:
+                                        index = ks_goal_labels.index(label)
+                                        goal_dataset.append(ks_goal_dataset[index])
+                                    else:
+                                        goal_dataset.append(0.00)
+
+                                ks_chart_data['labels'] = ks_chart_records
+                            else:
+                                if rec.ks_standard_goal_value:
+                                    length = len(ks_chart_data['datasets'][0]['data'])
+                                    for i in range(length):
+                                        goal_dataset.append(rec.ks_standard_goal_value)
+                            ks_goal_datasets = {
+                                'label': 'Target',
+                                'data': goal_dataset,
+                            }
+                            if rec.ks_goal_bar_line:
+                                ks_goal_datasets['type'] = 'line'
+                                ks_chart_data['datasets'].insert(0, ks_goal_datasets)
+                            else:
+                                ks_chart_data['datasets'].append(ks_goal_datasets)
+
+                elif rec.ks_chart_relation_sub_groupby and ((rec.ks_chart_sub_groupby_type == 'relational_type') or
+                                                            (rec.ks_chart_sub_groupby_type == 'selection') or
+                                                            (rec.ks_chart_sub_groupby_type == 'date_type' and
+                                                             rec.ks_chart_date_sub_groupby) or
+                                                            (rec.ks_chart_sub_groupby_type == 'other')):
+                    if rec.ks_chart_relation_sub_groupby.ttype == 'date':
+                        if rec.ks_chart_date_sub_groupby in ('minute', 'hour'):
+                            raise ValidationError(_('Sub Groupby field: {} cannot be aggregated by {}').format(
+                                rec.ks_chart_relation_sub_groupby.display_name, rec.ks_chart_date_sub_groupby))
+                        if rec.ks_chart_date_groupby in ('minute', 'hour'):
+                            raise ValidationError(_('Groupby field: {} cannot be aggregated by {}').format(
+                                rec.ks_chart_relation_sub_groupby.display_name, rec.ks_chart_date_groupby))
+                        # doesn't have time in date
+                        ks_chart_date_sub_groupby = rec.ks_chart_date_sub_groupby
+                        ks_chart_date_groupby = rec.ks_chart_date_groupby
+                    else:
+                        ks_chart_date_sub_groupby = rec.ks_chart_date_sub_groupby
                         if rec.ks_chart_date_groupby == 'month_year':
                             ks_chart_date_groupby = 'month'
                         else:
                             ks_chart_date_groupby = rec.ks_chart_date_groupby
-                        if ks_date_data['start_date'] and ks_date_data['end_date'] and rec.ks_goal_lines:
-                            labels = self.generate_timeserise(ks_date_data['start_date'], ks_date_data['end_date'],
-                                                              ks_chart_date_groupby)
-
-                        ks_goal_records = self.env['ks_dashboard_ninja.item_goal'].read_group(
-                            ks_goal_domain, ['ks_goal_value'],
-                            ['ks_goal_date' + ":" + ks_chart_date_groupby], lazy=False)
-                        ks_goal_labels = []
-                        ks_goal_dataset = []
-                        goal_dataset = []
-
-                        if rec.ks_goal_lines and len(rec.ks_goal_lines) != 0:
-                            ks_goal_domains = {}
-                            for res in ks_goal_records:
-                                if res['ks_goal_date' + ":" + ks_chart_date_groupby]:
-                                    ks_goal_labels.append(res['ks_goal_date' + ":" + ks_chart_date_groupby])
-                                    ks_goal_dataset.append(res['ks_goal_value'])
-                                    ks_goal_domains[res['ks_goal_date' + ":" + ks_chart_date_groupby]] = res[
-                                        '__domain']
-
-                            for goal_domain in ks_goal_domains.keys():
-                                ks_goal_doamins = []
-                                for item in ks_goal_domains[goal_domain]:
-
-                                    if 'ks_goal_date' in item:
-                                        domain = list(item)
-                                        domain[0] = ks_chart_groupby_relation_field
-                                        domain = tuple(domain)
-                                        ks_goal_doamins.append(domain)
-                                ks_goal_doamins.insert(0, '&')
-                                ks_goal_domains[goal_domain] = ks_goal_doamins
-
-                            domains = {}
-                            counter = 0
-                            for label in ks_chart_data['labels']:
-                                domains[label] = ks_chart_data['domains'][counter]
-                                counter += 1
-
-                            ks_chart_records_dates = ks_chart_data['labels'] + list(
-                                set(ks_goal_labels) - set(ks_chart_data['labels']))
-
-                            ks_chart_records = []
-                            for label in labels:
-                                if label in ks_chart_records_dates:
-                                    ks_chart_records.append(label)
-
-                            ks_chart_data['domains'].clear()
-                            datasets = []
-                            for dataset in ks_chart_data['datasets']:
-                                datasets.append(dataset['data'].copy())
-
-                            for dataset in ks_chart_data['datasets']:
-                                dataset['data'].clear()
-
-                            for label in ks_chart_records:
-                                domain = domains.get(label, False)
-                                if domain:
-                                    ks_chart_data['domains'].append(domain)
-                                else:
-                                    ks_chart_data['domains'].append(ks_goal_domains.get(label, []))
-                                counterr = 0
-                                if label in ks_chart_data['labels']:
-                                    index = ks_chart_data['labels'].index(label)
-
-                                    for dataset in ks_chart_data['datasets']:
-                                        dataset['data'].append(datasets[counterr][index])
-                                        counterr += 1
-
-                                else:
-                                    for dataset in ks_chart_data['datasets']:
-                                        dataset['data'].append(0.00)
-
-                                if label in ks_goal_labels:
-                                    index = ks_goal_labels.index(label)
-                                    goal_dataset.append(ks_goal_dataset[index])
-                                else:
-                                    goal_dataset.append(0.00)
-
-                            ks_chart_data['labels'] = ks_chart_records
+                    if len(ks_chart_measure_field) != 0 or rec.ks_chart_data_count_type == 'count':
+                        if rec.ks_chart_groupby_type == 'date_type' and ks_chart_date_groupby:
+                            ks_chart_group = rec.ks_chart_relation_groupby.name + ":" + ks_chart_date_groupby
                         else:
-                            if rec.ks_standard_goal_value:
-                                length = len(ks_chart_data['datasets'][0]['data'])
-                                for i in range(length):
-                                    goal_dataset.append(rec.ks_standard_goal_value)
-                        ks_goal_datasets = {
-                            'label': 'Target',
-                            'data': goal_dataset,
-                        }
-                        if rec.ks_goal_bar_line:
-                            ks_goal_datasets['type'] = 'line'
-                            ks_chart_data['datasets'].insert(0, ks_goal_datasets)
+                            ks_chart_group = rec.ks_chart_relation_groupby.name
+
+                        if rec.ks_chart_sub_groupby_type == 'date_type' and rec.ks_chart_date_sub_groupby:
+                            ks_chart_sub_groupby_field = rec.ks_chart_relation_sub_groupby.name + ":" + \
+                                                         ks_chart_date_sub_groupby
                         else:
-                            ks_chart_data['datasets'].append(ks_goal_datasets)
+                            ks_chart_sub_groupby_field = rec.ks_chart_relation_sub_groupby.name
 
-            elif rec.ks_chart_relation_sub_groupby and ((rec.ks_chart_sub_groupby_type == 'relational_type') or
-                                                        (rec.ks_chart_sub_groupby_type == 'selection') or
-                                                        (rec.ks_chart_sub_groupby_type == 'date_type' and
-                                                         rec.ks_chart_date_sub_groupby) or
-                                                        (rec.ks_chart_sub_groupby_type == 'other')):
-                if rec.ks_chart_relation_sub_groupby.ttype == 'date':
-                    if rec.ks_chart_date_sub_groupby in ('minute', 'hour'):
-                        raise ValidationError(_('Sub Groupby field: {} cannot be aggregated by {}').format(
-                            rec.ks_chart_relation_sub_groupby.display_name, rec.ks_chart_date_sub_groupby))
-                    if rec.ks_chart_date_groupby in ('minute', 'hour'):
-                        raise ValidationError(_('Groupby field: {} cannot be aggregated by {}').format(
-                            rec.ks_chart_relation_sub_groupby.display_name, rec.ks_chart_date_groupby))
-                    # doesn't have time in date
-                    ks_chart_date_sub_groupby = rec.ks_chart_date_sub_groupby
-                    ks_chart_date_groupby = rec.ks_chart_date_groupby
-                else:
-                    ks_chart_date_sub_groupby = rec.ks_chart_date_sub_groupby
-                    if rec.ks_chart_date_groupby == 'month_year':
-                        ks_chart_date_groupby = 'month'
-                    else:
-                        ks_chart_date_groupby = rec.ks_chart_date_groupby
-                if len(ks_chart_measure_field) != 0 or rec.ks_chart_data_count_type == 'count':
-                    if rec.ks_chart_groupby_type == 'date_type' and ks_chart_date_groupby:
-                        ks_chart_group = rec.ks_chart_relation_groupby.name + ":" + ks_chart_date_groupby
-                    else:
-                        ks_chart_group = rec.ks_chart_relation_groupby.name
-
-                    if rec.ks_chart_sub_groupby_type == 'date_type' and rec.ks_chart_date_sub_groupby:
-                        ks_chart_sub_groupby_field = rec.ks_chart_relation_sub_groupby.name + ":" + \
-                                                     ks_chart_date_sub_groupby
-                    else:
-                        ks_chart_sub_groupby_field = rec.ks_chart_relation_sub_groupby.name
-
-                    ks_chart_groupby_relation_fields = [ks_chart_group, ks_chart_sub_groupby_field]
-                    ks_chart_record = False
-                    try:
-                        ks_chart_record = self.env[rec.ks_model_name].read_group(ks_chart_domain,
-                                                                                 list(set(
-                                                                                     ks_chart_measure_field_with_type +
+                        ks_chart_groupby_relation_fields = [ks_chart_group, ks_chart_sub_groupby_field]
+                        ks_chart_record = False
+                        try:
+                            ks_chart_record = self.env[rec.ks_model_name].read_group(ks_chart_domain,
+                                                                                     list(set(ks_chart_measure_field_with_type +
                                                                                      ks_chart_measure_field_with_type_2 +
-                                                                                     [
-                                                                                         ks_chart_groupby_relation_field,
-                                                                                         rec.ks_chart_relation_sub_groupby.name])),
+                                                                                     [ks_chart_groupby_relation_field,
+                                                                              rec.ks_chart_relation_sub_groupby.name ])),
                                                                                  ks_chart_groupby_relation_fields,
                                                                                  orderby=orderby, limit=limit,
                                                                                  lazy=False)
-                    except Exception:
-                        ks_chart_record = {}
-                    chart_data = []
-                    chart_sub_data = []
-                    for res in ks_chart_record:
-                        domain = res.get('__domain', [])
-                        if res.get(ks_chart_groupby_relation_fields[0], False):
-                            if rec.ks_chart_groupby_type == 'date_type':
-                                # x-axis modification
-                                if rec.ks_chart_date_groupby == "day" \
-                                        and rec.ks_chart_date_sub_groupby in ["quarter", "year"]:
-                                    label = " ".join(res[ks_chart_groupby_relation_fields[0]].split(" ")[0:2])
-                                elif rec.ks_chart_date_groupby in ["minute", "hour"] and \
-                                        rec.ks_chart_date_sub_groupby in ["month", "week", "quarter", "year"]:
-                                    label = " ".join(res[ks_chart_groupby_relation_fields[0]].split(" ")[0:3])
-                                elif rec.ks_chart_date_groupby == 'month_year':
+                        except Exception:
+                            ks_chart_record = {}
+                        chart_data = []
+                        chart_sub_data = []
+                        for res in ks_chart_record:
+                            domain = res.get('__domain', [])
+                            if res.get(ks_chart_groupby_relation_fields[0], False):
+                                if rec.ks_chart_groupby_type == 'date_type':
+                                    # x-axis modification
+                                    if rec.ks_chart_date_groupby == "day" \
+                                            and rec.ks_chart_date_sub_groupby in ["quarter", "year"]:
+                                        label = " ".join(res[ks_chart_groupby_relation_fields[0]].split(" ")[0:2])
+                                    elif rec.ks_chart_date_groupby in ["minute", "hour"] and \
+                                            rec.ks_chart_date_sub_groupby in ["month", "week", "quarter", "year"]:
+                                        label = " ".join(res[ks_chart_groupby_relation_fields[0]].split(" ")[0:3])
+                                    elif rec.ks_chart_date_groupby == 'month_year':
+                                        label = res[ks_chart_groupby_relation_fields[0]]
+                                    else:
+                                        label = res[ks_chart_groupby_relation_fields[0]].split(" ")[0]
+                                elif rec.ks_chart_groupby_type == 'selection':
+                                    selection = res[ks_chart_groupby_relation_fields[0]]
+                                    label = dict(self.env[rec.ks_model_name].fields_get(
+                                        allfields=[ks_chart_groupby_relation_fields[0]])
+                                                 [ks_chart_groupby_relation_fields[0]]['selection'])[selection]
+                                elif rec.ks_chart_groupby_type == 'relational_type':
+                                    label = res[ks_chart_groupby_relation_fields[0]][1]._value
+                                elif rec.ks_chart_groupby_type == 'other':
                                     label = res[ks_chart_groupby_relation_fields[0]]
-                                else:
-                                    label = res[ks_chart_groupby_relation_fields[0]].split(" ")[0]
-                            elif rec.ks_chart_groupby_type == 'selection':
-                                selection = res[ks_chart_groupby_relation_fields[0]]
-                                label = dict(self.env[rec.ks_model_name].fields_get(
-                                    allfields=[ks_chart_groupby_relation_fields[0]])
-                                             [ks_chart_groupby_relation_fields[0]]['selection'])[selection]
-                            elif rec.ks_chart_groupby_type == 'relational_type':
-                                label = res[ks_chart_groupby_relation_fields[0]][1]._value
-                            elif rec.ks_chart_groupby_type == 'other':
-                                label = res[ks_chart_groupby_relation_fields[0]]
 
-                            labels = []
-                            value = []
-                            value_2 = []
-                            labels_2 = []
-                            if rec.ks_chart_data_count_type != 'count':
-                                for ress in rec.ks_chart_measure_field:
-                                    if rec.ks_chart_sub_groupby_type == 'date_type':
-                                        if res[ks_chart_groupby_relation_fields[1]] is not False:
-                                            labels.append(res[ks_chart_groupby_relation_fields[1]].split(" ")[
-                                                              0] + " " + ress.field_description)
-                                        else:
-                                            labels.append(str(res[ks_chart_groupby_relation_fields[1]]) + " " +
-                                                          ress.field_description)
-                                    elif rec.ks_chart_sub_groupby_type == 'selection':
-                                        if res[ks_chart_groupby_relation_fields[1]] is not False:
-                                            selection = res[ks_chart_groupby_relation_fields[1]]
-                                            labels.append(dict(self.env[rec.ks_model_name].fields_get(
-                                                allfields=[ks_chart_groupby_relation_fields[1]])
-                                                               [ks_chart_groupby_relation_fields[1]]['selection'])[
-                                                              selection]
-                                                          + " " + ress.field_description)
-                                        else:
-                                            labels.append(str(res[ks_chart_groupby_relation_fields[1]]))
-                                    elif rec.ks_chart_sub_groupby_type == 'relational_type':
-                                        if res[ks_chart_groupby_relation_fields[1]] is not False:
-                                            labels.append(res[ks_chart_groupby_relation_fields[1]][1]._value
-                                                          + " " + ress.field_description)
-                                        else:
-                                            labels.append(str(res[ks_chart_groupby_relation_fields[1]])
-                                                          + " " + ress.field_description)
-                                    elif rec.ks_chart_sub_groupby_type == 'other':
-                                        if res[ks_chart_groupby_relation_fields[1]] is not False:
-                                            labels.append(str(res[ks_chart_groupby_relation_fields[1]])
-                                                          + "\'s " + ress.field_description)
-                                        else:
-                                            labels.append(str(res[ks_chart_groupby_relation_fields[1]])
-                                                          + " " + ress.field_description)
-
-                                    value.append(res.get(
-                                        ress.name, 0))
-
-                                if rec.ks_chart_measure_field_2 and rec.ks_dashboard_item_type == 'ks_bar_chart':
-                                    for ress in rec.ks_chart_measure_field_2:
+                                labels = []
+                                value = []
+                                value_2 = []
+                                labels_2 = []
+                                if rec.ks_chart_data_count_type != 'count':
+                                    for ress in rec.ks_chart_measure_field:
                                         if rec.ks_chart_sub_groupby_type == 'date_type':
                                             if res[ks_chart_groupby_relation_fields[1]] is not False:
-                                                labels_2.append(
-                                                    res[ks_chart_groupby_relation_fields[1]].split(" ")[0] + " "
-                                                    + ress.field_description)
+                                                labels.append(res[ks_chart_groupby_relation_fields[1]].split(" ")[
+                                                                      0] + " " + ress.field_description)
                                             else:
-                                                labels_2.append(str(res[ks_chart_groupby_relation_fields[1]]) +
-                                                                " " + ress.field_description)
+                                                labels.append(str(res[ks_chart_groupby_relation_fields[1]]) + " " +
+                                                              ress.field_description)
                                         elif rec.ks_chart_sub_groupby_type == 'selection':
-                                            selection = res[ks_chart_groupby_relation_fields[1]]
-                                            labels_2.append(dict(self.env[rec.ks_model_name].fields_get(
-                                                allfields=[ks_chart_groupby_relation_fields[1]])
-                                                                 [ks_chart_groupby_relation_fields[1]][
-                                                                     'selection'])[
-                                                                selection] + " " + ress.field_description)
+                                            if res[ks_chart_groupby_relation_fields[1]] is not False:
+                                                selection = res[ks_chart_groupby_relation_fields[1]]
+                                                labels.append(dict(self.env[rec.ks_model_name].fields_get(
+                                                    allfields=[ks_chart_groupby_relation_fields[1]])
+                                                                   [ks_chart_groupby_relation_fields[1]]['selection'])[
+                                                                  selection]
+                                                              + " " + ress.field_description)
+                                            else:
+                                                labels.append(str(res[ks_chart_groupby_relation_fields[1]]))
                                         elif rec.ks_chart_sub_groupby_type == 'relational_type':
                                             if res[ks_chart_groupby_relation_fields[1]] is not False:
-                                                labels_2.append(
-                                                    res[ks_chart_groupby_relation_fields[1]][1]._value + " " +
-                                                    ress.field_description)
+                                                labels.append(res[ks_chart_groupby_relation_fields[1]][1]._value
+                                                              + " " + ress.field_description)
                                             else:
-                                                labels_2.append(str(res[ks_chart_groupby_relation_fields[1]]) +
-                                                                " " + ress.field_description)
+                                                labels.append(str(res[ks_chart_groupby_relation_fields[1]])
+                                                              + " " +ress.field_description)
                                         elif rec.ks_chart_sub_groupby_type == 'other':
-                                            labels_2.append(str(
-                                                res[ks_chart_groupby_relation_fields[1]]) + " " +
-                                                            ress.field_description)
+                                            if res[ks_chart_groupby_relation_fields[1]] is not False:
+                                                labels.append(str(res[ks_chart_groupby_relation_fields[1]])
+                                                          + "\'s " + ress.field_description)
+                                            else:
+                                                labels.append(str(res[ks_chart_groupby_relation_fields[1]])
+                                                              + " " +ress.field_description)
 
-                                        value_2.append(res.get(
-                                            ress.name, 0))
+                                        value.append(res.get(
+                                            ress.name,0))
 
-                                    chart_sub_data.append({
-                                        'value': value_2,
-                                        'labels': label,
-                                        'series': labels_2,
-                                        'domain': domain,
-                                    })
+                                    if rec.ks_chart_measure_field_2 and rec.ks_dashboard_item_type == 'ks_bar_chart':
+                                        for ress in rec.ks_chart_measure_field_2:
+                                            if rec.ks_chart_sub_groupby_type == 'date_type':
+                                                if res[ks_chart_groupby_relation_fields[1]] is not False:
+                                                    labels_2.append(
+                                                        res[ks_chart_groupby_relation_fields[1]].split(" ")[0] + " "
+                                                        + ress.field_description)
+                                                else:
+                                                    labels_2.append(str(res[ks_chart_groupby_relation_fields[1]]) +
+                                                                    " " + ress.field_description)
+                                            elif rec.ks_chart_sub_groupby_type == 'selection':
+                                                selection = res[ks_chart_groupby_relation_fields[1]]
+                                                labels_2.append(dict(self.env[rec.ks_model_name].fields_get(
+                                                    allfields=[ks_chart_groupby_relation_fields[1]])
+                                                                     [ks_chart_groupby_relation_fields[1]][
+                                                                         'selection'])[
+                                                                    selection] + " " + ress.field_description)
+                                            elif rec.ks_chart_sub_groupby_type == 'relational_type':
+                                                if res[ks_chart_groupby_relation_fields[1]] is not False:
+                                                    labels_2.append(
+                                                        res[ks_chart_groupby_relation_fields[1]][1]._value + " " +
+                                                        ress.field_description)
+                                                else:
+                                                    labels_2.append(str(res[ks_chart_groupby_relation_fields[1]]) +
+                                                                     " " + ress.field_description)
+                                            elif rec.ks_chart_sub_groupby_type == 'other':
+                                                labels_2.append(str(
+                                                    res[ks_chart_groupby_relation_fields[1]]) + " " +
+                                                                ress.field_description)
+
+                                            value_2.append(res.get(
+                                                ress.name,0))
+
+                                        chart_sub_data.append({
+                                            'value': value_2,
+                                            'labels': label,
+                                            'series': labels_2,
+                                            'domain': domain,
+                                        })
+                                else:
+                                    if rec.ks_chart_sub_groupby_type == 'date_type':
+                                        if res[ks_chart_groupby_relation_fields[1]] is not False:
+                                            labels.append(res[ks_chart_groupby_relation_fields[1]].split(" ")[0])
+                                        else:
+                                            labels.append(str(res[ks_chart_groupby_relation_fields[1]]))
+                                    elif rec.ks_chart_sub_groupby_type == 'selection':
+                                        selection = res[ks_chart_groupby_relation_fields[1]]
+                                        labels.append(dict(self.env[rec.ks_model_name].fields_get(
+                                            allfields=[ks_chart_groupby_relation_fields[1]])
+                                                           [ks_chart_groupby_relation_fields[1]]['selection'])[
+                                                          selection])
+                                    elif rec.ks_chart_sub_groupby_type == 'relational_type':
+                                        if res[ks_chart_groupby_relation_fields[1]] is not False:
+                                            labels.append(res[ks_chart_groupby_relation_fields[1]][1]._value)
+                                        else:
+                                            labels.append(str(res[ks_chart_groupby_relation_fields[1]]))
+                                    elif rec.ks_chart_sub_groupby_type == 'other':
+                                        labels.append(res[ks_chart_groupby_relation_fields[1]])
+                                    value.append(res['__count'])
+
+                                chart_data.append({
+                                    'value': value,
+                                    'labels': label,
+                                    'series': labels,
+                                    'domain': domain,
+                                })
+
+                        xlabels = []
+                        series = []
+                        values = {}
+                        domains = {}
+                        for data in chart_data:
+                            label = data['labels']
+                            serie = data['series']
+                            domain = data['domain']
+
+                            if (len(xlabels) == 0) or (label not in xlabels):
+                                xlabels.append(label)
+
+                            if (label not in domains):
+                                domains[label] = domain
                             else:
-                                if rec.ks_chart_sub_groupby_type == 'date_type':
-                                    if res[ks_chart_groupby_relation_fields[1]] is not False:
-                                        labels.append(res[ks_chart_groupby_relation_fields[1]].split(" ")[0])
-                                    else:
-                                        labels.append(str(res[ks_chart_groupby_relation_fields[1]]))
-                                elif rec.ks_chart_sub_groupby_type == 'selection':
-                                    selection = res[ks_chart_groupby_relation_fields[1]]
-                                    labels.append(dict(self.env[rec.ks_model_name].fields_get(
-                                        allfields=[ks_chart_groupby_relation_fields[1]])
-                                                       [ks_chart_groupby_relation_fields[1]]['selection'])[
-                                                      selection])
-                                elif rec.ks_chart_sub_groupby_type == 'relational_type':
-                                    if res[ks_chart_groupby_relation_fields[1]] is not False:
-                                        labels.append(res[ks_chart_groupby_relation_fields[1]][1]._value)
-                                    else:
-                                        labels.append(str(res[ks_chart_groupby_relation_fields[1]]))
-                                elif rec.ks_chart_sub_groupby_type == 'other':
-                                    labels.append(res[ks_chart_groupby_relation_fields[1]])
-                                value.append(res['__count'])
+                                domains[label].insert(0, '|')
+                                domains[label] = domains[label] + domain
 
-                            chart_data.append({
-                                'value': value,
-                                'labels': label,
-                                'series': labels,
-                                'domain': domain,
-                            })
+                            series = series + serie
+                            value = data['value']
+                            counter = 0
+                            for seri in serie:
+                                if seri not in values:
+                                    values[seri] = {}
+                                if label in values[seri]:
+                                    values[seri][label] = values[seri][label] + value[counter]
+                                else:
+                                    values[seri][label] = value[counter]
+                                counter += 1
 
-                    xlabels = []
-                    series = []
-                    values = {}
-                    domains = {}
-                    for data in chart_data:
-                        label = data['labels']
-                        serie = data['series']
-                        domain = data['domain']
+                        final_datasets = []
+                        for serie in series:
+                            if serie not in final_datasets:
+                                final_datasets.append(serie)
 
-                        if (len(xlabels) == 0) or (label not in xlabels):
-                            xlabels.append(label)
+                        ks_data = []
+                        for dataset in final_datasets:
+                            ks_dataset = {
+                                'value': [],
+                                'key': dataset
+                            }
+                            for label in xlabels:
+                                ks_dataset['value'].append({
+                                    'domain': domains[label],
+                                    'x': label,
+                                    'y': values[dataset][label] if label in values[dataset] else 0
+                                })
+                            ks_data.append(ks_dataset)
 
-                        if (label not in domains):
-                            domains[label] = domain
-                        else:
-                            domains[label].insert(0, '|')
-                            domains[label] = domains[label] + domain
+                        if rec.ks_chart_relation_sub_groupby.name == rec.ks_chart_relation_groupby.name == rec.ks_sort_by_field.name:
+                            ks_data = rec.ks_sort_sub_group_by_records(ks_data, rec.ks_chart_groupby_type,
+                                                                       rec.ks_chart_date_groupby, rec.ks_sort_by_order,
+                                                                       rec.ks_chart_date_sub_groupby)
 
-                        series = series + serie
-                        value = data['value']
-                        counter = 0
-                        for seri in serie:
-                            if seri not in values:
-                                values[seri] = {}
-                            if label in values[seri]:
-                                values[seri][label] = values[seri][label] + value[counter]
-                            else:
-                                values[seri][label] = value[counter]
-                            counter += 1
-
-                    final_datasets = []
-                    for serie in series:
-                        if serie not in final_datasets:
-                            final_datasets.append(serie)
-
-                    ks_data = []
-                    for dataset in final_datasets:
-                        ks_dataset = {
-                            'value': [],
-                            'key': dataset
+                        ks_chart_data = {
+                            'labels': [],
+                            'datasets': [],
+                            'domains': [],
+                            'ks_selection': "",
+                            'ks_currency': 0,
+                            'ks_field': "",
+                            'previous_domain': ks_chart_domain
                         }
-                        for label in xlabels:
-                            ks_dataset['value'].append({
-                                'domain': domains[label],
-                                'x': label,
-                                'y': values[dataset][label] if label in values[dataset] else 0
-                            })
-                        ks_data.append(ks_dataset)
 
-                    if rec.ks_chart_relation_sub_groupby.name == rec.ks_chart_relation_groupby.name == rec.ks_sort_by_field.name:
-                        ks_data = rec.ks_sort_sub_group_by_records(ks_data, rec.ks_chart_groupby_type,
-                                                                   rec.ks_chart_date_groupby, rec.ks_sort_by_order,
-                                                                   rec.ks_chart_date_sub_groupby)
+                        if rec.ks_unit and rec.ks_unit_selection == 'monetary':
+                            ks_chart_data['ks_selection'] += rec.ks_unit_selection
+                            ks_chart_data['ks_currency'] += rec.env.user.company_id.currency_id.id
+                        elif rec.ks_unit and rec.ks_unit_selection == 'custom':
+                            ks_chart_data['ks_selection'] += rec.ks_unit_selection
+                            if rec.ks_chart_unit:
+                                ks_chart_data['ks_field'] += rec.ks_chart_unit
 
-                    ks_chart_data = {
-                        'labels': [],
-                        'datasets': [],
-                        'domains': [],
-                        'ks_selection': "",
-                        'ks_currency': 0,
-                        'ks_field': "",
-                        'previous_domain': ks_chart_domain
-                    }
+                        if len(ks_data) != 0:
+                            for res in ks_data[0]['value']:
+                                ks_chart_data['labels'].append(res['x'])
+                                ks_chart_data['domains'].append(res['domain'])
+                            if rec.ks_chart_measure_field_2 and rec.ks_dashboard_item_type == 'ks_bar_chart':
+                                ks_chart_data['ks_show_second_y_scale'] = True
+                                values_2 = {}
+                                series_2 = []
+                                for data in chart_sub_data:
+                                    label = data['labels']
+                                    serie = data['series']
+                                    series_2 = series_2 + serie
+                                    value = data['value']
 
-                    if rec.ks_unit and rec.ks_unit_selection == 'monetary':
-                        ks_chart_data['ks_selection'] += rec.ks_unit_selection
-                        ks_chart_data['ks_currency'] += rec.env.user.company_id.currency_id.id
-                    elif rec.ks_unit and rec.ks_unit_selection == 'custom':
-                        ks_chart_data['ks_selection'] += rec.ks_unit_selection
-                        if rec.ks_chart_unit:
-                            ks_chart_data['ks_field'] += rec.ks_chart_unit
+                                    counter = 0
+                                    for seri in serie:
+                                        if seri not in values_2:
+                                            values_2[seri] = {}
+                                        if label in values_2[seri]:
+                                            values_2[seri][label] = values_2[seri][label] + value[counter]
+                                        else:
+                                            values_2[seri][label] = value[counter]
+                                        counter += 1
+                                final_datasets_2 = []
+                                for serie in series_2:
+                                    if serie not in final_datasets_2:
+                                        final_datasets_2.append(serie)
+                                ks_data_2 = []
+                                for dataset in final_datasets_2:
+                                    ks_dataset = {
+                                        'value': [],
+                                        'key': dataset
+                                    }
+                                    for label in xlabels:
+                                        ks_dataset['value'].append({
+                                            'x': label,
+                                            'y': values_2[dataset][label] if label in values_2[dataset] else 0
+                                        })
+                                    ks_data_2.append(ks_dataset)
 
-                    if len(ks_data) != 0:
-                        for res in ks_data[0]['value']:
-                            ks_chart_data['labels'].append(res['x'])
-                            ks_chart_data['domains'].append(res['domain'])
-                        if rec.ks_chart_measure_field_2 and rec.ks_dashboard_item_type == 'ks_bar_chart':
-                            ks_chart_data['ks_show_second_y_scale'] = True
-                            values_2 = {}
-                            series_2 = []
-                            for data in chart_sub_data:
-                                label = data['labels']
-                                serie = data['series']
-                                series_2 = series_2 + serie
-                                value = data['value']
+                                for ks_dat in ks_data_2:
+                                    dataset = {
+                                        'label': ks_dat['key'],
+                                        'data': [],
+                                        'type': 'line',
+                                        'yAxisID': 'y-axis-1'
 
-                                counter = 0
-                                for seri in serie:
-                                    if seri not in values_2:
-                                        values_2[seri] = {}
-                                    if label in values_2[seri]:
-                                        values_2[seri][label] = values_2[seri][label] + value[counter]
-                                    else:
-                                        values_2[seri][label] = value[counter]
-                                    counter += 1
-                            final_datasets_2 = []
-                            for serie in series_2:
-                                if serie not in final_datasets_2:
-                                    final_datasets_2.append(serie)
-                            ks_data_2 = []
-                            for dataset in final_datasets_2:
-                                ks_dataset = {
-                                    'value': [],
-                                    'key': dataset
-                                }
-                                for label in xlabels:
-                                    ks_dataset['value'].append({
-                                        'x': label,
-                                        'y': values_2[dataset][label] if label in values_2[dataset] else 0
-                                    })
-                                ks_data_2.append(ks_dataset)
+                                    }
+                                    for res in ks_dat['value']:
+                                        dataset['data'].append(res['y'])
 
-                            for ks_dat in ks_data_2:
+                                    ks_chart_data['datasets'].append(dataset)
+                            for ks_dat in ks_data:
                                 dataset = {
                                     'label': ks_dat['key'],
-                                    'data': [],
-                                    'type': 'line',
-                                    'yAxisID': 'y-axis-1'
-
+                                    'data': []
                                 }
                                 for res in ks_dat['value']:
                                     dataset['data'].append(res['y'])
 
                                 ks_chart_data['datasets'].append(dataset)
-                        for ks_dat in ks_data:
-                            dataset = {
-                                'label': ks_dat['key'],
-                                'data': []
-                            }
-                            for res in ks_dat['value']:
-                                dataset['data'].append(res['y'])
 
-                            ks_chart_data['datasets'].append(dataset)
+                            if rec.ks_goal_enable and rec.ks_standard_goal_value and rec.ks_dashboard_item_type in [
+                                'ks_bar_chart', 'ks_line_chart', 'ks_area_chart', 'ks_horizontalBar_chart']:
+                                goal_dataset = []
+                                length = len(ks_chart_data['datasets'][0]['data'])
+                                for i in range(length):
+                                    goal_dataset.append(rec.ks_standard_goal_value)
+                                ks_goal_datasets = {
+                                    'label': 'Target',
+                                    'data': goal_dataset,
+                                }
+                                if rec.ks_goal_bar_line and rec.ks_dashboard_item_type != 'ks_horizontalBar_chart':
+                                    ks_goal_datasets['type'] = 'line'
+                                    ks_chart_data['datasets'].insert(0, ks_goal_datasets)
+                                else:
+                                    ks_chart_data['datasets'].append(ks_goal_datasets)
+                    else:
+                        ks_chart_data = False
 
-                        if rec.ks_goal_enable and rec.ks_standard_goal_value and rec.ks_dashboard_item_type in [
-                            'ks_bar_chart', 'ks_line_chart', 'ks_area_chart', 'ks_horizontalBar_chart']:
-                            goal_dataset = []
-                            length = len(ks_chart_data['datasets'][0]['data'])
-                            for i in range(length):
-                                goal_dataset.append(rec.ks_standard_goal_value)
-                            ks_goal_datasets = {
-                                'label': 'Target',
-                                'data': goal_dataset,
-                            }
-                            if rec.ks_goal_bar_line and rec.ks_dashboard_item_type != 'ks_horizontalBar_chart':
-                                ks_goal_datasets['type'] = 'line'
-                                ks_chart_data['datasets'].insert(0, ks_goal_datasets)
-                            else:
-                                ks_chart_data['datasets'].append(ks_goal_datasets)
-                else:
-                    ks_chart_data = False
+                rec.ks_chart_data = json.dumps(ks_chart_data)
+            else:
+                rec.ks_chart_data = False
 
-            return json.dumps(ks_chart_data)
-        else:
-            return False
-
-    @api.depends('ks_domain', 'ks_dashboard_item_type', 'ks_pagination_limit', 'ks_model_id', 'ks_sort_by_field',
-                 'ks_sort_by_order',
+    @api.depends('ks_domain', 'ks_dashboard_item_type', 'ks_model_id', 'ks_sort_by_field', 'ks_sort_by_order',
                  'ks_record_data_limit', 'ks_list_view_fields', 'ks_list_view_type', 'ks_list_view_group_fields',
                  'ks_chart_groupby_type', 'ks_chart_date_groupby', 'ks_date_filter_field', 'ks_item_end_date',
                  'ks_item_start_date', 'ks_compare_period', 'ks_year_period', 'ks_list_target_deviation_field',
                  'ks_goal_enable', 'ks_standard_goal_value', 'ks_goal_lines', 'ks_domain_extension')
     def ks_get_list_view_data(self):
         for rec in self:
-            rec.ks_list_view_data = rec._ksGetListViewData(domain=[])
-
-    def _ksGetListViewData(self, domain=[]):
-        rec = self
-        if rec.ks_list_view_type and rec.ks_dashboard_item_type and rec.ks_dashboard_item_type == 'ks_list_view' \
-                and rec.ks_model_id:
-            orderby = rec.ks_sort_by_field.id
-            sort_order = rec.ks_sort_by_order
-            ks_chart_domain = self.ks_convert_into_proper_domain(rec.ks_domain, rec, domain)
-            ks_list_view_data = rec.get_list_view_record(orderby, sort_order, ks_chart_domain)
-            if ks_list_view_data and len(ks_list_view_data) > 0:
-                ks_list_view_data = json.dumps(ks_list_view_data)
+            if rec.ks_list_view_type and rec.ks_dashboard_item_type and rec.ks_dashboard_item_type == 'ks_list_view' \
+                    and rec.ks_model_id:
+                orderby = rec.ks_sort_by_field.id
+                sort_order = rec.ks_sort_by_order
+                ks_chart_domain = self.ks_convert_into_proper_domain(self.ks_domain, self)
+                ks_list_view_data = rec.get_list_view_record(orderby, sort_order,ks_chart_domain)
+                if len(ks_list_view_data) >0:
+                    rec.ks_list_view_data = ks_list_view_data
+                else:
+                    rec.ks_list_view_data = False
             else:
-                ks_list_view_data = False
-        else:
-            ks_list_view_data = False
-        return ks_list_view_data
+                rec.ks_list_view_data = False
 
-    def get_list_view_record(self, orderid, sort_order, ks_chart_domain, ksoffset=0,
-                             initial_count=0, ks_export_all=False):
+    def get_list_view_record(self, orderid,sort_order, ks_chart_domain):
         ks_list_view_data = {'label': [], 'fields': [], 'fields_type': [],
                              'store': [], 'type': self.ks_list_view_type,
                              'data_rows': [], 'model': self.ks_model_name}
-        ks_limit = self.ks_record_data_limit if self.ks_record_data_limit and self.ks_record_data_limit > 0 else False
-        limit = self.ks_pagination_limit
-
-        if ks_limit:
-            ks_limit = ks_limit - ksoffset
-            if ks_limit and ks_limit < self.ks_pagination_limit:
-                limit = ks_limit
-            else:
-                limit = self.ks_pagination_limit
-        if ks_export_all:
-            limit = ks_limit
-            offset = 0
+        limit = self.ks_record_data_limit if self.ks_record_data_limit and self.ks_record_data_limit > 0 else False
         self.ks_sort_by_field = orderid
         self.ks_sort_by_order = sort_order
         orderby = self.ks_sort_by_field.name if self.ks_sort_by_field else "id"
@@ -1732,8 +1539,7 @@ class KsDashboardNinjaItems(models.Model):
             orderby = orderby + " " + self.ks_sort_by_order
         if self.ks_list_view_type == "ungrouped":
             if self.ks_list_view_fields:
-                ks_list_view_data = self.ks_fetch_list_view_data(self, ks_chart_domain, offset=ksoffset,
-                                                                 initial_count=initial_count)
+                ks_list_view_data = self.ks_fetch_list_view_data(self, ks_chart_domain)
         elif self.ks_list_view_type == "grouped" and self.ks_list_view_group_fields \
                 and self.ks_chart_relation_groupby:
             ks_list_fields = []
@@ -1755,20 +1561,19 @@ class KsDashboardNinjaItems(models.Model):
 
                 ks_list_view_records = self.env[self.ks_model_name]. \
                     read_group(ks_chart_domain, ks_list_fields, [self.ks_chart_relation_groupby.name],
-                               orderby=orderby, limit=limit, offset=ksoffset, lazy=False)
+                               orderby=orderby, limit=limit, lazy=False)
                 for res in ks_list_view_records:
                     if all(list_fields in res for list_fields in ks_list_fields) \
                             and res[self.ks_chart_relation_groupby.name]:
                         counter = 0
                         data_row = {'id': res[self.ks_chart_relation_groupby.name][0], 'data': [],
-                                    'domain': json.dumps(res['__domain']), 'ks_column_type': []}
+                                    'domain': json.dumps(res['__domain'])}
                         for field_rec in ks_list_fields:
                             if counter == 0:
                                 data_row['data'].append(res[field_rec][1]._value)
                             else:
                                 data_row['data'].append(res[field_rec])
                             counter += 1
-                            data_row['ks_column_type'].append(self.ks_chart_relation_groupby.ttype)
                         ks_list_view_data['data_rows'].append(data_row)
 
             elif self.ks_chart_groupby_type == 'date_type' and self.ks_chart_date_groupby:
@@ -1806,15 +1611,14 @@ class KsDashboardNinjaItems(models.Model):
                 ks_list_view_records = self.env[self.ks_model_name]. \
                     read_group(ks_chart_domain, ks_list_field + list_target_deviation_field,
                                [self.ks_chart_relation_groupby.name + ':' + ks_chart_date_groupby],
-                               orderby=orderby, limit=limit, offset=ksoffset, lazy=False)
+                               orderby=orderby, limit=limit, lazy=False)
                 if all(list_fields in res for res in ks_list_view_records for list_fields in
                        ks_list_fields + list_target_deviation_field):
                     for res in ks_list_view_records:
                         counter = 0
-                        data_row = {'id': 0, 'data': [], 'domain': json.dumps(res['__domain']), 'ks_column_type': []}
+                        data_row = {'id': 0, 'data': [], 'domain': json.dumps(res['__domain'])}
                         for field_rec in ks_list_fields:
                             data_row['data'].append(res[field_rec])
-                            data_row['ks_column_type'].append(self.ks_chart_relation_groupby.ttype)
                         ks_list_view_data['data_rows'].append(data_row)
 
                     if self.ks_goal_enable:
@@ -1830,10 +1634,10 @@ class KsDashboardNinjaItems(models.Model):
                         for res in ks_list_view_records:
                             ks_list_labels.append(res[ks_list_view_data['groupby']])
                         ks_list_view_data2 = self.get_target_list_view_data(ks_list_view_records, self,
-                                                                            ks_list_fields,
-                                                                            ks_list_view_data['groupby'],
-                                                                            list_target_deviation_field,
-                                                                            ks_chart_domain)
+                                                                           ks_list_fields,
+                                                                           ks_list_view_data['groupby'],
+                                                                           list_target_deviation_field,
+                                                                           ks_chart_domain)
                         ks_list_view_data['data_rows'] = ks_list_view_data2['data_rows']
 
             elif self.ks_chart_groupby_type == 'selection':
@@ -1853,21 +1657,19 @@ class KsDashboardNinjaItems(models.Model):
 
                 ks_list_view_records = self.env[self.ks_model_name] \
                     .read_group(ks_chart_domain, ks_list_fields, [self.ks_chart_relation_groupby.name],
-                                orderby=orderby, limit=limit, offset=ksoffset, lazy=False)
+                                orderby=orderby, limit=limit, lazy=False)
                 for res in ks_list_view_records:
                     if all(list_fields in res for list_fields in ks_list_fields):
                         counter = 0
-                        data_row = {'id': 0, 'data': [], 'domain': json.dumps(res['__domain']), 'ks_column_type': []}
+                        data_row = {'id': 0, 'data': [], 'domain': json.dumps(res['__domain'])}
                         if res[ks_selection_field]:
                             data_row['data'].append(dict(
                                 self.env[self.ks_model_name].fields_get(allfields=ks_selection_field)
                                 [ks_selection_field]['selection'])[res[ks_selection_field]])
                         else:
                             data_row['data'].append(" ")
-                        data_row['ks_column_type'].append(self.ks_chart_relation_groupby.ttype)
                         for field_rec in ks_list_fields:
                             data_row['data'].append(res[field_rec])
-                            data_row['ks_column_type'].append(self.ks_chart_relation_groupby.ttype)
                         ks_list_view_data['data_rows'].append(data_row)
 
             elif self.ks_chart_groupby_type == 'other':
@@ -1888,11 +1690,11 @@ class KsDashboardNinjaItems(models.Model):
 
                 ks_list_view_records = self.env[self.ks_model_name] \
                     .read_group(ks_chart_domain, ks_list_fields, [self.ks_chart_relation_groupby.name],
-                                orderby=orderby, limit=limit, offset=ksoffset, lazy=False)
+                                orderby=orderby, limit=limit, lazy=False)
                 for res in ks_list_view_records:
                     if all(list_fields in res for list_fields in ks_list_fields):
                         counter = 0
-                        data_row = {'id': 0, 'data': [], 'domain': json.dumps(res['__domain']), 'ks_column_type': []}
+                        data_row = {'id': 0, 'data': [], 'domain': json.dumps(res['__domain'])}
 
                         for field_rec in ks_list_fields:
                             if counter == 0:
@@ -1903,12 +1705,12 @@ class KsDashboardNinjaItems(models.Model):
                                 else:
                                     data_row['data'].append(res[field_rec])
                             counter += 1
-                            data_row['ks_column_type'].append(self.ks_chart_relation_groupby.ttype)
                         ks_list_view_data['data_rows'].append(data_row)
 
-        # ks_list_view_data = json.dumps(ks_list_view_data)
+        ks_list_view_data = json.dumps(ks_list_view_data)
 
         return ks_list_view_data
+
 
     def get_target_list_view_data(self, ks_list_view_records, rec, ks_list_fields, ks_group_by,
                                   target_deviation_field, ks_chart_domain):
@@ -1992,7 +1794,7 @@ class KsDashboardNinjaItems(models.Model):
                     ks_list_labels_dates.append(label)
 
             for label in ks_list_labels_dates:
-                data_rows = {'data': [label], 'ks_column_type': [],'store':True}
+                data_rows = {'data': [label]}
                 data = ks_list_records.get(label, False)
                 if data:
                     data_rows['data'] = data_rows['data'] + data['measure_field']
@@ -2021,14 +1823,14 @@ class KsDashboardNinjaItems(models.Model):
 
                     data_rows['data'].append(acheivement)
                     data_rows['data'].append(deviation)
-                data_rows['ks_column_type'].append(self.ks_chart_relation_groupby.ttype)
+
                 ks_list_view_data['data_rows'].append(data_rows)
 
         else:
             for res in ks_list_view_records:
                 if all(list_fields in res for list_fields in ks_list_fields):
                     counter = 0
-                    data_row = {'id': 0, 'data': [], 'domain': json.dumps(res['__domain']), 'ks_column_type': [],'store':True}
+                    data_row = {'id': 0, 'data': [], }
                     for field_rec in ks_list_fields:
                         data_row['data'].append(res[field_rec])
                     data_row['data'].append(rec.ks_standard_goal_value)
@@ -2052,8 +1854,8 @@ class KsDashboardNinjaItems(models.Model):
         return ks_list_view_data
 
     @api.model
-    def ks_fetch_list_view_data(self, rec, ks_chart_domain, limit=15, offset=0, ks_export_all=False, initial_count=0):
-        ks_list_view_data = {'label': [], 'fields': [], 'fields_type': [],
+    def ks_fetch_list_view_data(self,rec, ks_chart_domain, limit=15, offset=0):
+        ks_list_view_data = {'label': [], 'fields': [],  'fields_type': [],
                              'store': [], 'type': 'ungrouped',
                              'data_rows': [], 'model': self.ks_model_name}
 
@@ -2061,18 +1863,14 @@ class KsDashboardNinjaItems(models.Model):
         orderby = self.ks_sort_by_field.name if self.ks_sort_by_field else "id"
         if self.ks_sort_by_order:
             orderby = orderby + " " + self.ks_sort_by_order
-
         ks_limit = self.ks_record_data_limit if self.ks_record_data_limit and self.ks_record_data_limit > 0 else False
-        limit = self.ks_pagination_limit
+
         if ks_limit:
             ks_limit = ks_limit - offset
-            if ks_limit and ks_limit < self.ks_pagination_limit:
+            if ks_limit and ks_limit < 15:
                 limit = ks_limit
             else:
-                limit = self.ks_pagination_limit
-        if ks_export_all:
-            limit = ks_limit
-            offset = 0
+                limit = 15
         if self.ks_list_view_fields:
             ks_list_view_data['list_view_type'] = 'other'
             ks_list_view_data['groupby'] = False
@@ -2096,14 +1894,14 @@ class KsDashboardNinjaItems(models.Model):
             ks_list_view_field_type = [res.ttype for res in self.ks_list_view_fields]
         try:
             ks_list_view_records = self.env[self.ks_model_name].search_read(ks_chart_domain,
-                                                                            ks_list_view_fields,
-                                                                            order=orderby, limit=limit, offset=offset)
+                                                                           ks_list_view_fields,
+                                                                           order=orderby, limit=limit, offset=offset)
         except Exception as e:
             ks_list_view_data = False
             return ks_list_view_data
         for res in ks_list_view_records:
             counter = 0
-            data_row = {'id': res['id'], 'data': [], 'ks_column_type': []}
+            data_row = {'id': res['id'], 'data': []}
             for field_rec in ks_list_view_fields:
                 if type(res[field_rec]) == fields.datetime or type(res[field_rec]) == fields.date:
                     res[field_rec] = res[field_rec].strftime("%D %T")
@@ -2111,7 +1909,6 @@ class KsDashboardNinjaItems(models.Model):
                     if res[field_rec]:
                         res[field_rec] = res[field_rec][1]
                 data_row['data'].append(res[field_rec])
-                data_row['ks_column_type'].append(ks_list_view_field_type[counter])
                 counter += 1
             ks_list_view_data['data_rows'].append(data_row)
 
@@ -2126,10 +1923,8 @@ class KsDashboardNinjaItems(models.Model):
             else:
                 rec.ks_chart_item_color = "default"
             if rec.ks_dashboard_item_type == 'ks_kpi' or rec.ks_dashboard_item_type == 'ks_tile':
-                rec.ks_data_calculation_type = 'custom'
-            if rec.ks_dashboard_item_type != "ks_bar_chart":
-                rec.ks_chart_cumulative_field = False
-                rec.ks_chart_cumulative = False
+                rec.ks_data_calculation_type  = 'custom'
+
 
     #  Time Filter Calculation
 
@@ -2139,7 +1934,7 @@ class KsDashboardNinjaItems(models.Model):
             if (not rec.ks_date_filter_selection) or rec.ks_date_filter_selection == "l_none":
                 rec.ks_item_start_date = rec.ks_item_end_date = False
             elif rec.ks_date_filter_selection != 'l_custom':
-                ks_date_data = ks_get_date(rec.ks_date_filter_selection, self, rec.ks_date_filter_field)
+                ks_date_data = ks_get_date(rec.ks_date_filter_selection, self)
                 rec.ks_item_start_date = ks_date_data["selected_start_date"]
                 rec.ks_item_end_date = ks_date_data["selected_end_date"]
 
@@ -2148,39 +1943,35 @@ class KsDashboardNinjaItems(models.Model):
                  'ks_compare_period_2', 'ks_year_period_2', 'ks_domain_extension_2')
     def ks_get_kpi_data(self):
         for rec in self:
-            rec.ks_kpi_data = rec._ksGetKpiData(domain1=[], domain2=[])
+            if rec.ks_dashboard_item_type and rec.ks_dashboard_item_type == 'ks_kpi' and rec.ks_model_id:
+                ks_kpi_data = []
+                ks_record_count = 0.0
+                ks_kpi_data_model_1 = {}
+                ks_record_count = rec.ks_record_count
+                ks_kpi_data_model_1['model'] = rec.ks_model_name
+                ks_kpi_data_model_1['record_field'] = rec.ks_record_field.field_description
+                ks_kpi_data_model_1['record_data'] = ks_record_count
 
-    def _ksGetKpiData(self, domain1=[], domain2=[]):
-        rec = self
-        if rec.ks_dashboard_item_type and rec.ks_dashboard_item_type == 'ks_kpi' and rec.ks_model_id:
-            ks_kpi_data = []
-            ks_record_count = 0.0
-            ks_kpi_data_model_1 = {}
-            ks_record_count = rec._ksGetRecordCount(domain1)
-            ks_kpi_data_model_1['model'] = rec.ks_model_name
-            ks_kpi_data_model_1['record_field'] = rec.ks_record_field.field_description
-            ks_kpi_data_model_1['record_data'] = ks_record_count
+                if rec.ks_goal_enable:
+                    ks_kpi_data_model_1['target'] = rec.ks_standard_goal_value
+                ks_kpi_data.append(ks_kpi_data_model_1)
 
-            if rec.ks_goal_enable:
-                ks_kpi_data_model_1['target'] = rec.ks_standard_goal_value
-            ks_kpi_data.append(ks_kpi_data_model_1)
+                if rec.ks_previous_period:
+                    ks_previous_period_data = rec.ks_get_previous_period_data(rec)
+                    ks_kpi_data_model_1['previous_period'] = ks_previous_period_data
 
-            if rec.ks_previous_period:
-                ks_previous_period_data = rec.ks_get_previous_period_data(rec)
-                ks_kpi_data_model_1['previous_period'] = ks_previous_period_data
+                if rec.ks_model_id_2 and rec.ks_record_count_type_2:
+                    ks_kpi_data_model_2 = {}
+                    ks_kpi_data_model_2['model'] = rec.ks_model_name_2
+                    ks_kpi_data_model_2[
+                        'record_field'] = 'count' if rec.ks_record_count_type_2 == 'count' else \
+                        rec.ks_record_field_2.field_description
+                    ks_kpi_data_model_2['record_data'] = rec.ks_record_count_2
+                    ks_kpi_data.append(ks_kpi_data_model_2)
 
-            if rec.ks_model_id_2 and rec.ks_record_count_type_2:
-                ks_kpi_data_model_2 = {}
-                ks_kpi_data_model_2['model'] = rec.ks_model_name_2
-                ks_kpi_data_model_2[
-                    'record_field'] = 'count' if rec.ks_record_count_type_2 == 'count' else \
-                    rec.ks_record_field_2.field_description
-                ks_kpi_data_model_2['record_data'] = rec._ksGetRecordCount_2(domain2)
-                ks_kpi_data.append(ks_kpi_data_model_2)
-
-            return json.dumps(ks_kpi_data)
-        else:
-            return False
+                rec.ks_kpi_data = json.dumps(ks_kpi_data)
+            else:
+                rec.ks_kpi_data = False
 
     # writing separate function for fetching previous period data
     def ks_get_previous_period_data(self, rec):
@@ -2199,7 +1990,8 @@ class KsDashboardNinjaItems(models.Model):
             date_filter_selection = rec.ks_date_filter_selection
             ks_previous_period = switcher.get(date_filter_selection, False)
         if ks_previous_period:
-            ks_date_data = ks_get_date(ks_previous_period, self, rec.ks_date_filter_field.ttype)
+            ks_date_data = ks_get_date(ks_previous_period, self)
+
 
         if (ks_date_data):
             previous_period_start_date = ks_date_data["selected_start_date"]
@@ -2212,8 +2004,7 @@ class KsDashboardNinjaItems(models.Model):
                 ks_record_count = self.env[rec.ks_model_name].search_count(proper_domain)
                 return ks_record_count
             elif rec.ks_record_field:
-                data = \
-                    self.env[rec.ks_model_name].read_group(proper_domain, [rec.ks_record_field.name], [], lazy=False)[0]
+                data = self.env[rec.ks_model_name].read_group(proper_domain, [rec.ks_record_field.name], [], lazy=False)[0]
                 if rec.ks_record_count_type == 'sum':
                     return data.get(rec.ks_record_field.name, 0) if data.get('__count', False) and (
                         data.get(rec.ks_record_field.name)) else 0
@@ -2247,35 +2038,30 @@ class KsDashboardNinjaItems(models.Model):
                  'ks_date_filter_selection_2', 'ks_record_count_type_2', 'ks_compare_period_2', 'ks_year_period_2')
     def ks_get_record_count_2(self):
         for rec in self:
-            rec.ks_record_count_2 = rec._ksGetRecordCount_2(domain=[])
+            if rec.ks_record_count_type_2 == 'count':
+                ks_record_count = rec.ks_fetch_model_data_2(rec.ks_model_name_2, rec.ks_domain_2, 'search_count', rec)
 
-    def _ksGetRecordCount_2(self, domain=[]):
-        rec = self
-        if rec.ks_record_count_type_2 == 'count':
-            ks_record_count = rec.ks_fetch_model_data_2(rec.ks_model_name_2, rec.ks_domain_2, 'search_count', rec,
-                                                        domain)
-
-        elif rec.ks_record_count_type_2 in ['sum', 'average'] and rec.ks_record_field_2:
-            ks_records_grouped_data = rec.ks_fetch_model_data_2(rec.ks_model_name_2, rec.ks_domain_2, 'read_group',
-                                                                rec, domain)
-            if ks_records_grouped_data and len(ks_records_grouped_data) > 0:
-                ks_records_grouped_data = ks_records_grouped_data[0]
-                if rec.ks_record_count_type_2 == 'sum' and ks_records_grouped_data.get('__count', False) and (
-                        ks_records_grouped_data.get(rec.ks_record_field_2.name)):
-                    ks_record_count = ks_records_grouped_data.get(rec.ks_record_field_2.name, 0)
-                elif rec.ks_record_count_type_2 == 'average' and ks_records_grouped_data.get(
-                        '__count', False) and (ks_records_grouped_data.get(rec.ks_record_field_2.name)):
-                    ks_record_count = ks_records_grouped_data.get(rec.ks_record_field_2.name,
-                                                                  0) / ks_records_grouped_data.get('__count',
-                                                                                                   1)
+            elif rec.ks_record_count_type_2 in ['sum', 'average'] and rec.ks_record_field_2:
+                ks_records_grouped_data = rec.ks_fetch_model_data_2(rec.ks_model_name_2, rec.ks_domain_2, 'read_group',
+                                                                    rec)
+                if ks_records_grouped_data and len(ks_records_grouped_data) > 0:
+                    ks_records_grouped_data = ks_records_grouped_data[0]
+                    if rec.ks_record_count_type_2 == 'sum' and ks_records_grouped_data.get('__count', False) and (
+                            ks_records_grouped_data.get(rec.ks_record_field_2.name)):
+                        ks_record_count = ks_records_grouped_data.get(rec.ks_record_field_2.name, 0)
+                    elif rec.ks_record_count_type_2 == 'average' and ks_records_grouped_data.get(
+                            '__count', False) and (ks_records_grouped_data.get(rec.ks_record_field_2.name)):
+                        ks_record_count = ks_records_grouped_data.get(rec.ks_record_field_2.name,
+                                                                      0) / ks_records_grouped_data.get('__count',
+                                                                                                       1)
+                    else:
+                        ks_record_count = 0
                 else:
                     ks_record_count = 0
             else:
-                ks_record_count = 0
-        else:
-            ks_record_count = False
+                ks_record_count = False
 
-        return ks_record_count
+            rec.ks_record_count_2 = ks_record_count
 
     @api.onchange('ks_model_id_2')
     def make_record_field_empty_2(self):
@@ -2296,25 +2082,23 @@ class KsDashboardNinjaItems(models.Model):
                 rec.ks_domain_extension_2 = False
 
     # Writing separate function to fetch dashboard item data
-    def ks_fetch_model_data_2(self, ks_model_name, ks_domain, ks_func, rec, domain=[]):
+    def ks_fetch_model_data_2(self, ks_model_name, ks_domain, ks_func, rec):
         data = 0
         try:
             if ks_domain and ks_domain != '[]' and ks_model_name:
-                proper_domain = self.ks_convert_into_proper_domain_2(ks_domain, rec, domain)
+                proper_domain = self.ks_convert_into_proper_domain_2(ks_domain, rec)
                 if ks_func == 'search_count':
                     data = self.env[ks_model_name].search_count(proper_domain)
                 elif ks_func == 'read_group':
-                    data = self.env[ks_model_name].read_group(proper_domain, [rec.ks_record_field_2.name], [],
-                                                              lazy=False)
+                    data = self.env[ks_model_name].read_group(proper_domain, [rec.ks_record_field_2.name], [], lazy=False)
             elif ks_model_name:
                 # Have to put extra if condition here because on load,model giving False value
-                proper_domain = self.ks_convert_into_proper_domain_2(False, rec, domain)
+                proper_domain = self.ks_convert_into_proper_domain_2(False, rec)
                 if ks_func == 'search_count':
                     data = self.env[ks_model_name].search_count(proper_domain)
 
                 elif ks_func == 'read_group':
-                    data = self.env[ks_model_name].read_group(proper_domain, [rec.ks_record_field_2.name], [],
-                                                              lazy=False)
+                    data = self.env[ks_model_name].read_group(proper_domain, [rec.ks_record_field_2.name], [], lazy=False)
             else:
                 return []
         except Exception as e:
@@ -2327,11 +2111,12 @@ class KsDashboardNinjaItems(models.Model):
             if (not rec.ks_date_filter_selection_2) or rec.ks_date_filter_selection_2 == "l_none":
                 rec.ks_item_start_date_2 = rec.ks_item_end_date = False
             elif rec.ks_date_filter_selection_2 != 'l_custom':
-                ks_date_data = ks_get_date(rec.ks_date_filter_selection_2, self, rec.ks_date_filter_field_2)
+                ks_date_data = ks_get_date(rec.ks_date_filter_selection_2, self)
                 rec.ks_item_start_date_2 = ks_date_data["selected_start_date"]
                 rec.ks_item_end_date_2 = ks_date_data["selected_end_date"]
 
-    def ks_convert_into_proper_domain_2(self, ks_domain_2, rec, domain=[]):
+    def ks_convert_into_proper_domain_2(self, ks_domain_2, rec):
+
         if ks_domain_2 and "%UID" in ks_domain_2:
             ks_domain_2 = ks_domain_2.replace('"%UID"', str(self.env.user.id))
         if ks_domain_2 and "%MYCOMPANY" in ks_domain_2:
@@ -2342,31 +2127,16 @@ class KsDashboardNinjaItems(models.Model):
         if not rec.ks_date_filter_selection_2 or rec.ks_date_filter_selection_2 == "l_none":
             selected_start_date = self._context.get('ksDateFilterStartDate', False)
             selected_end_date = self._context.get('ksDateFilterEndDate', False)
-            ks_is_def_custom_filter = self._context.get('ksIsDefultCustomDateFilter', False)
-            ks_timezone = self._context.get('tz') or self.env.user.tz
-            if selected_start_date and selected_end_date and rec.ks_date_filter_field_2.ttype == 'datetime' and not ks_is_def_custom_filter:
-                selected_start_date = ks_convert_into_utc(selected_start_date, ks_timezone)
-                selected_end_date = ks_convert_into_utc(selected_end_date, ks_timezone)
-            if selected_start_date and selected_end_date and rec.ks_date_filter_field_2.ttype == 'date' and ks_is_def_custom_filter:
-                selected_start_date = ks_convert_into_local(selected_start_date, ks_timezone)
-                selected_end_date = ks_convert_into_local(selected_end_date, ks_timezone)
-            if self._context.get('ksDateFilterSelection', False) and self._context['ksDateFilterSelection'] not in [
-                'l_none', 'l_custom']:
-                ks_date_data = ks_get_date(self._context.get('ksDateFilterSelection'), self,
-                                           rec.ks_date_filter_field_2.ttype)
-                selected_start_date = ks_date_data["selected_start_date"]
-                selected_end_date = ks_date_data["selected_end_date"]
-
-            if selected_end_date and not selected_start_date:
-                ks_date_domain = [
-                    (rec.ks_date_filter_field_2.name, "<=",
-                     selected_end_date.strftime(DEFAULT_SERVER_DATETIME_FORMAT))]
-            elif selected_start_date and not selected_end_date:
+            if selected_start_date and rec.ks_date_filter_field_2.name:
                 ks_date_domain = [
                     (rec.ks_date_filter_field_2.name, ">=",
                      selected_start_date.strftime(DEFAULT_SERVER_DATETIME_FORMAT))]
+            elif selected_end_date and rec.ks_date_filter_field_2.name:
+                ks_date_domain = [
+                    (rec.ks_date_filter_field_2.name, "<=",
+                     selected_end_date.strftime(DEFAULT_SERVER_DATETIME_FORMAT))]
             else:
-                if selected_end_date and selected_start_date:
+                if selected_start_date and selected_end_date:
                     ks_date_domain = [
                         (rec.ks_date_filter_field_2.name, ">=",
                          selected_start_date.strftime(DEFAULT_SERVER_DATETIME_FORMAT)),
@@ -2374,19 +2144,13 @@ class KsDashboardNinjaItems(models.Model):
                          selected_end_date.strftime(DEFAULT_SERVER_DATETIME_FORMAT))]
         else:
             if rec.ks_date_filter_selection_2 and rec.ks_date_filter_selection_2 != 'l_custom':
-                ks_date_data = ks_get_date(rec.ks_date_filter_selection_2, self, rec.ks_date_filter_field_2.ttype)
+                ks_date_data = ks_get_date(rec.ks_date_filter_selection_2, self)
                 selected_start_date = ks_date_data["selected_start_date"]
                 selected_end_date = ks_date_data["selected_end_date"]
             else:
-                selected_start_date = False
-                selected_end_date = False
                 if rec.ks_item_start_date_2 or rec.ks_item_end_date_2:
                     selected_start_date = rec.ks_item_start_date
                     selected_end_date = rec.ks_item_end_date
-                    if rec.ks_date_filter_field_2.ttype == 'date' and rec.ks_item_start_date_2 and rec.ks_item_end_date_2:
-                        ks_timezone = self._context.get('tz') or self.env.user.tz
-                        selected_start_date = ks_convert_into_local(rec.ks_item_start_date_2, ks_timezone)
-                        selected_end_date = ks_convert_into_local(rec.ks_item_end_date_2, ks_timezone)
 
             if selected_start_date and selected_end_date:
                 if rec.ks_compare_period_2:
@@ -2445,12 +2209,9 @@ class KsDashboardNinjaItems(models.Model):
         if rec.ks_domain_extension_2:
             ks_domain_extension = rec.ks_convert_domain_extension(rec.ks_domain_extension_2, rec)
             proper_domain.extend(ks_domain_extension)
-        if domain:
-            proper_domain.extend(domain)
-
         return proper_domain
 
-    def ks_fetch_chart_data(self, ks_model_name, ks_chart_domain, ks_chart_measure_field_with_type,
+    def ks_fetch_chart_data(self, ks_model_name, ks_chart_domain,ks_chart_measure_field_with_type,
                             ks_chart_measure_field_with_type_2,
                             ks_chart_measure_field, ks_chart_measure_field_2,
                             ks_chart_groupby_relation_field, ks_chart_date_groupby, ks_chart_groupby_type, orderby,
@@ -2465,15 +2226,13 @@ class KsDashboardNinjaItems(models.Model):
         try:
             if self.ks_fill_temporal and ks_chart_date_groupby not in ['minute', 'hour']:
                 ks_chart_records = self.env[ks_model_name].with_context(fill_temporal=True) \
-                    .read_group(ks_chart_domain,
-                                list(set(ks_chart_measure_field_with_type + ks_chart_measure_field_with_type_2 +
-                                         [ks_chart_groupby_relation_field])), [ks_chart_groupby_field],
+                    .read_group(ks_chart_domain, list(set(ks_chart_measure_field_with_type + ks_chart_measure_field_with_type_2 +
+                                                     [ks_chart_groupby_relation_field])), [ks_chart_groupby_field],
                                 orderby=orderby, limit=limit, lazy=False)
             else:
                 ks_chart_records = self.env[ks_model_name] \
-                    .read_group(ks_chart_domain,
-                                list(set(ks_chart_measure_field_with_type + ks_chart_measure_field_with_type_2 +
-                                         [ks_chart_groupby_relation_field])), [ks_chart_groupby_field],
+                    .read_group(ks_chart_domain, list(set(ks_chart_measure_field_with_type + ks_chart_measure_field_with_type_2 +
+                                                     [ks_chart_groupby_relation_field])), [ks_chart_groupby_field],
                                 orderby=orderby, limit=limit, lazy=False)
         except Exception as e:
             ks_chart_records = []
@@ -2496,7 +2255,7 @@ class KsDashboardNinjaItems(models.Model):
                     selection = res[ks_chart_groupby_field]
                     if selection:
                         label = dict(self.env[ks_model_name].fields_get(allfields=[ks_chart_groupby_field])
-                                     [ks_chart_groupby_field]['selection'])[selection]
+                                 [ks_chart_groupby_field]['selection'])[selection]
                     else:
                         label = selection
                 else:
@@ -2515,11 +2274,9 @@ class KsDashboardNinjaItems(models.Model):
                     if ks_chart_measure_field_2:
                         index = 0
                         for field_rec in ks_chart_measure_field_2:
-                            ks_groupby_equal_measures = res.get(ks_chart_groupby_relation_field + "_count",
-                                                                False) or res.get("__count", False) \
-                                if res.get(ks_chart_groupby_relation_field + "_count", False) or res.get("__count",
-                                                                                                         False) \
-                                   and ks_chart_measure_field_2_ids[index] == ks_chart_groupby_relation_field_id \
+                            ks_groupby_equal_measures = res.get(ks_chart_groupby_relation_field + "_count", False) or res.get("__count", False)\
+                                if res.get(ks_chart_groupby_relation_field + "_count", False) or res.get("__count", False) \
+                                   and  ks_chart_measure_field_2_ids[index] == ks_chart_groupby_relation_field_id \
                                 else 1
                             try:
                                 if res.get('__count', False):
@@ -2545,10 +2302,9 @@ class KsDashboardNinjaItems(models.Model):
 
                     index = 0
                     for field_rec in ks_chart_measure_field:
-                        ks_groupby_equal_measures = res.get(ks_chart_groupby_relation_field + "_count",
-                                                            False) or res.get("__count", False) \
-                            if res.get(ks_chart_groupby_relation_field + "_count", False) or res.get("__count", False) \
-                               and ks_chart_measure_field_ids[index] == ks_chart_groupby_relation_field_id \
+                        ks_groupby_equal_measures = res.get(ks_chart_groupby_relation_field + "_count", False) or res.get("__count", False)\
+                            if res.get(ks_chart_groupby_relation_field + "_count", False)  or res.get("__count", False)\
+                               and  ks_chart_measure_field_ids[index] == ks_chart_groupby_relation_field_id \
                             else 1
                         try:
                             if res.get('__count', False):
@@ -2559,10 +2315,10 @@ class KsDashboardNinjaItems(models.Model):
                                 data = 0
                             if is_ks_index:
                                 if chart_count == 'sum':
-                                    ks_chart_data['datasets'][counter]['data'][ks_index] += data
+                                    ks_chart_data['datasets'][counter]['data'][ks_index] +=  data
                                 else:
                                     ks_chart_data['datasets'][counter]['data'][ks_index] = \
-                                        (ks_chart_data['datasets'][counter]['data'][ks_index] + data) / 2
+                                        (ks_chart_data['datasets'][counter]['data'][ks_index] + data)/2
                                 counter += 1
                                 index += 1
                                 continue
@@ -2633,18 +2389,16 @@ class KsDashboardNinjaItems(models.Model):
                 for res in ks_list_view_records:
 
                     counter = 0
-                    data_row = {'id': res[action_line.ks_item_action_field.name][0] if res[
-                        action_line.ks_item_action_field.name] else res[action_line.ks_item_action_field.name],
+                    data_row = {'id': res[action_line.ks_item_action_field.name][0] if res[action_line.ks_item_action_field.name] else res[action_line.ks_item_action_field.name] ,
                                 'data': [],
                                 'domain': json.dumps(res['__domain']), 'sequence': sequence + 1,
-                                'last_seq': ks_count, 'ks_column_type': []}
+                                'last_seq': ks_count}
                     for field_rec in ks_list_fields:
                         if counter == 0:
                             data_row['data'].append(res[field_rec][1]._value if res[field_rec] else "False")
                         else:
                             data_row['data'].append(res[field_rec])
                         counter += 1
-                        data_row['ks_column_type'].append(self.ks_chart_relation_groupby.ttype)
                     ks_list_view_data['data_rows'].append(data_row)
 
             elif action_line.ks_item_action_field.ttype == 'date' or \
@@ -2672,10 +2426,9 @@ class KsDashboardNinjaItems(models.Model):
                     counter = 0
                     data_row = {'data': [],
                                 'domain': json.dumps(res['__domain']), 'sequence': sequence + 1,
-                                'last_seq': ks_count, 'ks_column_type': []}
+                                'last_seq': ks_count}
                     for field_rec in ks_list_field:
                         data_row['data'].append(res[field_rec])
-                        data_row['ks_column_type'].append(self.ks_chart_relation_groupby.ttype)
                     ks_list_view_data['data_rows'].append(data_row)
 
             elif action_line.ks_item_action_field.ttype == 'selection':
@@ -2694,17 +2447,15 @@ class KsDashboardNinjaItems(models.Model):
                     counter = 0
                     data_row = {'data': [],
                                 'domain': json.dumps(res['__domain']), 'sequence': sequence + 1,
-                                'last_seq': ks_count, 'ks_column_type': []}
+                                'last_seq': ks_count}
                     if res[ks_selection_field]:
                         data_row['data'].append(dict(
                             self.env[record.ks_model_name].fields_get(allfields=ks_selection_field)
                             [ks_selection_field]['selection'])[res[ks_selection_field]])
                     else:
                         data_row['data'].append(" ")
-                    data_row['ks_column_type'].append(self.ks_chart_relation_groupby.ttype)
                     for field_rec in ks_list_fields:
                         data_row['data'].append(res[field_rec])
-                        data_row['ks_column_type'].append(self.ks_chart_relation_groupby.ttype)
                     ks_list_view_data['data_rows'].append(data_row)
 
             else:
@@ -2725,20 +2476,17 @@ class KsDashboardNinjaItems(models.Model):
                         counter = 0
                         data_row = {'id': action_line.ks_item_action_field.name, 'data': [],
                                     'domain': json.dumps(res['__domain']), 'sequence': sequence + 1,
-                                    'last_seq': ks_count, 'ks_column_type': []}
+                                    'last_seq': ks_count}
 
                         for field_rec in ks_list_fields:
                             if counter == 0:
                                 data_row['data'].append(res[field_rec])
                             else:
                                 if action_line.ks_item_action_field.name == field_rec:
-                                    data_row['data'].append(res[field_rec] * (
-                                        res.get(field_rec + '_count', False) if res.get(field_rec + '_count',
-                                                                                        False) else res.get('__count')))
+                                    data_row['data'].append(res[field_rec] * (res.get(field_rec + '_count', False) if res.get(field_rec + '_count', False) else res.get('__count')))
                                 else:
                                     data_row['data'].append(res[field_rec])
                             counter += 1
-                            data_row['ks_column_type'].append(self.ks_chart_relation_groupby.ttype)
                         ks_list_view_data['data_rows'].append(data_row)
 
             return {"ks_list_view_data": json.dumps(ks_list_view_data), "ks_list_view_type": "grouped",
@@ -2878,17 +2626,11 @@ class KsDashboardNinjaItems(models.Model):
 
     # List View pagination
     @api.model
-    def ks_get_next_offset(self, ks_item_id, offset, item_domain=[]):
+    def ks_get_next_offset(self, ks_item_id, offset):
         record = self.browse(ks_item_id)
         ks_offset = offset['offset']
-        ks_list_domain = self.ks_convert_into_proper_domain(record.ks_domain, self, item_domain)
-        if self.ks_list_view_type == 'grouped':
-            orderby = record.ks_sort_by_field.id
-            sort_order = record.ks_sort_by_order
-            ks_list_view_data = self.get_list_view_record(orderby, sort_order, ks_list_domain, ksoffset=int(ks_offset))
-
-        else:
-            ks_list_view_data = self.ks_fetch_list_view_data(record, ks_list_domain, offset=int(ks_offset))
+        ks_list_domain = self.ks_convert_into_proper_domain(record.ks_domain, self)
+        ks_list_view_data = self.ks_fetch_list_view_data(record, ks_list_domain, offset=int(ks_offset))
 
         return {
             'ks_list_view_data': json.dumps(ks_list_view_data),
@@ -3061,6 +2803,7 @@ class KsDashboardItemsGoal(models.Model):
     ks_dashboard_item = fields.Many2one('ks_dashboard_ninja.item', string="Dashboard Item")
 
 
+
 class KsDashboardItemsActions(models.Model):
     _name = 'ks_dashboard_ninja.item_action'
     _description = 'Dashboard Ninja Items Action Lines'
@@ -3124,6 +2867,7 @@ class KsDashboardItemsActions(models.Model):
             if rec.ks_item_action_field.ttype == 'date' and rec.ks_item_action_date_groupby in ['hour', 'minute']:
                 raise ValidationError(_('Action field: {} cannot be aggregated by {}').format(
                     rec.ks_item_action_field.display_name, rec.ks_item_action_date_groupby))
+
 
     @api.onchange('ks_item_action_field')
     def ks_onchange_item_action(self):

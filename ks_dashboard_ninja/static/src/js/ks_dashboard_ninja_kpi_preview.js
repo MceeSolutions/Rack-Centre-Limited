@@ -7,7 +7,6 @@ odoo.define('ks_dashboard_ninja_list.ks_dashboard_kpi_preview', function(require
     var field_utils = require('web.field_utils');
     var session = require('web.session');
     var utils = require('web.utils');
-    var KsGlobalFunction = require('ks_dashboard_ninja.KsGlobalFunction');
 
     var Qweb = core.qweb;
 
@@ -73,47 +72,6 @@ odoo.define('ks_dashboard_ninja_list.ks_dashboard_kpi_preview', function(require
                 return (num / si[i].value).toFixed(digits).replace(rx, "$1") + si[i].symbol;
             }
         },
-        ksNumIndianFormatter: function(num, digits) {
-            var negative;
-            var si = [{
-                value: 1,
-                symbol: ""
-            },
-            {
-                value: 1E3,
-                symbol: "Th"
-            },
-            {
-                value: 1E5,
-                symbol: "Lakh"
-            },
-            {
-                value: 1E7,
-                symbol: "Cr"
-            },
-            {
-                value: 1E9,
-                symbol: "Arab"
-            }
-            ];
-            if (num < 0) {
-                num = Math.abs(num)
-                negative = true
-            }
-            var rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
-            var i;
-            for (i = si.length - 1; i > 0; i--) {
-                if (num >= si[i].value) {
-                    break;
-                }
-            }
-            if (negative) {
-                return "-" + (num / si[i].value).toFixed(digits).replace(rx, "$1") + si[i].symbol;
-            } else {
-                return (num / si[i].value).toFixed(digits).replace(rx, "$1") + si[i].symbol;
-            }
-
-        },
 
         _render: function() {
             this.$el.empty();
@@ -158,8 +116,8 @@ odoo.define('ks_dashboard_ninja_list.ks_dashboard_kpi_preview', function(require
         ksSum: function(count_1, count_2, item_info, field, target_1, $kpi_preview, kpi_data) {
             var self = this;
             var count = count_1 + count_2
-            item_info['count'] = KsGlobalFunction._onKsGlobalFormatter(count, field.ks_data_format);
-            item_info['count_tooltip'] = field_utils.format.float(count, Float64Array);;
+            item_info['count'] = self.ksNumFormatter(count, 1);
+            item_info['count_tooltip'] = count;
             item_info['target_enable'] = field.ks_goal_enable;
             var ks_color = (target_1 - count) > 0 ? "red" : "green";
             item_info.pre_arrow = (target_1 - count) > 0 ? "down" : "up";
@@ -270,9 +228,6 @@ odoo.define('ks_dashboard_ninja_list.ks_dashboard_kpi_preview', function(require
                     });
                 }
             }
-            item_info['count_1'] = KsGlobalFunction._onKsGlobalFormatter(kpi_data[0]['record_data'], field.ks_data_format);
-            item_info['target'] = KsGlobalFunction._onKsGlobalFormatter(kpi_data[0].target, field.ks_data_format);
-
 
             var $kpi_preview;
             if (!kpi_data[1]) {
@@ -313,8 +268,8 @@ odoo.define('ks_dashboard_ninja_list.ks_dashboard_kpi_preview', function(require
                     case "None":
                         var count_tooltip = String(count_1) + "/" + String(count_2);
                         var count = String(self.ksNumFormatter(count_1, 1)) + "/" + String(self.ksNumFormatter(count_2, 1));
-                        item_info['count'] = String(KsGlobalFunction._onKsGlobalFormatter(count_1, field.ks_data_format)) + "/" + String(KsGlobalFunction._onKsGlobalFormatter(count_2, field.ks_data_format));
-                        item_info['count_tooltip'] = count_tooltip
+                        item_info['count'] = count;
+                        item_info['count_tooltip'] = count_tooltip;
                         item_info['target_enable'] = false;
                         $kpi_preview = $(Qweb.render("ks_kpi_preview_template_2", item_info));
                         break;
@@ -326,32 +281,13 @@ odoo.define('ks_dashboard_ninja_list.ks_dashboard_kpi_preview', function(require
                         break;
                     case "Ratio":
                         var gcd = self.ks_get_gcd(Math.round(count_1), Math.round(count_2));
-//                        if (count_1 && count_2) {
-//                            item_info['count_tooltip'] = count_1 / gcd + ":" + count_2 / gcd;
-//                            item_info['count'] = self.ksNumFormatter(count_1 / gcd, 1) + ":" + self.ksNumFormatter(count_2 / gcd, 1);
-//                        } else {
-//                            item_info['count_tooltip'] = count_1 + ":" + count_2;
-//                            item_info['count'] = self.ksNumFormatter(count_1, 1) + ":" + self.ksNumFormatter(count_2, 1);
-//                        }
-
-                          if (field.ks_data_format == 'exact'){
-                            if (count_1 && count_2) {
-                            item_info['count_tooltip'] = count_1 / gcd + ":" + count_2 / gcd;
-                            item_info['count'] = count_1 / gcd + ":" + count_2 / gcd;
-                            } else {
-                            item_info['count_tooltip'] = count_1 + ":" + count_2;
-                            item_info['count'] = count_1 + ":" + count_2
-                                   }
-                          }else{
-                            if (count_1 && count_2) {
+                        if (count_1 && count_2) {
                             item_info['count_tooltip'] = count_1 / gcd + ":" + count_2 / gcd;
                             item_info['count'] = self.ksNumFormatter(count_1 / gcd, 1) + ":" + self.ksNumFormatter(count_2 / gcd, 1);
-                            }
-                            else {
+                        } else {
                             item_info['count_tooltip'] = count_1 + ":" + count_2;
                             item_info['count'] = self.ksNumFormatter(count_1, 1) + ":" + self.ksNumFormatter(count_2, 1);
-                                  }
-                          }
+                        }
                         item_info['target_enable'] = false;
                         $kpi_preview = $(Qweb.render("ks_kpi_preview_template_2", item_info));
                         break;

@@ -23,8 +23,8 @@
     'data': [
         # 'security/ir.model.access.csv',
         # 'security/user_groups.xml',
-        # 'data/sequence.xml',
-        # 'views/views.xml',
+        'data/sequence.xml',
+        'views/views.xml',
         # 'views/templates.xml',
     ],
 }

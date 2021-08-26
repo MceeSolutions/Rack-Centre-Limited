@@ -91,7 +91,7 @@
                                 <div class="form-group">
                                     <h4> Equipment information </h4>
                                 </div>
-                                <div class="form-group s_website_form_field col-12 s_website_form_custom s_website_form_required" data-type="char" data-name="Field">
+                                <!-- <div class="form-group s_website_form_field col-12 s_website_form_custom s_website_form_required" data-type="char" data-name="Field">
                                     <div class="row s_col_no_resize s_col_no_bgcolor">
                                         <label class="col-form-label col-sm-auto s_website_form_label " style="width: 250px" for="equipment_contact_person">
                                             <span class="s_website_form_label_content">Equipment contact person</span>
@@ -167,7 +167,50 @@
                                             <input type="text" class="form-control s_website_form_input" name="ip_address" required="1" id="ip_address"/>
                                         </div>
                                     </div>
+                                </div> -->
+
+                                <div class="equipments">
+                                    <div class="row">
+                                        <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-2" data-type="char" data-name="Field">
+                                            <label class="s_website_form_label " style="width: 200px" for="machine_name">
+                                                <span class="s_website_form_label_content">Name</span>
+                                            </label>
+                                            <input type="text" class="form-control s_website_form_input" name="machine_name"/>
+                                        </div>
+                                        <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-2" data-type="char" data-name="Field">
+                                            <label class="s_website_form_label " style="width: 200px" for="serial_number">
+                                                <span class="s_website_form_label_content">Serial Number</span>
+                                            </label>
+                                            <input type="text" class="form-control s_website_form_input" name="serial_number"/>
+                                        </div>
+                                        <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-2" data-type="char" data-name="Field">
+                                            <label class="s_website_form_label " style="width: 200px" for="manufacturer">
+                                                <span class="s_website_form_label_content">Manufacturer</span>
+                                            </label>
+                                            <input type="text" class="form-control s_website_form_input" name="manufacturer"/>
+                                        </div>
+                                        <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-2" data-type="char" data-name="Field">
+                                            <label class="s_website_form_label " style="width: 200px" for="model">
+                                                <span class="s_website_form_label_content">Model</span>
+                                            </label>
+                                            <input type="text" class="form-control s_website_form_input" name="model"/>
+                                        </div>
+                                        <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-2" data-type="char" data-name="Field">
+                                            <label class="s_website_form_label " style="width: 200px" for="operating_system">
+                                                <span class="s_website_form_label_content">Operating System</span>
+                                            </label>
+                                            <input type="text" class="form-control s_website_form_input" name="operating_system"/>
+                                        </div>
+                                        <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-2" data-type="char" data-name="Field">
+                                            <label class="s_website_form_label " style="width: 200px" for="ip_address">
+                                                <span class="s_website_form_label_content">IP Address</span>
+                                            </label>
+                                            <input type="text" class="form-control s_website_form_input" name="ip_address"/>
+                                        </div>
+                                    </div>
                                 </div>
+                                <p><a id="add-more-equipments" href="#" class="pull-right">+ Add more</a></p>
+                                
                                 <!-- <div class="form-group s_website_form_field col-12 s_website_form_custom s_website_form_required" data-type="char" data-name="Field">
                                     <div class="row s_col_no_resize s_col_no_bgcolor">
                                         <label class="col-form-label col-sm-auto s_website_form_label " style="width: 250px" for="currect_rack_location">
@@ -191,7 +234,7 @@
                                     </div>
                                 </div> -->
 
-                                <div class="form-group s_website_form_field col-12 s_website_form_custom s_website_form_required " data-type="char" data-name="Field">
+                                            <div class="form-group s_website_form_field col-12 s_website_form_custom s_website_form_required " data-type="char" data-name="Field">
                                                 <div class="row s_col_no_resize s_col_no_bgcolor">
                                                 <label class="col-form-label col-sm-auto s_website_form_label " style="width: 200px" for="location_from">
                                                     <span class="s_website_form_label_content">Current rack location</span>
@@ -202,8 +245,8 @@
                                                             <span class="s_website_form_label_content">Floor</span>
                                                         </label>
                                                         <select class="form-control o_website_form_input" name="src_floor" id="src_floor">
-                                                            <option value="1">Ground Floor</option>
-                                                            <option value="2">Top Floor</option>
+                                                            <option value="Ground Floor">Ground Floor</option>
+                                                            <option value="Top Floor">Top Floor</option>
                                                         </select>
                                                     </div>
 
@@ -228,8 +271,8 @@
                                                             <span class="s_website_form_label_content">Rack Location</span>
                                                         </label>
                                                         <select class="form-control o_website_form_input" name="src_rack_location" id="src_rack_location">
-                                                            <option value="1">Left</option>
-                                                            <option value="2">Right</option>
+                                                            <option value="Left">Left</option>
+                                                            <option value="Right">Right</option>
                                                         </select>
                                                     </div>
 
@@ -237,39 +280,39 @@
                                                         <label class="s_website_form_label " style="width: 200px" for="src_rack_number">
                                                             <span class="s_website_form_label_content">Rack Number</span>
                                                         </label>
-                                                        <input type="text" class="form-control s_website_form_input" name="src_rack_number" placeholder="" id="src_rack_number"/>
+                                                        <input type="number" class="form-control s_website_form_input" name="src_rack_number" placeholder="" id="src_rack_number"/>
                                                     </div>
 
                                                     <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-2" data-type="char" data-name="Field">
                                                         <label class="s_website_form_label " style="width: 200px" for="src_uspace">
                                                             <span class="s_website_form_label_content">U-Space</span>
                                                         </label>
-                                                        <input type="text" class="form-control s_website_form_input" name="src_uspace" placeholder="" id="src_uspace"/>
+                                                        <input type="number" class="form-control s_website_form_input" name="src_uspace" placeholder="" id="src_uspace"/>
                                                     </div>
                                                 </div>
                                             </div>
 
                                             <div class="form-group s_website_form_field col-12 s_website_form_custom s_website_form_required " data-type="char" data-name="Field">
                                                 <div class="row s_col_no_resize s_col_no_bgcolor">
-                                                <label class="col-form-label col-sm-auto s_website_form_label " style="width: 200px" for="location_to">
+                                                <label class="col-form-label col-sm-auto s_website_form_label " style="width: 200px" for="new_rack_location">
                                                     <span class="s_website_form_label_content">New rack location</span>
                                                     <span class="s_website_form_mark" style="color:Red;">*</span>
                                                 </label>
                                                     <div class="form-group s_website_form_field s_website_form_required col-lg-2" data-type="char" data-name="Field">
-                                                        <label class="s_website_form_label " style="width: 200px" for="location_from">
+                                                        <label class="s_website_form_label " style="width: 200px" for="dest_floor">
                                                             <span class="s_website_form_label_content">Floor</span>
                                                         </label>
-                                                        <select class="form-control o_website_form_input" name="number_of_xconnect" id="number_of_xconnect">
-                                                            <option value="1">Ground Floor</option>
-                                                            <option value="2">Top Floor</option>
+                                                        <select class="form-control o_website_form_input" name="dest_floor" id="dest_floor">
+                                                            <option value="Ground Floor">Ground Floor</option>
+                                                            <option value="Top Floor">Top Floor</option>
                                                         </select>
                                                     </div>
 
                                                     <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-1" data-type="char" data-name="Field">
-                                                        <label class="s_website_form_label " style="width: 200px" for="location_from">
+                                                        <label class="s_website_form_label " style="width: 200px" for="dest_it_room">
                                                             <span class="s_website_form_label_content">IT Room</span>
                                                         </label>
-                                                        <select class="form-control o_website_form_input" name="number_of_xconnect" id="number_of_xconnect">
+                                                        <select class="form-control o_website_form_input" name="dest_it_room" id="dest_it_room">
                                                             <option value="1">1</option>
                                                             <option value="2">2</option>
                                                             <option value="3">3</option>
@@ -282,27 +325,27 @@
                                                     </div>
 
                                                     <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-2" data-type="char" data-name="Field">
-                                                        <label class="s_website_form_label " style="width: 200px" for="location_from">
+                                                        <label class="s_website_form_label " style="width: 200px" for="dest_rack_location">
                                                             <span class="s_website_form_label_content">Rack Location</span>
                                                         </label>
-                                                        <select class="form-control o_website_form_input" name="number_of_xconnect" id="number_of_xconnect">
-                                                            <option value="1">Left</option>
-                                                            <option value="2">Right</option>
+                                                        <select class="form-control o_website_form_input" name="dest_rack_location" id="dest_rack_location">
+                                                            <option value="Left">Left</option>
+                                                            <option value="Right">Right</option>
                                                         </select>
                                                     </div>
 
                                                     <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-2" data-type="char" data-name="Field">
-                                                        <label class="s_website_form_label " style="width: 200px" for="location_from">
+                                                        <label class="s_website_form_label " style="width: 200px" for="dest_rack_number">
                                                             <span class="s_website_form_label_content">Rack Number</span>
                                                         </label>
-                                                        <input type="text" class="form-control s_website_form_input" name="location_from" placeholder="" id="location_from"/>
+                                                        <input type="number" class="form-control s_website_form_input" name="dest_rack_number" placeholder="" id="dest_rack_number"/>
                                                     </div>
 
                                                     <div class="form-group s_website_form_field col-12 s_website_form_required col-lg-2" data-type="char" data-name="Field">
-                                                        <label class="s_website_form_label " style="width: 200px" for="location_from">
+                                                        <label class="s_website_form_label " style="width: 200px" for="dest_uspace">
                                                             <span class="s_website_form_label_content">U-Space</span>
                                                         </label>
-                                                        <input type="text" class="form-control s_website_form_input" name="location_from" placeholder="" id="location_from"/>
+                                                        <input type="number" class="form-control s_website_form_input" name="dest_uspace" placeholder="" id="dest_uspace"/>
                                                     </div>
                                                 </div>
                                             </div>
@@ -549,7 +592,7 @@
 
                         <div class="row mb-4">
                             <!-- <strong>Equipment information:</strong> <br/> -->
-                            <div class="col-12 col-md-12">
+                            <!-- <div class="col-12 col-md-12">
                                 <strong>Equipment contact person:</strong> <span t-field="equipment_relocation.equipment_contact_person"/>
                             </div>
                             <div class="col-12 col-md-12">
@@ -569,7 +612,52 @@
                             </div>
                             <div class="col-12 col-md-12">
                                 <strong>IP Address:</strong> <span t-field="equipment_relocation.ip_address"/>
+                            </div> -->
+
+
+                            <div class="col-12 col-md-12 mb-1">
+                                <br/>
+                                <h4>Equipment Information</h4>
+                                <table class="table table-sm">
+                                    <thead class="bg-100">
+                                        <tr>
+                                            <th>Machine Name</th>
+                                            <th>Serial Number</th>
+                                            <th>Manufacturer</th>
+                                            <th>Model</th>
+                                            <th>Operating System</th>
+                                            <th>IP Address</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="equipment_relocation.equipment_line_ids" t-as="ol">
+                                            <tr t-att-class="'bg-200 o_line_section'">
+                                                <t>
+                                                    <td>
+                                                        <span t-esc="ol.name"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="ol.serial_number"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-esc="ol.manufacturer"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="ol.model"/>
+                                                    </td>
+                                                     <td>
+                                                        <span t-field="ol.operating_system"/>
+                                                    </td>
+                                                     <td>
+                                                        <span t-field="ol.ip_address"/>
+                                                    </td>
+                                                </t>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
                             </div>
+
                             <div class="col-12 col-md-12">
                                 <strong>Current rack location and Rack Label:</strong> <span t-field="equipment_relocation.currect_rack_location"/>
                             </div>

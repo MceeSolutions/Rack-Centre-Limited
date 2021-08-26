@@ -60,7 +60,7 @@ odoo.define('ks_dashboard_tv_ninja.ks_list_view_preview', function(require){
                     for (var j = 0; j < list_view_data.data_rows[0]["data"].length; j++) {
                         if (typeof(list_view_data.data_rows[i].data[j]) === "number" || list_view_data.data_rows[i].data[j]) {
                             if (typeof(list_view_data.data_rows[i].data[j]) === "number") {
-                                list_view_data.data_rows[i].data[j] = field_utils.format.float(list_view_data.data_rows[i].data[j], Float64Array, {digits: [0, field.ks_precision_digits]})
+                                list_view_data.data_rows[i].data[j] = field_utils.format.float(list_view_data.data_rows[i].data[j], Float64Array)
                             }
                         } else {
                             list_view_data.data_rows[i].data[j] = "";
@@ -84,11 +84,11 @@ odoo.define('ks_dashboard_tv_ninja.ks_list_view_preview', function(require){
             if (!this.recordData.ks_show_records === true) {
                 $listViewContainer.find('#ks_item_info').hide();
             }
-//            if (count && field.ks_data_calculation_type === 'custom'){
-//                $listViewContainer.find('tbody').append($(QWeb.render('ks_record_more',{
-//                    count:count,
-//                })));
-//            }
+            if (count && field.ks_data_calculation_type === 'custom'){
+                $listViewContainer.find('tbody').append($(QWeb.render('ks_record_more',{
+                    count,count,
+                })));
+            }
 
             this.$el.append($listViewContainer);
         },

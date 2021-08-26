@@ -87,7 +87,24 @@ class DeviceOnboarding(models.Model):
             vals['ref'] = self.env['ir.sequence'].next_by_code('change.request') or '/'
         res = super(DeviceOnboarding, self).create(vals)
         res.action_alert_manager()
+        res.create_change_summary()
         return res 
+    
+    def create_change_summary(self):
+        val = {
+            'name': self.name,
+            'ref': self.ref,
+            'change_type': self.change_type,
+            'change_category': 'onboarding',
+            'partner_id': self.partner_id.id,
+            # 'actual_start_date': self.scheduled_start_date,
+            # 'actual_end_date': self.scheduled_end_date,
+            # 'closure_date_time': self.create_date,
+            # 'coordinator_group_id': self.coordinator_group_id.id,
+            'submit_date': self.create_date,
+            'priority': self.priority,
+        }
+        self.env['change.summary'].sudo().create(val) 
     
     #alerts cc
     def action_alert_manager(self):

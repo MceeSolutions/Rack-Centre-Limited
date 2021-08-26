@@ -71,18 +71,15 @@
                                         <field name="manufacturer"/>
                                         <field name="model"/>
                                         <field name="serial_numbers"/>
-
                                         <field name="power_requirements"/>
-
                                         <field name="power"/>
-                                        <field name="u_space"/>
-
+                                        <!-- <field name="u_space"/> -->
                                         <field name="power_redendancy"/>
 
-                                        <field name="type_of_airflow"/>
+                                        <!-- <field name="type_of_airflow"/> -->
                                         <!-- <field name="airflow_others"/> -->
 
-                                        <field name="rack_mountkits_avilable"/>
+                                        <!-- <field name="rack_mountkits_avilable"/> -->
                                     </tree>
                                 </field>
                             </group>

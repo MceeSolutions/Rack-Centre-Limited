@@ -108,28 +108,6 @@ odoo.define('ks_dashboard_ninja_list.ks_dashboard_graph_preview', function(requi
             this.chart_type = this.recordData.ks_dashboard_item_type.split('_')[1];
             this.chart_data = JSON.parse(this.recordData.ks_chart_data);
 
-            if (field.ks_chart_cumulative_field){
-
-                for (var i=0; i< this.chart_data.datasets.length; i++){
-                    var ks_temp_com = 0
-                    var datasets = {}
-                    var data = []
-                    if (this.chart_data.datasets[i].ks_chart_cumulative_field){
-                        for (var j=0; j < this.chart_data.datasets[i].data.length; j++)
-                            {
-                                ks_temp_com = ks_temp_com + this.chart_data.datasets[i].data[j];
-                                data.push(ks_temp_com);
-                            }
-                            datasets.label =  'Cumulative' + this.chart_data.datasets[i].label;
-                            datasets.data = data;
-                             if (field.ks_chart_cumulative){
-                                datasets.type =  'line';
-                            }
-                            this.chart_data.datasets.push(datasets);
-                    }
-                }
-            }
-
             var $chartContainer = $(QWeb.render('ks_chart_form_view_container', {
                 ks_chart_name: ks_chart_name
             }));
@@ -194,14 +172,14 @@ odoo.define('ks_dashboard_ninja_list.ks_dashboard_graph_preview', function(requi
                                 var ks_selection = self.chart_data.ks_selection;
                                 if (ks_selection === 'monetary') {
                                     var ks_currency_id = self.chart_data.ks_currency;
-                                    var ks_data = KsGlobalFunction._onKsGlobalFormatter(value, self.recordData.ks_data_format);
-                                        ks_data = KsGlobalFunction.ks_monetary(ks_data, ks_currency_id);
+                                    var ks_data = KsGlobalFunction.ksNumFormatter(value, 1);
+                                    ks_data = KsGlobalFunction.ks_monetary(ks_data, ks_currency_id);
                                     return ks_data;
                                 } else if (ks_selection === 'custom') {
                                     var ks_field = self.chart_data.ks_field;
-                                    return KsGlobalFunction._onKsGlobalFormatter(value, self.recordData.ks_data_format) + ' ' + ks_field;
-                                }else {
-                                    return KsGlobalFunction._onKsGlobalFormatter(value, self.recordData.ks_data_format);
+                                    return KsGlobalFunction.ksNumFormatter(value, 1) + ' ' + ks_field;
+                                } else {
+                                    return KsGlobalFunction.ksNumFormatter(value, 1);
                                 }
                             },
                         }
@@ -435,17 +413,17 @@ odoo.define('ks_dashboard_ninja_list.ks_dashboard_graph_preview', function(requi
 
                 options.plugins.datalabels.formatter = function(value, ctx) {
                     var ks_self = self;
-                    var ks_selection = self.chart_data.ks_selection;
+                    var ks_selection = ks_self.chart_data.ks_selection;
                     if (ks_selection === 'monetary') {
-                        var ks_currency_id = self.chart_data.ks_currency;
-                        var ks_data = KsGlobalFunction._onKsGlobalFormatter(value, self.recordData.ks_data_format);
-                            ks_data = KsGlobalFunction.ks_monetary(ks_data, ks_currency_id);
+                        var ks_currency_id = ks_self.chart_data.ks_currency;
+                        var ks_data = KsGlobalFunction.ksNumFormatter(value, 1);
+                        ks_data = KsGlobalFunction.ks_monetary(ks_data, ks_currency_id);
                         return ks_data;
                     } else if (ks_selection === 'custom') {
-                        var ks_field = self.chart_data.ks_field;
-                        return KsGlobalFunction._onKsGlobalFormatter(value, self.recordData.ks_data_format) + ' ' + ks_field;
-                    }else {
-                        return KsGlobalFunction._onKsGlobalFormatter(value, self.recordData.ks_data_format);
+                        var ks_field = ks_self.chart_data.ks_field;
+                        return KsGlobalFunction.ksNumFormatter(value, 1) + ' ' + ks_field;
+                    } else {
+                        return KsGlobalFunction.ksNumFormatter(value, 1);
                     }
                 };
 
@@ -459,17 +437,17 @@ odoo.define('ks_dashboard_ninja_list.ks_dashboard_graph_preview', function(requi
                 if (chartType === "horizontalBar") {
                     options.scales.xAxes[0].ticks.callback = function(value, index, values) {
                         var ks_self = self;
-                        var ks_selection = self.chart_data.ks_selection;
+                        var ks_selection = ks_self.chart_data.ks_selection;
                         if (ks_selection === 'monetary') {
-                            var ks_currency_id = self.chart_data.ks_currency;
-                            var ks_data = KsGlobalFunction._onKsGlobalFormatter(value, self.recordData.ks_data_format);
-                                ks_data = KsGlobalFunction.ks_monetary(ks_data, ks_currency_id);
+                            var ks_currency_id = ks_self.chart_data.ks_currency;
+                            var ks_data = KsGlobalFunction.ksNumFormatter(value, 1);
+                            ks_data = KsGlobalFunction.ks_monetary(ks_data, ks_currency_id);
                             return ks_data;
                         } else if (ks_selection === 'custom') {
-                            var ks_field = self.chart_data.ks_field;
-                            return KsGlobalFunction._onKsGlobalFormatter(value, self.recordData.ks_data_format) + ' ' + ks_field;
-                        }else {
-                            return KsGlobalFunction._onKsGlobalFormatter(value, self.recordData.ks_data_format);
+                            var ks_field = ks_self.chart_data.ks_field;
+                            return KsGlobalFunction.ksNumFormatter(value, 1) + ' ' + ks_field;
+                        } else {
+                            return KsGlobalFunction.ksNumFormatter(value, 1);
                         }
                     }
                     options.scales.xAxes[0].ticks.beginAtZero = true;
@@ -477,17 +455,16 @@ odoo.define('ks_dashboard_ninja_list.ks_dashboard_graph_preview', function(requi
                     options.scales.yAxes[0].ticks.callback = function(value, index, values) {
                         var ks_self = self;
                         var ks_selection = ks_self.chart_data.ks_selection;
-                        var ks_selection = self.chart_data.ks_selection;
                         if (ks_selection === 'monetary') {
-                            var ks_currency_id = self.chart_data.ks_currency;
-                            var ks_data = KsGlobalFunction._onKsGlobalFormatter(value, self.recordData.ks_data_format);
-                                ks_data = KsGlobalFunction.ks_monetary(ks_data, ks_currency_id);
+                            var ks_currency_id = ks_self.chart_data.ks_currency;
+                            var ks_data = KsGlobalFunction.ksNumFormatter(value, 1);
+                            ks_data = KsGlobalFunction.ks_monetary(ks_data, ks_currency_id);
                             return ks_data;
                         } else if (ks_selection === 'custom') {
-                            var ks_field = self.chart_data.ks_field;
-                            return KsGlobalFunction._onKsGlobalFormatter(value, self.recordData.ks_data_format) + ' ' + ks_field;
-                        }else {
-                            return KsGlobalFunction._onKsGlobalFormatter(value, self.recordData.ks_data_format);
+                            var ks_field = ks_self.chart_data.ks_field;
+                            return KsGlobalFunction.ksNumFormatter(value, 1) + ' ' + ks_field;
+                        } else {
+                            return KsGlobalFunction.ksNumFormatter(value, 1);
                         }
                     }
                 }

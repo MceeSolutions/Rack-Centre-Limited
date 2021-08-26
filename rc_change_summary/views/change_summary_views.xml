@@ -1,0 +1,79 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+
+    <record model="ir.ui.view" id="rc_change_summary_list">
+      <field name="name">Change Summary</field>
+      <field name="model">change.summary</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="ref"/>
+          <field name="partner_id"/>
+          <field name="status"/>
+        </tree>
+      </field>
+    </record>
+
+    <!-- explicit form view definition -->
+    <record model="ir.ui.view" id="rc_change_summary_view">
+        <field name="name">change.summary.view</field>
+        <field name="model">change.summary</field>
+        <field name="priority" eval="2"/>
+        <field name="arch" type="xml">
+            <form string="change summary">
+                
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name"/></h1>
+                    </div>
+
+                    <group col="4" string="Client Details">
+                        <field name="partner_id" widget="res_partner_many2one" context="{'res_partner_search_mode': 'customer', 'show_address': 1, 'show_vat': True}" options="{&quot;always_reload&quot;: True}"/>
+                        <field name="ref"/>
+                    </group>
+
+                    <group col="4">
+                        <field name="priority" widget="priority"/>
+                        <field name="change_type"/>
+                    </group>
+
+                    <notebook>
+                      <page string="Change Parameters">
+                        <group col="4">
+                            <field name="coordinator_group_id"/>
+                            <field name="change_category"/>
+                            <field name="change_execution_status"/>
+                        </group>
+                      </page>
+                    </notebook>
+
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- actions opening views on models -->
+
+    <record model="ir.actions.act_window" id="rc_change_summary_action_window">
+      <field name="name">Change Summary</field>
+      <field name="res_model">change.summary</field>
+      <field name="view_mode">tree,form,pivot,graph</field>
+      <field name="domain">[]</field>
+      <field name="context">{}</field>
+    </record>
+
+    <!-- Top menu item -->
+    <menuitem
+        name="Change Summary"
+        parent="rc_service.rc_change_request_service_menu"
+        id="menu_rc_change_summary" action="rc_change_summary_action_window" sequence="3"/>
+
+  </data>
+</odoo>
