@@ -65,8 +65,8 @@ class AccessRequest(models.Model):
     request_date = fields.Date(string='Request Date', default=date.today())
 
     #Approvals
-    approver_id = fields.Many2one(comodel_name="res.users", string='Approved By', readonly=True)
-    approver_date = fields.Date(string='Approved Date', readonly=True)
+    approver_id = fields.Many2one(comodel_name="res.users", string='Approved By')
+    approver_date = fields.Date(string='Approved Date')
 
     access_request_line_ids = fields.One2many('access.request.lines', 'access_request_id', string="Visitors", copy=True, auto_join=True)
 

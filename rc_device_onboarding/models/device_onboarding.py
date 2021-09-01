@@ -19,14 +19,27 @@ class DeviceOnboarding(models.Model):
         ('reject', 'Rejected'),
         ], string='Approval Status', readonly=False, index=True, copy=False, default='draft', tracking=True)
 
-    ref = fields.Char(string='Order Reference', readonly=True, required=True, index=True, copy=False, default='New')
+    change_state = fields.Selection([
+        ('draft', 'Draft'),
+        ('scheduled_for_approval', 'Scheduled For Approval'),
+        ('scheduled', 'Scheduled'),
+        ('request_for_authorization', 'Request For Authorization'),
+        ('planning_in_progress', 'Planning In Progress'),
+        ('pending', 'Pending'),
+        ('implementation_in_progress', 'Implementation In Progress'),
+        ('completed', 'Completed'),
+        ('closed', 'Closed'),
+        ], string='Status', readonly=False, index=True, copy=False, default='draft', tracking=True)
+        
+    ref = fields.Char(string='Change ID', readonly=True, required=True, index=True, copy=False, default='New')
+    change_id = fields.Char(string='Change ID')
 
-    name = fields.Char(string='Summary', required=True, copy=False)
+    name = fields.Char(string='Subject / Summary', required=True, copy=False)
 
     partner_id = fields.Many2one(comodel_name="res.partner", string='Requested For')
     user_id = fields.Many2one(comodel_name="res.users", string='Requested By')
 
-    ref = fields.Char(string='Order Reference', readonly=True, required=True, index=True, copy=False, default='New')
+    # ref = fields.Char(string='Order Reference', readonly=True, required=True, index=True, copy=False, default='New')
 
     #Contact Information
     partner_name = fields.Char(string='Partner Name')
@@ -35,7 +48,7 @@ class DeviceOnboarding(models.Model):
     contact_tel = fields.Char(string='Telephone Numbers')
     date = fields.Char(string='Date')
 
-    company_name = fields.Char(string='Client Organization Name')
+    company_name = fields.Char(string='Client')
     partner_contact_person = fields.Char(string='Contact Person')
     partner_business_address = fields.Char(string='Business Address')
     partner_contact_email = fields.Char(string='Email address')
@@ -73,7 +86,28 @@ class DeviceOnboarding(models.Model):
         ('minor', 'Minor'),
         ('major', 'Major'),
         ], string='Change Type', default='minor', tracking=True, compute='_compute_change_type')
-        
+    
+    impact = fields.Selection([('1', '1-Extensive/Widespread'),('2', '2-Significant/Large'),('3', '3-Moderate/Limited'),('4', '4-Minor/Localized')], string='Impact', tracking=True)
+    urgency = fields.Selection([
+        ('low', '4-Low'),
+        ('mid', '3-Medium'),
+        ('high', '2-High'),
+        ('critical', '1-Critical'),
+        ], string='Urgency', tracking=True)
+    change_class = fields.Selection([
+        ('emergency', 'Emergency'),
+        ('no_impact', 'No Impact'),
+        ('normal', 'Normal'),
+        ('standard', 'Standard'),
+        ], string='Class')
+
+    actual_start_date = fields.Datetime(string='Actual Start Date & Time')
+    actual_end_date = fields.Datetime(string='Actual End Date & time')
+    close_date = fields.Datetime(string='Close Date & time')
+    change_coordinator = fields.Char(string='Change Coordinator')
+    change_manager = fields.Char(string='Change Manager')
+    submit_date = fields.Datetime(string='Submit Date')
+
     def _compute_change_type(self):
         for type in self:
             if type.priority == '0' or type.priority == '1' or type.priority == '2':

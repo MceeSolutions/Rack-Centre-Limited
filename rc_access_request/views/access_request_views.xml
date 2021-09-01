@@ -100,8 +100,8 @@
                     </group>
 
                     <group string='Approval' col="4">
-                        <field name="approver_id"/>
-                        <field name="approver_date"/>
+                        <field name="approver_id" readonly="1"/>
+                        <field name="approver_date" readonly="1"/>
                     </group>
                 </sheet>
                 <div class="oe_chatter">
