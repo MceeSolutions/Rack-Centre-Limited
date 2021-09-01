@@ -18,11 +18,24 @@ class CrossConnect(models.Model):
         ('approved', 'Service Delivery Approved'),
         ('reject', 'Rejected'),
         ], string='Approval Status', readonly=False, index=True, copy=False, default='draft', tracking=True)
+
+    change_state = fields.Selection([
+        ('draft', 'Draft'),
+        ('scheduled_for_approval', 'Scheduled For Approval'),
+        ('scheduled', 'Scheduled'),
+        ('request_for_authorization', 'Request For Authorization'),
+        ('planning_in_progress', 'Planning In Progress'),
+        ('pending', 'Pending'),
+        ('implementation_in_progress', 'Implementation In Progress'),
+        ('completed', 'Completed'),
+        ('closed', 'Closed'),
+        ], string='Status', readonly=False, index=True, copy=False, default='draft', tracking=True)
     
-    name = fields.Char(string='Subject', required=True, copy=False)
+    name = fields.Char(string='Subject / Summary', required=True, copy=False)
 
     partner_id = fields.Many2one(comodel_name="res.partner", string='Client')
 
+    change_id = fields.Char(string='Change ID')
     ref = fields.Char(string='Order Reference', readonly=True, required=True, index=True, copy=False, default='New')
 
     #client category
@@ -92,19 +105,19 @@ class CrossConnect(models.Model):
         ], string='Change Type', default='minor', tracking=True, compute='_compute_change_type')
 
     coordinator_group_id = fields.Many2one(comodel_name="coordinator.group", string='Coordinator Group')
+    manager_group_id = fields.Many2one(comodel_name="res.users", string='Manager Group')
+
     service = fields.Char(string='Service')
     summary = fields.Char(string='Summary')
     change_class = fields.Char(string='Class')
     change_reason = fields.Char(string='Change Reason')
     target_date = fields.Date(string='Target date')
-    impact = fields.Selection([
-        ('minor', 'Minor/Localized'),
-        ('major', 'Major'),
-        ], string='Impact', tracking=True)
+    impact = fields.Selection([('1', '1-Extensive/Widespread'),('2', '2-Significant/Large'),('3', '3-Moderate/Limited'),('4', '4-Minor/Localized')], string='Impact', tracking=True)
     urgency = fields.Selection([
-        ('low', 'Low'),
-        ('mid', 'Medium'),
-        ('high', 'Hign'),
+        ('low', '4-Low'),
+        ('mid', '3-Medium'),
+        ('high', '2-High'),
+        ('critical', '1-Critical'),
         ], string='Urgency', tracking=True)
     priority = fields.Selection([
         ('0', 'Nil'),
@@ -118,12 +131,26 @@ class CrossConnect(models.Model):
         ('minor', 'Minor'),
         ('major', 'Major'),
         ], string='Change Type', default='minor', tracking=True, compute='_compute_change_type')
+    
+    change_class = fields.Selection([
+        ('emergency', 'Emergency'),
+        ('no_impact', 'No Impact'),
+        ('normal', 'Normal'),
+        ('standard', 'Standard'),
+        ], string='Class')
 
     risk_level = fields.Char(string='Risk Level')
     manager_group = fields.Char(string='Manager Group')
 
-    scheduled_start_date = fields.Date(string='Scheduled Start Date & Time')
-    scheduled_end_date = fields.Date(string='Scheduled End Date & time')
+    actual_start_date = fields.Datetime(string='Actual Start Date & Time')
+    actual_end_date = fields.Datetime(string='Actual End Date & time')
+    close_date = fields.Datetime(string='Close Date & time')
+    change_coordinator = fields.Char(string='Change Coordinator')
+    change_manager = fields.Char(string='Change Manager')
+    submit_date = fields.Datetime(string='Submit Date')
+
+    scheduled_start_date = fields.Datetime(string='Scheduled Start Date & Time')
+    scheduled_end_date = fields.Datetime(string='Scheduled End Date & time')
 
     scope_and_impact = fields.Text(string='Scope and Impact of Change')
     docs_impacted = fields.Char(string='Documents Impacted')

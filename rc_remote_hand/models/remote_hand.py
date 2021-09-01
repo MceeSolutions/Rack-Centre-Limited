@@ -10,7 +10,7 @@ class RemoteHand(models.Model):
     _inherit = ['portal.mixin', 'mail.activity.mixin', 'mail.thread', 'timer.mixin']
     _order = 'create_date DESC'
 
-    name = fields.Char(string='Subject', required=True, copy=False)
+    name = fields.Char(string='Subject / Reason For Visit', required=True, copy=False)
     state = fields.Selection([
         ('draft', 'New'),
         ('submit', 'Submitted'),
@@ -26,8 +26,9 @@ class RemoteHand(models.Model):
         ('Complete', 'Complete'),
         ], string='Status', copy=False, compute='_compute_portal_state')
 
-    # ref = fields.Char(string='Service ID', readonly=True, required=True, index=True, copy=False, default='New')
-    ref = fields.Char(string='Service ID', copy=False, default='New')
+    ref = fields.Char(string='Service ID', readonly=True, required=True, index=True, copy=False, default='New')
+    sevice_id  = fields.Char(string='Service Request ID')
+
     legend = fields.Char(string='Legend')
     description = fields.Char(string='Description')
     user_id = fields.Many2one(comodel_name="res.users", string='Requested By')
