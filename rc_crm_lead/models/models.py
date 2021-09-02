@@ -38,6 +38,9 @@ class Lead(models.Model):
     pal = fields.Float(string='PAL')
     cabinet = fields.Float(string='Cabinet')
 
+    cabinet_foot_print = fields.Char(string='Cabinet Foot print')
+    pal_cabinet = fields.Char(string='PAL/Cabinet')
+
     pal_currency = fields.Float(string='PAL $', default=450)
     cabinet_currency = fields.Float(string='Cabinet $', default=900)
 
