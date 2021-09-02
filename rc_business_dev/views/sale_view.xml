@@ -31,6 +31,9 @@
             	    <field name="amount_total_monthly_recurring_charge" widget="monetary" options="{'currency_field': 'currency_id'}"/>
             	    <field name="amount_total_yearly_recurring_charge" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                 </field>
+                <field name="payment_term_id" position="after">
+            	    <field name="msa_number"/>
+                </field>
             </field>
         </record>
 

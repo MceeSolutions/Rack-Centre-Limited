@@ -71,3 +71,13 @@ class Lead(models.Model):
     
     def _get_default_contact_name(self):
         self.contact_name = self.last_name + self.first_name
+
+    @api.onchange('stage_id')
+    def _onchange_stage_id(self):
+        self.probability = self.stage_id.stage_probability
+
+class Stage(models.Model):
+    _inherit = 'crm.stage'
+
+    stage_probability = fields.Float(string='Stage Probability')
+

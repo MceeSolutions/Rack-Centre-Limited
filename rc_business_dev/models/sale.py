@@ -14,6 +14,15 @@ class SaleOrder(models.Model):
     amount_total_monthly_recurring_charge = fields.Monetary(string='Monthly Recurring Charge', store=True, readonly=True, compute='_amount_recurring_charges', tracking=4)
     amount_total_yearly_recurring_charge = fields.Monetary(string='Yearly Recurring Charge:', store=True, readonly=True, compute='_amount_recurring_charges', tracking=4)
 
+    msa_number = fields.Char(string='MSA Number', readonly=True, index=True, copy=False, default='New')
+
+    @api.model
+    def create(self, vals):
+        if vals.get('msa_number', 'New') == 'New':
+            vals['msa_number'] = self.env['ir.sequence'].next_by_code('sale.order.msa_number') or '/'
+        res = super(SaleOrder, self).create(vals)
+        return res
+
     @api.depends("order_line.discount")
     def check_if_above_limit(self):
         discount_limit = self.env['ir.config_parameter'].get_param('rc_business_dev.discount_limit')
