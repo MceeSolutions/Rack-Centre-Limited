@@ -19,6 +19,7 @@
 
     'data': [
         'security/user_groups.xml',
+        'data/sequence.xml',
         'views/sale_view.xml',
         'views/res_config_settings_view.xml',
     ],

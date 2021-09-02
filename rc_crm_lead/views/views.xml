@@ -33,6 +33,9 @@
                         <field name="pal_currency" required="1"/>
                         <field name="cabinet_currency" required="1"/>
 
+                        <field name="cabinet_foot_print"/>
+                        <field name="pal_cabinet"/>
+
                         <field name="discount_cabinet"/>
                         <field name="discount_pal"/>
                         <field name="blended_rate"/>
@@ -41,6 +44,31 @@
                         <field name="weighted_pal"/>
                     </group>
                 </xpath>
+                <field name="source_id" position="after">
+            	    <field name="industry_id" attrs="{'invisible': [('type', '!=', 'opportunity')]}"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="rc_crm_stage_tree" model="ir.ui.view">
+            <field name="name">rc.crm.stage.tree</field>
+            <field name="model">crm.stage</field>
+            <field name="inherit_id" ref="crm.crm_stage_tree" />
+            <field name="arch" type="xml">
+                <field name="team_id" position="after">
+            	    <field name="stage_probability"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="rc_crm_stage_form" model="ir.ui.view">
+            <field name="name">rc.crm.stage.form</field>
+            <field name="model">crm.stage</field>
+            <field name="inherit_id" ref="crm.crm_stage_form" />
+            <field name="arch" type="xml">
+                <field name="team_id" position="after">
+            	    <field name="stage_probability"/>
+                </field>
             </field>
         </record>
 
