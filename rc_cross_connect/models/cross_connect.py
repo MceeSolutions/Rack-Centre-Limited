@@ -31,7 +31,7 @@ class CrossConnect(models.Model):
         ('closed', 'Closed'),
         ], string='Status', readonly=False, index=True, copy=False, default='draft', tracking=True)
     
-    name = fields.Char(string='Subject / Summary', required=True, copy=False)
+    name = fields.Char(string='Subject / Cross connect Label', required=True, copy=False)
 
     partner_id = fields.Many2one(comodel_name="res.partner", string='Client')
 
@@ -127,11 +127,6 @@ class CrossConnect(models.Model):
         ('4', 'Critical'),
         ], string='Priority', default='1', tracking=True)
 
-    change_type = fields.Selection([
-        ('minor', 'Minor'),
-        ('major', 'Major'),
-        ], string='Change Type', default='minor', tracking=True, compute='_compute_change_type')
-    
     change_class = fields.Selection([
         ('emergency', 'Emergency'),
         ('no_impact', 'No Impact'),
@@ -163,6 +158,32 @@ class CrossConnect(models.Model):
     business_case_benefits = fields.Text(string='Business Case / Benefits')
     technical_case = fields.Text(string='Technical case, for and against the Change')
     estimated_cost_resources_required = fields.Text(string='Estimated Cost / Resources required for the change.')
+
+    #CROSS CONNECT NEW FIELDS 
+    type = fields.Char(string='Type')
+    requester_service_owner = fields.Char(string='Requester Service Owner')
+    requester_category = fields.Char(string='Client / Requester Category')
+    requester_rack = fields.Char(string='Client / Requester Rack')
+    dest_client = fields.Char(string='Destination Client')
+    dest_service_owner = fields.Char(string='Destination Service Owner')
+    dest_category = fields.Char(string='Destination Category')
+
+    op_stats = fields.Selection([
+        ('installed', 'INSTALLED'),
+        ('decommissioned', 'DECOMMISSIONED'),
+        ], string='Operational Status', tracking=True)
+    
+    billing_stats = fields.Selection([
+        ('free', 'FREE'),
+        ('billed', 'BILLED'),
+        ('na', 'N/A'),
+        ], string='Billing Status(Yes/No)', tracking=True)
+
+    billable_partner_id = fields.Many2one(comodel_name="res.partner", string='Billable Client')
+    cables = fields.Char(string='CABLES')
+    request_date = fields.Date(string='Date')
+    medium = fields.Char(string='Medium')
+    dest_rack = fields.Char(string='Destination Rack')
 
     @api.model
     def create(self, vals):

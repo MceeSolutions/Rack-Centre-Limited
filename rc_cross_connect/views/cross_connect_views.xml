@@ -115,8 +115,6 @@
                             <field name="target_date"/>
                             <field name="impact"/>
                             <field name="urgency"/>
-                            <field name="priority"/>
-                            <field name="change_type"/>
                             <field name="risk_level"/>
                             <field name="manager_group"/>
                             <field name="scheduled_start_date"/>

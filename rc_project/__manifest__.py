@@ -17,7 +17,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'rc_base', 'project', 'project_timesheet_forecast', 'purchase_requisition'],
+    'depends': ['base', 'rc_base', 'project', 'purchase_requisition'],
 
     # always loaded
     'data': [

@@ -56,6 +56,10 @@ class Lead(models.Model):
     
     expected_revenue = fields.Monetary('Expected Revenue MRR', currency_field='company_currency', tracking=True, compute="_compute_pal")
 
+    location = fields.Char(string='Location')
+    service_type = fields.Char(string='Service Type')
+    installation_charge = fields.Float(string='Revenue Date')
+
     def _compute_pal(self):
         for self in self:
             self.discount_cabinet = (FIXED_CABINET - self.cabinet_currency) / FIXED_CABINET * 100
