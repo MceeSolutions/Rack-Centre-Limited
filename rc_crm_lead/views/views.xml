@@ -38,7 +38,10 @@
 
                         <field name="discount_cabinet"/>
                         <field name="discount_pal"/>
+
                         <field name="blended_rate"/>
+                        <field name="revenue_date"/>
+                        
                         <field name="weighted_mrr"/>
                         <field name="weighted_cabinet"/>
                         <field name="weighted_pal"/>
