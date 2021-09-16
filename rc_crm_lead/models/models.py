@@ -48,7 +48,7 @@ class Lead(models.Model):
     discount_pal = fields.Float(string='Discount/PAL %', compute="_compute_pal")
 
     blended_rate = fields.Float(string='Blended Rate', compute="_compute_pal")
-    revenue_date = fields.Float(string='Revenue Date')
+    revenue_date = fields.Datetime(string='Revenue Date')
 
     weighted_mrr = fields.Float(string='Weighted MRR', compute="_compute_pal")
     weighted_cabinet = fields.Float(string='Weighted Cabinet', compute="_compute_pal")
@@ -58,7 +58,8 @@ class Lead(models.Model):
 
     location = fields.Char(string='Location')
     service_type = fields.Char(string='Service Type')
-    installation_charge = fields.Float(string='Revenue Date')
+    installation_charge = fields.Float(string='Installation Charge')
+
 
     def _compute_pal(self):
         for self in self:

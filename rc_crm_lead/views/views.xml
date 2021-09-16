@@ -38,7 +38,10 @@
 
                         <field name="discount_cabinet"/>
                         <field name="discount_pal"/>
+
                         <field name="blended_rate"/>
+                        <field name="revenue_date"/>
+                        
                         <field name="weighted_mrr"/>
                         <field name="weighted_cabinet"/>
                         <field name="weighted_pal"/>
@@ -46,6 +49,10 @@
                         <field name="location"/>
                         <field name="service_type"/>
                         <field name="installation_charge"/>
+
+                        <field name="next_step"/>
+                        <field name="industry_id"/>
+                        <field name="lead_source"/>
                     </group>
                 </xpath>
                 <field name="source_id" position="after">
