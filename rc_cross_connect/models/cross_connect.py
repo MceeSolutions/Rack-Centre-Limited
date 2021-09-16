@@ -31,7 +31,7 @@ class CrossConnect(models.Model):
         ('closed', 'Closed'),
         ], string='Status', readonly=False, index=True, copy=False, default='draft', tracking=True)
     
-    name = fields.Char(string='Subject / Cross connect Label', required=True, copy=False)
+    name = fields.Char(string='Subject / Cross connect Label', required=False, copy=False)
 
     partner_id = fields.Many2one(comodel_name="res.partner", string='Client')
 
@@ -140,6 +140,7 @@ class CrossConnect(models.Model):
     actual_start_date = fields.Datetime(string='Actual Start Date & Time')
     actual_end_date = fields.Datetime(string='Actual End Date & time')
     close_date = fields.Datetime(string='Close Date & time')
+    
     change_coordinator = fields.Char(string='Change Coordinator')
     change_manager = fields.Char(string='Change Manager')
     submit_date = fields.Datetime(string='Submit Date')
@@ -177,6 +178,8 @@ class CrossConnect(models.Model):
         ('free', 'FREE'),
         ('billed', 'BILLED'),
         ('na', 'N/A'),
+        ('internal', 'INTERNAL'),
+        ('waived', 'WAIVED'),
         ], string='Billing Status(Yes/No)', tracking=True)
 
     billable_partner_id = fields.Many2one(comodel_name="res.partner", string='Billable Client')
