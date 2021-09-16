@@ -60,6 +60,7 @@ class Lead(models.Model):
     service_type = fields.Char(string='Service Type')
     installation_charge = fields.Float(string='Installation Charge')
 
+
     def _compute_pal(self):
         for self in self:
             self.discount_cabinet = (FIXED_CABINET - self.cabinet_currency) / FIXED_CABINET * 100
