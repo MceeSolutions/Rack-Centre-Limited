@@ -14,7 +14,7 @@
 
     # Categories can be used to filter modules in modules listing
     'category': 'Uncategorized',
-    'version': '0.1',
+    'version': '0.2',
 
     # any module necessary for this one to work correctly
     'depends': ['base', 'rc_base', 'rc_service', 'website', 'account'],
