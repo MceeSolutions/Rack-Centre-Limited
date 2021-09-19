@@ -8,6 +8,8 @@
         <field name="arch" type="xml">
             <field name="category_id" position="after">
                 <field name="lead_source"/>
+                <field name="linkedin_url"/>
+                <field name="linkedin_connection_sales"/>
             </field>
         </field>
     </record>
